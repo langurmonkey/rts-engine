@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="60" height="40" tilewidth="30" tileheight="30">
+ <tileset firstgid="1" name="snow" tilewidth="30" tileheight="30">
+  <image source="../tileset/snow.png" trans="ff00ff" width="180" height="180"/>
+ </tileset>
+ <tileset firstgid="37" name="roads" tilewidth="30" tileheight="30">
+  <image source="../tileset/road.png" trans="ff00ff" width="120" height="240"/>
+ </tileset>
+ <tileset firstgid="69" name="tree_atlas" tilewidth="30" tileheight="30">
+  <image source="../tileset/tree_atlas.png" trans="ff00ff" width="120" height="120"/>
+ </tileset>
+ <layer name="BaseLayer" width="60" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt1UsKgCAURmEdFAVB9H5C+99lf0vQJA3P4BtevIc70BpjLAAAAAC8VEvxsU32SL1XhDcPOTPqfTT00ksvvfTSG6i3ldJT9cPeWDeil1568+ydZPaY66RPYH9Xi6zG/T8ZZExgfwAAAIR3A5bSDZo=
+  </data>
+ </layer>
+ <layer name="BaseLayerOverlay" width="60" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztmAkKwjAQRXMa911cEEW8gW3vfxcnSDGGRGmbn0yWBx8h1tDndNI2Qrhl4Xg+7ui+leEY01isqL6V+HarLOMxs3E4V+NwLl/oNW0To8uzw7G6rzqeGrrr0D7mfG3Ic7P5psDEMp6qr34/Uj+F4bvYaX31OnLuuSFcKXOH83W5B4TgQjlTRqDcKHdvNmGRtT5QHqFPBITtWub8DoboP5tvI9JcF7nVF72mcvNFU3zTJgdfdd1F+Mpn31pJH1D3BlR9azHcGQHCV3fl9P6WQ/+qdPVF9ZWvZ7lS37Qpvm/Q/WTaZ/Wxjpf6hgd5bXH0RTGlzET/PVDUPiIqS8qKsqZsKTvK/s9vxj3/G27Ivcoj5RT6RDySUy9Lyl7lxzUX31+8AEd3Lfs=
+  </data>
+ </layer>
+ <layer name="Overlays" width="60" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztmAsKwyAMQMPW66mw+x9mSBm4oKBN03zMAylYqL5q4geAlzRZ54EE/25pUK+Nt1C7RahdCnhMf8WiywrYt633BnalxrHmuVH7NvL1zA6+CT1777yAx1FzzAU+kdpHBcEMBSIv7sJqLsosvTg5GL+9Quv4EevFc+zgKM3s3ObOu3Xvm5tyBWtrQwa6sxWwq7fzm2e44spavFa8xykm1uDrvB5u78546s3z3j2r1TyO/bzPc6qfRK4+QM/ZK9BFrMNjvP0b7GMhd1PuKrGPRr+WAnE3uytfjowceg==
+  </data>
+ </layer>
+ <objectgroup name="ObjectsLayer" width="60" height="40">
+  <object x="308" y="293"/>
+  <object x="324" y="314"/>
+  <object x="362" y="292"/>
+  <object x="330" y="264"/>
+  <object x="272" y="264"/>
+  <object x="291" y="291"/>
+  <object x="256" y="311"/>
+  <object x="252" y="340"/>
+  <object x="287" y="338"/>
+  <object x="355" y="340"/>
+  <object x="319" y="363"/>
+  <object x="415" y="301"/>
+  <object x="298" y="232"/>
+  <object x="232" y="241"/>
+  <object x="210" y="299"/>
+  <object x="377" y="243"/>
+  <object x="454" y="350"/>
+  <object x="95" y="176"/>
+  <object x="171" y="138"/>
+  <object x="209" y="143"/>
+  <object x="276" y="146"/>
+  <object x="129" y="117"/>
+  <object x="150" y="115"/>
+  <object x="196" y="101"/>
+  <object x="132" y="100"/>
+  <object x="398" y="93"/>
+  <object x="355" y="127"/>
+  <object x="430" y="130" width="1"/>
+  <object x="473" y="117" width="1"/>
+  <object x="400" y="158"/>
+  <object x="566" y="131"/>
+  <object x="498" y="211"/>
+  <object x="425" y="556"/>
+  <object x="460" y="514"/>
+  <object x="532" y="540" width="1"/>
+  <object x="407" y="517"/>
+  <object x="497" y="447"/>
+  <object x="508" y="494"/>
+  <object x="1055" y="1120"/>
+  <object x="1106" y="1095"/>
+  <object x="1129" y="1123"/>
+  <object x="1092" y="1123"/>
+  <object x="1061" y="1092"/>
+  <object x="1222" y="1081"/>
+  <object x="1167" y="1117"/>
+  <object x="1108" y="1141"/>
+  <object x="1058" y="1141"/>
+  <object x="1174" y="1151"/>
+  <object x="1130" y="1167"/>
+  <object x="1055" y="1179"/>
+  <object x="962" y="1162"/>
+  <object x="1008" y="1131"/>
+  <object x="1013" y="1155"/>
+  <object x="1467" y="970"/>
+  <object x="1495" y="972"/>
+  <object x="1466" y="947"/>
+  <object x="1419" y="961"/>
+  <object x="1443" y="965"/>
+  <object x="1517" y="986"/>
+  <object x="1473" y="985"/>
+  <object x="1426" y="992"/>
+  <object x="1467" y="877"/>
+  <object x="1620" y="825"/>
+  <object x="1647" y="852"/>
+  <object x="1703" y="846"/>
+  <object x="1689" y="865"/>
+  <object x="1636" y="872"/>
+  <object x="1583" y="867"/>
+  <object x="1652" y="828"/>
+  <object x="1504" y="690"/>
+  <object x="1571" y="674"/>
+  <object x="1592" y="690"/>
+  <object x="1546" y="694"/>
+  <object x="1468" y="729"/>
+  <object x="1476" y="688"/>
+  <object x="1534" y="651"/>
+  <object x="1438" y="663"/>
+  <object x="1496" y="661"/>
+  <object x="1471" y="670"/>
+  <object x="1527" y="674"/>
+  <object x="1644" y="635"/>
+  <object x="1755" y="659"/>
+  <object x="1699" y="662"/>
+  <object x="1647" y="678"/>
+  <object x="1657" y="657"/>
+  <object x="1672" y="670"/>
+  <object x="1725" y="671"/>
+  <object x="1690" y="631"/>
+  <object x="1612" y="171"/>
+  <object x="1587" y="191"/>
+  <object x="1636" y="185"/>
+  <object x="1601" y="185"/>
+  <object x="1550" y="187"/>
+  <object x="1630" y="208"/>
+  <object x="1678" y="208"/>
+  <object x="1598" y="227"/>
+  <object x="1533" y="234"/>
+  <object x="1654" y="251"/>
+  <object x="1749" y="227"/>
+ </objectgroup>
+</map>
