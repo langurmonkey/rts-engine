@@ -57,7 +57,7 @@ public class Gunner extends Unit {
 	hardRadius = new Rectangle(x - width / 2f, y - height / 4f, width, height / 2f);
 	imageBounds = new Rectangle(x - width / 2f + spriteOffsetX, y - height / 2f + spriteOffsetY, width, height);
 
-	softRadius = new Circle(x, y, 13);
+	softRadius = new Circle(x, y, 9);
 	selectionRadius = 13;
 
 	shadowWidth = 20;

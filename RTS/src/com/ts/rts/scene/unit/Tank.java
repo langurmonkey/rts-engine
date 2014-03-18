@@ -58,7 +58,7 @@ public class Tank extends Unit {
 	hardRadius = new Rectangle(x - w2, y - h2, width, height);
 	imageBounds = new Rectangle(x - w2, y - h2, width, height);
 
-	softRadius = new Circle(x, y, 20);
+	softRadius = new Circle(x, y, 15);
 	selectionRadius = 17;
 
 	shadowWidth = 28 * scale;

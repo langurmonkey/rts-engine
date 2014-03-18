@@ -13,6 +13,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -139,8 +140,8 @@ public class RTSGame implements ApplicationListener {
 	multiplexer.addProcessor(selectionListener);
 
 	// Manage camera pan
+	Gdx.input.setCursorImage(new Pixmap(Gdx.files.internal("data/img/cursor.png")), 0, 0);
 	camera = Camera.initialize(orthoCamera, w / 2, h / 2, map.getWidth(), map.getHeight(), w, h);
-	// camera.lookAt(1000f, 500f);
 	PanListener panListener = new PanListener(camera, selection);
 	multiplexer.addProcessor(panListener);
 
@@ -191,7 +192,7 @@ public class RTSGame implements ApplicationListener {
 		int x = mo.getProperties().get("x", Integer.class);
 		int y = mo.getProperties().get("y", Integer.class);
 
-		PhysicalObject po = new PhysicalObject(x, y, name);
+		PhysicalObject po = new PhysicalObject(x, y, name, map);
 		entities.add(po);
 	    }
 
@@ -212,9 +213,9 @@ public class RTSGame implements ApplicationListener {
     public void render() {
 	float deltaSecs = Gdx.graphics.getDeltaTime();
 	if (debug) {
-	    fpsLogger.log();
-	    if (Math.floor(System.nanoTime() / 1E9f) % 10f == 0) {
-		// Every ten seconds
+	    if (Math.floor(System.nanoTime() / 1E9f) % 30f == 0) {
+		// Every 30 seconds
+		fpsLogger.log();
 		// logger.info(VectorPool.getStats());
 	    }
 	}

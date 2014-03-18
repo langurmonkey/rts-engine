@@ -95,6 +95,18 @@ public class Vector2 extends com.badlogic.gdx.math.Vector2 implements Poolable {
 	return this;
     }
 
+    /**
+     * Multiplies both components by a scalar
+     * 
+     * @param scale
+     * @return
+     */
+    public Vector2 scl(float scale) {
+	x *= scale;
+	y *= scale;
+	return this;
+    }
+
     public float[] multiplyValues(float scale) {
 	return new float[] { x * scale, y * scale };
     }
