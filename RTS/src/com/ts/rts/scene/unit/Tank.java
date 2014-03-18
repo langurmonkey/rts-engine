@@ -18,97 +18,97 @@ import com.ts.rts.util.VectorPool;
  * 
  */
 public class Tank extends Unit {
-	private ParticleEffect malfunction;
+    private ParticleEffect malfunction;
 
-	public Tank(float x, float y, IRTSMap map) {
-		super(x, y, map);
+    public Tank(float x, float y, IRTSMap map) {
+	super(x, y, map);
 
-		/** Physical parameters **/
+	/** Physical parameters **/
 
-		mass = .5f;
+	mass = .5f;
 
-		// m/s
-		maxSpeed = 40f;
+	// m/s
+	maxSpeed = 40f;
 
-		// Kg*m/s^2
-		maxForce = 30f;
+	// Kg*m/s^2
+	maxForce = 30f;
 
-		// rad/s
-		maxTurnRate = (float) (Math.PI / 2);
+	// rad/s
+	maxTurnRate = (float) (Math.PI / 2);
 
-		// 70 units
-		slowingDistance = 70f;
+	// 70 units
+	slowingDistance = 70f;
 
-		// Scale
-		scale = 0.9f;
+	// Scale
+	scale = 0.9f;
 
-		// Max health points
-		maxHp = 100;
-		hp = maxHp;
+	// Max health points
+	maxHp = 100;
+	hp = maxHp;
 
-		vel = VectorPool.getObject(0f, 0f);
-		heading = VectorPool.getObject(0, 1);
+	vel = VectorPool.getObject(0f, 0f);
+	heading = VectorPool.getObject(0, 1);
 
-		initGraphics();
+	initGraphics();
 
-		// Rectangle centered at the object
-		float w2 = (width) / 2f;
-		float h2 = (height) / 2f;
+	// Rectangle centered at the object
+	float w2 = (width) / 2f;
+	float h2 = (height) / 2f;
 
-		hardRadius = new Rectangle(x - w2, y - h2, width, height);
-		imageBounds = new Rectangle(x - w2, y - h2, width, height);
+	hardRadius = new Rectangle(x - w2, y - h2, width, height);
+	imageBounds = new Rectangle(x - w2, y - h2, width, height);
 
-		softRadius = new Circle(x, y, 20);
-		selectionRadius = 17;
+	softRadius = new Circle(x, y, 20);
+	selectionRadius = 17;
 
-		shadowWidth = 28 * scale;
-		shadowHeight = 28 * scale;
+	shadowWidth = 28 * scale;
+	shadowHeight = 28 * scale;
 
-		viewingDistance = 150;
+	viewingDistance = 100;
 
+    }
+
+    public void initGraphics() {
+	try {
+	    sprite = new Sprite(TextureManager.getTexture("textures", "tank-32"));
+	    width = sprite.getRegionWidth() * scale - 5;
+	    height = sprite.getRegionHeight() * scale - 5;
+	} catch (Exception e) {
 	}
+    }
 
-	public void initGraphics() {
-		try {
-			sprite = new Sprite(TextureManager.getTexture("textures", "tank-32"));
-			width = sprite.getRegionWidth() * scale - 5;
-			height = sprite.getRegionHeight() * scale - 5;
-		} catch (Exception e) {
-		}
+    @Override
+    public void update(float deltaSecs) {
+	super.update(deltaSecs);
+
+	// If health below 1/3, emit particles
+	if (hp / maxHp < 0.333f) {
+	    if (malfunction == null) {
+		malfunction = new ParticleEffect();
+		malfunction.load(Gdx.files.internal("data/effects/malfunction.p"), Gdx.files.internal("data"));
+	    }
+	    malfunction.update(deltaSecs);
+	} else {
+	    if (malfunction != null) {
+		malfunction.dispose();
+		malfunction = null;
+	    }
 	}
+    }
 
-	@Override
-	public void update(float deltaSecs) {
-		super.update(deltaSecs);
+    @Override
+    public void render() {
+	super.render();
 
-		// If health below 1/3, emit particles
-		if (hp / maxHp < 0.333f) {
-			if (malfunction == null) {
-				malfunction = new ParticleEffect();
-				malfunction.load(Gdx.files.internal("data/effects/malfunction.p"), Gdx.files.internal("data"));
-			}
-			malfunction.update(deltaSecs);
-		} else {
-			if (malfunction != null) {
-				malfunction.dispose();
-				malfunction = null;
-			}
-		}
+	if (malfunction != null) {
+	    malfunction.setPosition(pos.x, pos.y);
+	    malfunction.draw(RTSGame.getSpriteBatch());
 	}
+    }
 
-	@Override
-	public void render() {
-		super.render();
-
-		if (malfunction != null) {
-			malfunction.setPosition(pos.x, pos.y);
-			malfunction.draw(RTSGame.getSpriteBatch());
-		}
-	}
-
-	@Override
-	public String getName() {
-		return "Tank";
-	}
+    @Override
+    public String getName() {
+	return "Tank";
+    }
 
 }

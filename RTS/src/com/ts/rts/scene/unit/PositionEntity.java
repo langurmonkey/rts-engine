@@ -11,40 +11,40 @@ import com.ts.rts.util.VectorPool;
  * 
  */
 public abstract class PositionEntity {
-	private static long uniqueIdSeq = 0;
-	protected final long uniqueId;
+    private static long uniqueIdSeq = 0;
+    protected final long uniqueId;
 
-	/** Reference to the map **/
-	protected IRTSMap map;
+    /** Reference to the map **/
+    protected IRTSMap map;
 
-	/** Position of this entity **/
-	public Vector2 pos;
-	public float z;
+    /** Position of this entity **/
+    public Vector2 pos;
+    public float z;
 
-	/**
-	 * The viewing distance in pixels, for the fog of war
-	 */
-	public int viewingDistance;
+    /**
+     * The viewing distance in pixels, for the fog of war
+     */
+    public int viewingDistance = 5;
 
-	public PositionEntity() {
-		this.uniqueId = getUniqueId();
-	}
+    public PositionEntity() {
+	this.uniqueId = getUniqueId();
+    }
 
-	public PositionEntity(Vector2 pos) {
-		this();
-		this.pos = pos;
-	}
+    public PositionEntity(Vector2 pos) {
+	this();
+	this.pos = pos;
+    }
 
-	public PositionEntity(float x, float y) {
-		this();
-		this.pos = VectorPool.getObject(x, y);
-	}
+    public PositionEntity(float x, float y) {
+	this();
+	this.pos = VectorPool.getObject(x, y);
+    }
 
-	private static synchronized long getUniqueId() {
-		return uniqueIdSeq++;
-	}
+    private static synchronized long getUniqueId() {
+	return uniqueIdSeq++;
+    }
 
-	public void dispose() {
-		VectorPool.returnObject(pos);
-	}
+    public void dispose() {
+	VectorPool.returnObject(pos);
+    }
 }
