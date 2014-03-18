@@ -40,8 +40,12 @@ void main() {
 		}
 	}
 	
+	if(alpha > 1.0){
+		alpha = 1.0;
+	}
+	
 	vec4 texColor = texture2D(u_texture, v_texCoords);
-    gl_FragColor = vec4(texColor.rgb, texColor.a * alpha);
+    gl_FragColor = vec4(texColor.rgb * alpha, texColor.a);
 }
 
 
