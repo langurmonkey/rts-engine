@@ -51,22 +51,12 @@ public abstract class Unit extends MovingEntity {
     private IMapCell<IBoundsObject> cell;
 
     /**
-     * Sprite offsets from the center, positive down and left
-     */
-    protected float spriteOffsetX = 0f, spriteOffsetY = 0f;
-
-    /** The sprite scale, 1 by default **/
-    protected float scale = 1f;
-
-    /**
      * Is it selected?
      */
     protected boolean selected;
 
     /** The radius of the selection circumference **/
     protected float selectionRadius;
-
-    protected float shadowWidth, shadowHeight;
 
     public StateManager stateManager;
 
@@ -135,7 +125,7 @@ public abstract class Unit extends MovingEntity {
     public void updatePosition(float deltaSecs) {
 	/** PHYSICAL MOVEMENT IMPLEMENTATION **/
 	// First, get terrain type
-	cell = RTSGame.getInstance().getMap().getCell(pos);
+	cell = map.getCell(pos);
 
 	if (!turning) {
 	    Vector2 steeringForce = steeringBehaviours.calculate().truncate(maxForce);
@@ -307,50 +297,11 @@ public abstract class Unit extends MovingEntity {
     }
 
     public void renderDebug() {
+	super.renderDebug();
 	Gdx.gl.glEnable(GL20.GL_BLEND);
 	Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-	shapeRenderer.begin(ShapeType.Filled);
-
-	// Hard radius
-	shapeRenderer.setColor(new Color(0f, 0f, .4f, .4f));
-	shapeRenderer.rect(hardRadius.x, hardRadius.y, hardRadius.width, hardRadius.height);
-
-	// Soft radius
-	shapeRenderer.setColor(new Color(0f, .4f, 0f, .2f));
-	shapeRenderer.circle(softRadius.x, softRadius.y, softRadius.radius);
-
-	// Position
-	shapeRenderer.setColor(new Color(0f, 1f, 0f, 1f));
-	shapeRenderer.circle(pos.x, pos.y, 1);
-	shapeRenderer.end();
-
-	shapeRenderer.begin(ShapeType.Line);
-	// Image bounds
-	shapeRenderer.setColor(new Color(0f, 0f, 0f, 1f));
-	shapeRenderer.rect(imageBounds.x, imageBounds.y, imageBounds.width, imageBounds.height);
-
-	if (vel != null) {
-	    shapeRenderer.setColor(new Color(0f, .6f, 0f, 1f));
-	    shapeRenderer.line(pos.x, pos.y, pos.x + vel.x, pos.y + vel.y);
-	}
-	shapeRenderer.end();
 
 	steeringBehaviours.render();
-	Gdx.gl.glDisable(GL20.GL_BLEND);
-    }
-
-    /**
-     * Default implementation is just a box as big as the bounding box with an offset
-     */
-    public void renderShadow() {
-	// Render shadow
-	Gdx.gl.glEnable(GL20.GL_BLEND);
-	Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-	shapeRenderer.begin(ShapeType.Filled);
-	shapeRenderer.setColor(new Color(0f, 0f, 0f, .5f));
-	shapeRenderer.ellipse(pos.x - shadowWidth / 2 + 2, pos.y - shadowHeight / 2 - 2, shadowWidth, shadowHeight);
-	shapeRenderer.end();
 	Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 

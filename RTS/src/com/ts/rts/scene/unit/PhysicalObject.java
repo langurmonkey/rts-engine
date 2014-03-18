@@ -1,7 +1,7 @@
 package com.ts.rts.scene.unit;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Circle;
 import com.ts.rts.RTSGame;
 import com.ts.rts.image.TextureManager;
 import com.ts.rts.scene.map.IRTSMap;
@@ -16,21 +16,30 @@ public class PhysicalObject extends PositionPhysicalEntity {
 
     private String textureName;
 
-    public PhysicalObject(float x, float y, String textureName, IRTSMap map) {
+    public PhysicalObject(float x, float y, float offsetX, float offsetY, String textureName, IRTSMap map) {
 	super(x, y);
 	this.map = map;
 	this.shapeRenderer = RTSGame.getInstance().cameraShapeRenderer;
 	this.textureName = textureName;
+	this.spriteOffsetX = offsetX;
+	this.spriteOffsetY = offsetY;
+
 	initGraphics();
+	initHardRadius(height / 2f);
 
-	float w2 = (width) / 2f;
-	float h2 = (height) / 2f;
+	// Default soft radius of 5
+	softRadius = new Circle(x, y, 10);
 
-	hardRadius = new Rectangle(x - w2, y - h2, width, height);
-	imageBounds = new Rectangle(x - w2, y - h2, width, height);
+	// Default shadow
+	shadowWidth = 10f;
+	shadowHeight = 10f;
 
 	// Add to map, just once (these entities do not move)
 	map.updateEntity(this);
+    }
+
+    public PhysicalObject(float x, float y, String textureName, IRTSMap map) {
+	this(x, y, 0f, 0f, textureName, map);
     }
 
     @Override
@@ -45,11 +54,6 @@ public class PhysicalObject extends PositionPhysicalEntity {
 
     @Override
     public void renderShadow() {
-	// void
-    }
-
-    @Override
-    public void renderDebug() {
 	// void
     }
 

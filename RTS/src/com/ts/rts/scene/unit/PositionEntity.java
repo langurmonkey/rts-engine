@@ -24,7 +24,7 @@ public abstract class PositionEntity {
     /**
      * The viewing distance in pixels, for the fog of war
      */
-    public int viewingDistance = 5;
+    public int viewingDistance = 0;
 
     public PositionEntity() {
 	this.uniqueId = getUniqueId();

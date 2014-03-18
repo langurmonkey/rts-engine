@@ -41,7 +41,7 @@ public class BehaviourSeparation extends AbstractSteeringBehaviour {
 	    if (!unit.equals(entity)) {
 		Vector2 entityUnit = unit.pos.clone().subtract(entity.pos());
 		float length = entityUnit.len();
-		if (length < (unit.softRadius.radius + entity.softRadius().radius)) {
+		if (entity.softRadius() != null && length < (unit.softRadius.radius + entity.softRadius().radius)) {
 		    // Calculate force
 		    entityUnit.normalise().multiply((1 / length) * 500);
 		    force.add(entityUnit);

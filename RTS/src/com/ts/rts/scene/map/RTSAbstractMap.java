@@ -6,6 +6,7 @@ import java.util.Set;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObjects;
@@ -56,6 +57,8 @@ public abstract class RTSAbstractMap implements IRTSMap {
     protected FogOfWar fogOfWar;
     public boolean useFogOfWar;
 
+    protected SpriteBatch mapBatch;
+
     protected int renderTileWidth, renderTileHeight;
 
     public RTSAbstractMap(RTSGame game, String tiledMapPath) {
@@ -75,6 +78,9 @@ public abstract class RTSAbstractMap implements IRTSMap {
 	MapLayer objectsLayer = mapLayers.get(OBJECTS_LAYER_NAME);
 	if (objectsLayer != null)
 	    mapObjects = objectsLayer.getObjects();
+
+	mapBatch = new SpriteBatch(100, RTSGame.getInstance().mapShader);
+
 	// Initialize map renderer
 	mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, RTSGame.getSpriteBatch());
 

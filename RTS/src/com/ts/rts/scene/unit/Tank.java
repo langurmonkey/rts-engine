@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Rectangle;
 import com.ts.rts.RTSGame;
 import com.ts.rts.image.TextureManager;
 import com.ts.rts.scene.map.IRTSMap;
@@ -50,13 +49,7 @@ public class Tank extends Unit {
 	heading = VectorPool.getObject(0, 1);
 
 	initGraphics();
-
-	// Rectangle centered at the object
-	float w2 = (width) / 2f;
-	float h2 = (height) / 2f;
-
-	hardRadius = new Rectangle(x - w2, y - h2, width, height);
-	imageBounds = new Rectangle(x - w2, y - h2, width, height);
+	initHardRadius(height);
 
 	softRadius = new Circle(x, y, 15);
 	selectionRadius = 17;

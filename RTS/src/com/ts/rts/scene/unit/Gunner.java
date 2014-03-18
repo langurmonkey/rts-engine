@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Rectangle;
 import com.ts.rts.image.TextureManager;
 import com.ts.rts.scene.map.IRTSMap;
 import com.ts.rts.scene.unit.steeringbehaviour.SteeringBehaviours;
@@ -34,13 +33,13 @@ public class Gunner extends Unit {
 	maxSpeed = 30f;
 
 	// Kg*m/s^2
-	maxForce = 40f;
+	maxForce = 150f;
 
 	// rad/s
 	maxTurnRate = (float) (Math.PI);
 
 	// 20 units
-	slowingDistance = 20f;
+	slowingDistance = 10f;
 
 	// The gunner scale, 0.6f
 	scale = 0.7f;
@@ -53,9 +52,7 @@ public class Gunner extends Unit {
 	heading = VectorPool.getObject(0, -1);
 
 	initGraphics();
-
-	hardRadius = new Rectangle(x - width / 2f, y - height / 4f, width, height / 2f);
-	imageBounds = new Rectangle(x - width / 2f + spriteOffsetX, y - height / 2f + spriteOffsetY, width, height);
+	initHardRadius(height / 2f);
 
 	softRadius = new Circle(x, y, 9);
 	selectionRadius = 13;

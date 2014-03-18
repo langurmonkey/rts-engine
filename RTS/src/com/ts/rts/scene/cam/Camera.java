@@ -200,8 +200,9 @@ public class Camera {
      * @return
      */
     public boolean contains(PositionPhysicalEntity e) {
-	// TODO do this
-	return true;
+	float w2 = canvasWidth / 2;
+	float h2 = canvasHeight / 2;
+	return e.pos.x > pos.x - w2 && e.pos.x < pos.x + w2 && e.pos.y > pos.y - h2 && e.pos.y < pos.y + h2;
     }
 
     @Override

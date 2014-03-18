@@ -63,7 +63,6 @@ public class RTSGame implements ApplicationListener {
     private Camera camera;
     private IRTSMap map;
     private List<PositionPhysicalEntity> entities = new ArrayList<PositionPhysicalEntity>();
-    private Unit gooner;
     public Selection selection;
 
     /**
@@ -86,7 +85,7 @@ public class RTSGame implements ApplicationListener {
     FPSLogger fpsLogger;
 
     private static RTSGame game;
-    ShaderProgram shader;
+    public ShaderProgram globalShader, mapShader;
 
     public static RTSGame getInstance() {
 	return game;
@@ -97,13 +96,18 @@ public class RTSGame implements ApplicationListener {
     }
 
     public void initShaders() {
-	shader = new ShaderProgram(Gdx.files.internal("data/shaders/default.vert.glsl"),
-		Gdx.files.internal("data/shaders/lighting.frag.glsl"));
-	// shader.setUniformf("resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	ShaderProgram.pedantic = false;
+	globalShader = new ShaderProgram(Gdx.files.internal("data/shaders/default.vert.glsl"),
+		Gdx.files.internal("data/shaders/lighting.frag.glsl"));
+	mapShader = new ShaderProgram(Gdx.files.internal("data/shaders/default.vert.glsl"),
+		Gdx.files.internal("data/shaders/lighting.map.frag.glsl"));
 
-	if (!shader.isCompiled()) {
-	    logger.error(shader.getLog());
+	if (!globalShader.isCompiled()) {
+	    logger.error(globalShader.getLog());
+	}
+
+	if (!mapShader.isCompiled()) {
+	    logger.error(mapShader.getLog());
 	}
     }
 
@@ -123,7 +127,7 @@ public class RTSGame implements ApplicationListener {
 	orthoCamera.setToOrtho(false, w, h);
 	orthoCamera.zoom = 1f;
 	initShaders();
-	batch = new SpriteBatch(300, shader);
+	batch = new SpriteBatch(300, globalShader);
 
 	// Here we use genuine info in the map to find out blocked areas
 	map = new RTSGridMapTiledMap(this, "data/maps/3030test.tmx");
@@ -173,7 +177,9 @@ public class RTSGame implements ApplicationListener {
 	Unit tank7 = new Tank(180f, 1500f, map);
 	tank7.hp = 1f;
 
-	gooner = new Gunner(80f, 40f, map);
+	Unit gooner = new Gunner(80f, 140f, map);
+
+	entities.add(gooner);
 	entities.add(tank1);
 	entities.add(tank2);
 	entities.add(tank3);
@@ -181,7 +187,6 @@ public class RTSGame implements ApplicationListener {
 	entities.add(tank5);
 	entities.add(tank6);
 	entities.add(tank7);
-	entities.add(gooner);
 
 	MapObjects mos = map.getMapObjects();
 	if (mos != null) {
@@ -192,7 +197,8 @@ public class RTSGame implements ApplicationListener {
 		int x = mo.getProperties().get("x", Integer.class);
 		int y = mo.getProperties().get("y", Integer.class);
 
-		PhysicalObject po = new PhysicalObject(x, y, name, map);
+		// Trees with an offsetY of 20
+		PhysicalObject po = new PhysicalObject(x, y, 0f, 25f, name, map);
 		entities.add(po);
 	    }
 
@@ -213,10 +219,8 @@ public class RTSGame implements ApplicationListener {
     public void render() {
 	float deltaSecs = Gdx.graphics.getDeltaTime();
 	if (debug) {
-	    if (Math.floor(System.nanoTime() / 1E9f) % 30f == 0) {
-		// Every 30 seconds
+	    if (Math.floor(System.nanoTime() / 1E9f) % 5f == 0) {
 		fpsLogger.log();
-		// logger.info(VectorPool.getStats());
 	    }
 	}
 
@@ -254,6 +258,21 @@ public class RTSGame implements ApplicationListener {
 	Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 	cameraShapeRenderer.setProjectionMatrix(orthoCamera.combined);
 
+	float[] lights = new float[entities.size() * 3];
+	int i = 0;
+	for (PositionPhysicalEntity e : entities) {
+	    lights[i++] = e.pos.x;
+	    lights[i++] = e.pos.y;
+	    lights[i++] = e.viewingDistance;
+	}
+	globalShader.setUniform3fv("lights", lights, 0, lights.length);
+	globalShader.setUniformi("lightCount", entities.size());
+	globalShader.setUniform2fv("cameraPosition", camera.pos.get(), 0, 2);
+
+	mapShader.setUniform3fv("lights", lights, 0, lights.length);
+	mapShader.setUniformi("lightCount", entities.size());
+	mapShader.setUniform2fv("cameraPosition", camera.pos.get(), 0, 2);
+
 	map.renderBase(camera);
 
 	for (PositionPhysicalEntity u : entities) {
@@ -262,22 +281,14 @@ public class RTSGame implements ApplicationListener {
 
 	batch.setProjectionMatrix(camera.getLibgdxCamera().combined);
 	batch.begin();
-	float[] lights = new float[entities.size() * 3];
-	int i = 0;
-	for (PositionPhysicalEntity e : entities) {
-	    lights[i++] = e.pos.x;
-	    lights[i++] = e.pos.y;
-	    lights[i++] = e.viewingDistance;
-	}
-	shader.setUniform3fv("lights", lights, 0, lights.length);
-	shader.setUniformi("lightCount", entities.size());
-	shader.setUniform2fv("cameraPosition", camera.pos.get(), 0, 2);
+
+	globalShader.setUniform3fv("lights", lights, 0, lights.length);
+	globalShader.setUniformi("lightCount", entities.size());
+	globalShader.setUniform2fv("cameraPosition", camera.pos.get(), 0, 2);
 
 	/** Entities **/
 	for (PositionPhysicalEntity ppe : entities) {
-	    if (camera.contains(ppe)) {
-		ppe.render();
-	    }
+	    ppe.render();
 	}
 
 	batch.flush();
@@ -310,9 +321,13 @@ public class RTSGame implements ApplicationListener {
 	logger.info("Resize called");
 
 	// whenever our screen resizes, we need to update our uniform
-	shader.begin();
-	shader.setUniformf("screenRes", (float) Gdx.graphics.getWidth(), (float) Gdx.graphics.getHeight());
-	shader.end();
+	globalShader.begin();
+	globalShader.setUniformf("screenRes", (float) Gdx.graphics.getWidth(), (float) Gdx.graphics.getHeight());
+	globalShader.end();
+
+	mapShader.begin();
+	mapShader.setUniformf("screenRes", (float) Gdx.graphics.getWidth(), (float) Gdx.graphics.getHeight());
+	mapShader.end();
     }
 
     @Override

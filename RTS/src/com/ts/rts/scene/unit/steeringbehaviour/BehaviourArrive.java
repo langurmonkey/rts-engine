@@ -35,11 +35,11 @@ public class BehaviourArrive extends AbstractSteeringBehaviour {
 	if (distance < unit.slowingDistance) {
 	    // Inside the slowing area
 	    // desired_velocity = normalize(desired_velocity) * max_velocity * (distance / slowingRadius)
-	    desiredVelocity.normalise().multiply(unit.maxSpeed * distance / unit.slowingDistance);
+	    desiredVelocity.normalise().multiply(unit.maxForce * distance / unit.slowingDistance);
 	} else {
 	    // Outside the slowing area.
 	    // desired_velocity = normalize(desired_velocity) * max_velocity
-	    desiredVelocity.normalise().multiply(unit.maxSpeed);
+	    desiredVelocity.normalise().multiply(unit.maxForce);
 	}
 	return desiredVelocity.subtract(unit.vel);
     }
