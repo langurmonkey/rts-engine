@@ -13,12 +13,8 @@ public class Main {
 	cfg.fullscreen = false;
 	cfg.backgroundFPS = 0;
 	cfg.resizable = false;
-	cfg.samples = 2;
-	cfg.depth = 16;
+	cfg.samples = 0;
 	cfg.vSyncEnabled = true;
-
-	// TexturePacker2.process("../RTS-android/assets/data/img/", "../RTS-android/assets/data/img/textures/",
-	// "textures.pack");
 
 	new LwjglApplication(new RTSGame(), cfg);
     }
