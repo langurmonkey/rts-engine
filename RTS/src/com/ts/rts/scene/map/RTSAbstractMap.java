@@ -246,6 +246,11 @@ public abstract class RTSAbstractMap implements IRTSMap {
     }
 
     @Override
+    public IMapCell<IBoundsObject> getCell(float x, float y) {
+	return map.getCell(x, y);
+    }
+
+    @Override
     public MapObjects getMapObjects() {
 	return mapObjects;
     }

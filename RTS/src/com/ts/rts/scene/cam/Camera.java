@@ -39,7 +39,7 @@ public class Camera {
     public float canvasHeight;
 
     /**
-     * The position of the camera, from the top-left corner of the canvas square
+     * The position of the camera, from the bottom-left corner of the canvas square. It points to the middle of the viewport
      */
     public Vector2 pos;
 
@@ -208,6 +208,14 @@ public class Camera {
     @Override
     public String toString() {
 	return "Camera " + pos;
+    }
+
+    public float getCameraDisplacementX() {
+	return pos.x - canvasWidth / 2;
+    }
+
+    public float getCameraDisplacementY() {
+	return pos.y - canvasHeight / 2;
     }
 
 }

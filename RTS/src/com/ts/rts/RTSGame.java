@@ -13,7 +13,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -142,7 +141,6 @@ public class RTSGame implements ApplicationListener {
 	multiplexer.addProcessor(selectionListener);
 
 	// Manage camera pan
-	Gdx.input.setCursorImage(new Pixmap(Gdx.files.internal("data/img/cursor.png")), 0, 0);
 	camera = Camera.initialize(orthoCamera, w / 2, h / 2, map.getWidth(), map.getHeight(), w, h);
 	PanListener panListener = new PanListener(camera, selection);
 	multiplexer.addProcessor(panListener);
