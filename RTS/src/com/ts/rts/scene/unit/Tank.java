@@ -38,7 +38,7 @@ public class Tank extends Unit {
 	slowingDistance = 70f;
 
 	// Scale
-	scale = 0.9f;
+	scale = 1f;
 
 	// Max health points
 	maxHp = 100;
@@ -58,11 +58,13 @@ public class Tank extends Unit {
 
 	viewingDistance = 100;
 
+	rotateImage = true;
+
     }
 
     public void initGraphics() {
 	try {
-	    sprite = new Sprite(TextureManager.getTexture("textures", "tank-32"));
+	    sprite = new Sprite(TextureManager.getTexture("textures", "units/tank-32"));
 	    width = sprite.getRegionWidth() * scale - 5;
 	    height = sprite.getRegionHeight() * scale - 5;
 	} catch (Exception e) {

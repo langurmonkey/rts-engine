@@ -3,7 +3,6 @@ package com.ts.rts.scene.unit;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.ts.rts.RTSGame;
 import com.ts.rts.datastructure.IMapCell;
@@ -41,9 +40,6 @@ public abstract class Unit extends MovingEntity {
 
     private boolean turning = false;
 
-    /** Units in which the image rotates, such as tanks **/
-    protected boolean rotateImage = true;
-
     /** The unit group it belongs to, if any **/
     public UnitGroup group;
 
@@ -74,7 +70,7 @@ public abstract class Unit extends MovingEntity {
 	super(x, y);
 	this.map = map;
 	this.steeringBehaviours = new SteeringBehaviours(this);
-	this.shapeRenderer = RTSGame.getInstance().cameraShapeRenderer;
+	this.shapeRenderer = RTSGame.game.cameraShapeRenderer;
 	this.stateManager = new StateManager(this);
 	lastUpdateX = Float.MAX_VALUE;
 	lastUpdateY = Float.MAX_VALUE;
@@ -229,37 +225,6 @@ public abstract class Unit extends MovingEntity {
 	    heading.rotate((float) Math.toRadians(maxTurn));
 	}
 
-    }
-
-    @Override
-    public void render() {
-	renderEntity();
-    }
-
-    public void renderEntity() {
-	// By default, heading rotates sprite
-	positionSpriteAndDraw();
-    }
-
-    /**
-     * Renders the texture region returned by getImageToDraw
-     */
-    protected void positionSpriteAndDraw() {
-	TextureRegion spriteToDraw = getImageToDraw();
-	float angle = 0f;
-	if (rotateImage) {
-	    angle = heading.angle();
-	}
-	if (cell.isShadow()) {
-	    RTSGame.getSpriteBatch().setColor(.8f, .8f, .8f, 1f);
-	}
-	RTSGame.getSpriteBatch().draw(spriteToDraw, pos.x - spriteToDraw.getRegionWidth() / 2 + spriteOffsetX,
-		pos.y - spriteToDraw.getRegionHeight() / 2 + spriteOffsetY,
-		spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, spriteToDraw.getRegionHeight() / 2,
-		spriteToDraw.getRegionWidth(), spriteToDraw.getRegionHeight(), scale, scale, angle);
-	if (cell.isShadow()) {
-	    RTSGame.getSpriteBatch().setColor(1f, 1f, 1f, 1f);
-	}
     }
 
     public void renderSelection() {

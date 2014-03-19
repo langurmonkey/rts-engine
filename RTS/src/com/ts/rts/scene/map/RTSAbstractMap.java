@@ -79,7 +79,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
 	if (objectsLayer != null)
 	    mapObjects = objectsLayer.getObjects();
 
-	mapBatch = new SpriteBatch(100, RTSGame.getInstance().mapShader);
+	mapBatch = new SpriteBatch(100, RTSGame.game.mapShader);
 
 	// Initialize map renderer
 	mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, mapBatch);

@@ -16,32 +16,30 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class AtlasTextureManager implements ITextureManager {
 
-	private Map<String, TextureAtlas> atlases;
+    private Map<String, TextureAtlas> atlases;
 
-	public AtlasTextureManager() {
-		atlases = new HashMap<String, TextureAtlas>();
-	}
+    public AtlasTextureManager() {
+	atlases = new HashMap<String, TextureAtlas>();
+    }
 
-	@Override
-	public void disposeTextures() {
-		Set<String> names = atlases.keySet();
-		for (String name : names) {
-			atlases.get(name).dispose();
-		}
-		atlases.clear();
+    @Override
+    public void disposeTextures() {
+	Set<String> names = atlases.keySet();
+	for (String name : names) {
+	    atlases.get(name).dispose();
 	}
+	atlases.clear();
+    }
 
-	@Override
-	public TextureRegion getTexture(String texture, String key) {
-		return atlases.get(texture).findRegion(key);
-	}
+    @Override
+    public TextureRegion getTexture(String texture, String key) {
+	return atlases.get(texture).findRegion(key);
+    }
 
-	@Override
-	public void loadTextures() {
-		TextureAtlas textures = new TextureAtlas(Gdx.files.internal("data/img/textures/textures.pack"));
-		TextureAtlas objects = new TextureAtlas(Gdx.files.internal("data/img/textures/objects.pack"));
-		atlases.put("textures", textures);
-		atlases.put("objects", objects);
-	}
+    @Override
+    public void loadTextures() {
+	TextureAtlas textures = new TextureAtlas(Gdx.files.internal("data/img/textures/textures.pack"));
+	atlases.put("textures", textures);
+    }
 
 }

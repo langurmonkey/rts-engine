@@ -38,7 +38,7 @@ public class FogOfWar {
 	this.height = height;
 	this.fog = new byte[width][height];
 	this.tileSize = tileSize;
-	this.shapeRenderer = RTSGame.getInstance().cameraShapeRenderer;
+	this.shapeRenderer = RTSGame.game.cameraShapeRenderer;
     }
 
     /**

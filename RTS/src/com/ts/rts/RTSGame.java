@@ -59,7 +59,7 @@ public class RTSGame implements ApplicationListener {
     /** My variables **/
     public static boolean debugRender = false;
     public static boolean debug = true;
-    public static boolean drawShadows = true;
+    public static boolean drawShadows = false;
 
     private Camera camera;
     private IRTSMap map;
@@ -86,26 +86,22 @@ public class RTSGame implements ApplicationListener {
     /** FPS logger **/
     FPSLogger fpsLogger;
 
-    private static RTSGame game;
-    public ShaderProgram globalShader, mapShader;
-
-    public static RTSGame getInstance() {
-	return game;
-    }
+    public static RTSGame game;
+    public ShaderProgram objectsShader, mapShader;
 
     public static SpriteBatch getSpriteBatch() {
-	return getInstance().batch;
+	return game.batch;
     }
 
     public void initShaders() {
 	ShaderProgram.pedantic = false;
-	globalShader = new ShaderProgram(Gdx.files.internal("data/shaders/default.vert.glsl"),
-		Gdx.files.internal("data/shaders/default.frag.glsl"));
+	objectsShader = new ShaderProgram(Gdx.files.internal("data/shaders/default.vert.glsl"),
+		Gdx.files.internal("data/shaders/objects.frag.glsl"));
 	mapShader = new ShaderProgram(Gdx.files.internal("data/shaders/default.vert.glsl"),
-		Gdx.files.internal("data/shaders/lighting.map.frag.glsl"));
+		Gdx.files.internal("data/shaders/map.frag.glsl"));
 
-	if (!globalShader.isCompiled()) {
-	    logger.error(globalShader.getLog());
+	if (!objectsShader.isCompiled()) {
+	    logger.error(objectsShader.getLog());
 	}
 
 	if (!mapShader.isCompiled()) {
@@ -129,7 +125,7 @@ public class RTSGame implements ApplicationListener {
 	orthoCamera.setToOrtho(false, w, h);
 	orthoCamera.zoom = 1f;
 	initShaders();
-	batch = new SpriteBatch(300, globalShader);
+	batch = new SpriteBatch(300, objectsShader);
 
 	// Here we use genuine info in the map to find out blocked areas
 	map = new RTSGridMapTiledMap(this, "data/maps/3030test.tmx");
@@ -280,44 +276,37 @@ public class RTSGame implements ApplicationListener {
 	// Contains circular light positions and radius
 	float[] lights = new float[entities.size() * 3];
 	// Contains shadow positions and width and height
-	float[] shadows = new float[entities.size() * 4];
 	int i = 0;
-	int j = 0;
 	for (PositionPhysicalEntity e : entities) {
 	    if (e.viewingDistance > 0) {
 		lights[i++] = e.pos.x;
 		lights[i++] = e.pos.y;
 		lights[i++] = e.viewingDistance;
 	    }
-	    shadows[j++] = e.pos.x;
-	    shadows[j++] = e.pos.y;
-	    shadows[j++] = e.shadowA * e.shadowA;
-	    shadows[j++] = e.shadowB * e.shadowB;
-
 	}
 
 	mapShader.begin();
-	mapShader.setUniform3fv("lights", lights, 0, i);
-	mapShader.setUniform4fv("shadows", shadows, 0, j);
-	mapShader.setUniformi("lightCount", i / 3);
-	mapShader.setUniformi("shadowCount", (drawShadows ? j / 4 : -1));
-	mapShader.setUniform2fv("cameraPosition", camera.pos.get(), 0, 2);
+	mapShader.setUniform3fv("u_lights", lights, 0, i);
+	mapShader.setUniformi("u_light_count", i / 3);
+	mapShader.setUniformf("u_camera_offset", camera.pos.x - Gdx.graphics.getWidth() / 2, camera.pos.y - Gdx.graphics.getHeight() / 2);
 	mapShader.end();
 
 	map.renderBase(camera);
 
 	batch.setProjectionMatrix(camera.getLibgdxCamera().combined);
-	batch.begin();
+	objectsShader.begin();
+	objectsShader.setUniformf("u_camera_offset", camera.pos.x - Gdx.graphics.getWidth() / 2, camera.pos.y - Gdx.graphics.getHeight() / 2);
+	objectsShader.setUniformi("u_draw_shadows", (drawShadows ? 1 : -1));
+	objectsShader.end();
 
 	/** Entities **/
 	for (PositionPhysicalEntity ppe : entities) {
+	    batch.begin();
 	    ppe.render();
+	    batch.end();
 	}
 
-	batch.flush();
-	batch.end();
-
-	map.renderOverlays(camera);
+	//map.renderOverlays(camera);
 
 	// Render debug info
 	if (debugRender) {
@@ -344,12 +333,12 @@ public class RTSGame implements ApplicationListener {
 	logger.info("Resize called");
 
 	// whenever our screen resizes, we need to update our uniform
-	globalShader.begin();
-	globalShader.setUniformf("screenRes", (float) Gdx.graphics.getWidth(), (float) Gdx.graphics.getHeight());
-	globalShader.end();
+	objectsShader.begin();
+	objectsShader.setUniformf("u_viewport_size", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	objectsShader.end();
 
 	mapShader.begin();
-	mapShader.setUniformf("screenRes", (float) Gdx.graphics.getWidth(), (float) Gdx.graphics.getHeight());
+	mapShader.setUniformf("u_viewport_size", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	mapShader.end();
     }
 
@@ -506,11 +495,11 @@ public class RTSGame implements ApplicationListener {
     }
 
     public static Camera getCamera() {
-	return getInstance().camera;
+	return game.camera;
     }
 
     public static OrthographicCamera getGdxCamera() {
-	return getInstance().orthoCamera;
+	return game.orthoCamera;
     }
 
 }

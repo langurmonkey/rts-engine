@@ -19,7 +19,7 @@ public class PhysicalObject extends PositionPhysicalEntity {
     public PhysicalObject(float x, float y, float offsetX, float offsetY, String textureName, IRTSMap map) {
 	super(x, y);
 	this.map = map;
-	this.shapeRenderer = RTSGame.getInstance().cameraShapeRenderer;
+	this.shapeRenderer = RTSGame.game.cameraShapeRenderer;
 	this.textureName = textureName;
 	this.spriteOffsetX = offsetX;
 	this.spriteOffsetY = offsetY;
@@ -32,7 +32,7 @@ public class PhysicalObject extends PositionPhysicalEntity {
 
 	// Default shadow
 	shadowA = 15f;
-	shadowB = 5f;
+	shadowB = 4f;
 
 	// Add to map, just once (these entities do not move)
 	map.updateEntity(this);
@@ -45,7 +45,7 @@ public class PhysicalObject extends PositionPhysicalEntity {
     @Override
     public void initGraphics() {
 	try {
-	    sprite = new Sprite(TextureManager.getTexture("objects", textureName));
+	    sprite = new Sprite(TextureManager.getTexture("textures", textureName));
 	    width = sprite.getRegionWidth();
 	    height = sprite.getRegionHeight();
 	} catch (Exception e) {

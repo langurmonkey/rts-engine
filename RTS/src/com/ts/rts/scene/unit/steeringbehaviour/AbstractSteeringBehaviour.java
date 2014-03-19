@@ -13,36 +13,36 @@ import com.ts.rts.scene.unit.MovingEntity;
  */
 public abstract class AbstractSteeringBehaviour implements ISteeringBehaviour {
 
-	protected MovingEntity unit;
-	protected boolean done;
-	protected ShapeRenderer shapeRenderer;
+    protected MovingEntity unit;
+    protected boolean done;
+    protected ShapeRenderer shapeRenderer;
 
-	public AbstractSteeringBehaviour(MovingEntity unit) {
-		super();
-		this.unit = unit;
-		done = false;
-		shapeRenderer = RTSGame.getInstance().cameraShapeRenderer;
-	}
+    public AbstractSteeringBehaviour(MovingEntity unit) {
+	super();
+	this.unit = unit;
+	done = false;
+	shapeRenderer = RTSGame.game.cameraShapeRenderer;
+    }
 
-	/**
-	 * @return the done
-	 */
-	public boolean isDone() {
-		return done;
-	}
+    /**
+     * @return the done
+     */
+    public boolean isDone() {
+	return done;
+    }
 
-	@Override
-	public void render() {
-		shapeRenderer.setProjectionMatrix(RTSGame.getGdxCamera().combined);
-		renderBehaviour();
-	}
+    @Override
+    public void render() {
+	shapeRenderer.setProjectionMatrix(RTSGame.getGdxCamera().combined);
+	renderBehaviour();
+    }
 
-	public void renderBehaviour() {
-		// Empty because some behaviours do not have render
-	}
+    public void renderBehaviour() {
+	// Empty because some behaviours do not have render
+    }
 
-	@Override
-	public void dispose() {
-	}
+    @Override
+    public void dispose() {
+    }
 
 }

@@ -61,6 +61,9 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
     /** Semimajor and semiminor axes of the shadow ellipse **/
     public float shadowA = 0f, shadowB = 0f;
 
+    /** Units in which the image rotates, such as tanks **/
+    protected boolean rotateImage = false;
+
     /**
      * Sprite offsets from the center, positive down and left
      */
@@ -164,19 +167,40 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
     public abstract void update(float deltaSecs);
 
     protected void updateVisible() {
-	visible = RTSGame.getInstance().isVisible(pos);
+	visible = RTSGame.game.isVisible(pos);
     }
 
     /**
      * Renders the sprite
      */
     public void render() {
-	if (visible) {
-	    RTSGame.getSpriteBatch().draw(sprite, pos.x - sprite.getRegionWidth() / 2 + spriteOffsetX,
-		    pos.y - sprite.getRegionHeight() / 2 + spriteOffsetY,
-		    sprite.getRegionWidth() / 2 + spriteOffsetX, sprite.getRegionHeight() / 2,
-		    sprite.getRegionWidth(), sprite.getRegionHeight(), scale, scale, 0f);
+	if (visible)
+	    renderEntity();
+    }
+
+    public void renderEntity() {
+	// By default, heading rotates sprite
+	positionSpriteAndDraw();
+    }
+
+    /**
+     * Renders the texture region returned by getImageToDraw
+     */
+    protected void positionSpriteAndDraw() {
+	TextureRegion spriteToDraw = getImageToDraw();
+	float angle = 0f;
+	if (rotateImage) {
+	    angle = heading.angle();
 	}
+
+	// Set shadow
+	RTSGame.game.objectsShader.setUniformf("u_shadow_pos", this.pos.x + 1, this.pos.y - 2);
+	RTSGame.game.objectsShader.setUniformf("u_shadow_size", shadowA * shadowA, shadowB * shadowB);
+
+	RTSGame.getSpriteBatch().draw(spriteToDraw, pos.x - spriteToDraw.getRegionWidth() / 2 + spriteOffsetX,
+		pos.y - spriteToDraw.getRegionHeight() / 2 + spriteOffsetY,
+		spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, spriteToDraw.getRegionHeight() / 2,
+		spriteToDraw.getRegionWidth(), spriteToDraw.getRegionHeight(), scale, scale, angle);
     }
 
     public abstract void renderSelection();

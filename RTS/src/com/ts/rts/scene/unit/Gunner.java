@@ -42,7 +42,7 @@ public class Gunner extends Unit {
 	slowingDistance = 10f;
 
 	// The gunner scale, 0.6f
-	scale = 0.7f;
+	scale = .9f;
 
 	// Max health points
 	maxHp = 20;
@@ -54,11 +54,11 @@ public class Gunner extends Unit {
 	initGraphics();
 	initHardRadius(height / 2f);
 
-	softRadius = new Circle(x, y, 9);
-	selectionRadius = 13;
+	softRadius = new Circle(x, y, 13);
+	selectionRadius = 18;
 
-	shadowA = 9;
-	shadowB = 3;
+	shadowA = 10;
+	shadowB = 4;
 
 	viewingDistance = 60;
 
@@ -73,14 +73,14 @@ public class Gunner extends Unit {
     @Override
     public void initGraphics() {
 	try {
-	    sprite = new Sprite(TextureManager.getTexture("textures", "goon-blue-stand-left"));
+	    sprite = new Sprite(TextureManager.getTexture("textures", "units/goon-blue-stand-left"));
 
 	    TextureRegion[] walkLeftFrames = new TextureRegion[4];
 
-	    walkLeftFrames[0] = TextureManager.getTexture("textures", "goon-blue-walk1-left");
-	    walkLeftFrames[1] = TextureManager.getTexture("textures", "goon-blue-walk2-left");
-	    walkLeftFrames[2] = TextureManager.getTexture("textures", "goon-blue-walk1-left");
-	    walkLeftFrames[3] = TextureManager.getTexture("textures", "goon-blue-walk3-left");
+	    walkLeftFrames[0] = TextureManager.getTexture("textures", "units/goon-blue-walk1-left");
+	    walkLeftFrames[1] = TextureManager.getTexture("textures", "units/goon-blue-walk2-left");
+	    walkLeftFrames[2] = TextureManager.getTexture("textures", "units/goon-blue-walk1-left");
+	    walkLeftFrames[3] = TextureManager.getTexture("textures", "units/goon-blue-walk3-left");
 
 	    TextureRegion[] walkRightFrames = new TextureRegion[4];
 
@@ -99,15 +99,14 @@ public class Gunner extends Unit {
 	    width = sprite.getRegionWidth() * scale;
 	    height = sprite.getRegionHeight() * scale;
 
-	    spriteOffsetY = 8f;
+	    spriteOffsetY = 11f;
 
-	    rotateImage = false;
 	} catch (Exception e) {
 	}
     }
 
     public void renderEntity() {
-	// Rotate the sprite
+	// Flip if necessary the sprite
 	float angle = heading.angle();
 	if ((lastAngle > 180 && angle <= 180) || (lastAngle <= 180 && angle > 180)) {
 	    sprite.flip(true, false);
