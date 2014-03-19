@@ -28,24 +28,20 @@ void main() {
 	
 	for(int i = 0; i < lightCount; ++i){
 		vec3 light = lights[i];
+		// 1 - x
+		// 2 - y
+		// 3 - radius
+		
 		float radius = light.z;
 		// Determine camera position offset vector. Starts at (0,0)
 		vec2 lpos = light.xy - offset;
 		float dist = distance(gl_FragCoord.xy, lpos);
 		
-		if(dist <= radius){
+		if(dist <= radius + radius * SMOOTH){
 			alpha = 1.0;
-		}else if(dist > radius && dist < radius + radius * SMOOTH){
-			alpha = alpha + smoothstep(radius + radius * SMOOTH, radius, dist);
 		}
 	}
 	
-	if(alpha > 1.0){
-		alpha = 1.0;
-	}
-	
 	vec4 texColor = texture2D(u_texture, v_texCoords);
-    gl_FragColor = vec4(texColor.rgb * alpha, texColor.a);
+    gl_FragColor = vec4(texColor.rgb, texColor.a * alpha);
 }
-
-
