@@ -57,4 +57,14 @@ public abstract class MovingEntity extends PositionPhysicalEntity {
 	shapeRenderer.end();
     }
 
+    protected void updateCurrentMaxSpeed() {
+	maxSpeed = maxSpeed * Math.max(hp / maxHp, 0.2f);
+    }
+
+    @Override
+    public void setHp(float newHp) {
+	super.setHp(newHp);
+	updateCurrentMaxSpeed();
+    }
+
 }

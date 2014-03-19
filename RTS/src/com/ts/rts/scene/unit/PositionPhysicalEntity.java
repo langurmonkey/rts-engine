@@ -254,4 +254,11 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
 	}
     }
 
+    public void setHp(float newHp) {
+	if (newHp > maxHp) {
+	    newHp = maxHp;
+	}
+	hp = newHp;
+    }
+
 }

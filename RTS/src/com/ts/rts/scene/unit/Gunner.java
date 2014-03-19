@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.ts.rts.image.TextureManager;
 import com.ts.rts.scene.map.IRTSMap;
-import com.ts.rts.scene.unit.steeringbehaviour.SteeringBehaviours;
 import com.ts.rts.util.VectorPool;
 
 /**
@@ -61,8 +60,6 @@ public class Gunner extends Unit {
 	shadowB = 4;
 
 	viewingDistance = 60;
-
-	steeringBehaviours = new SteeringBehaviours(this);
 
 	lastAngle = heading.angle();
 	if (lastAngle <= 180) {

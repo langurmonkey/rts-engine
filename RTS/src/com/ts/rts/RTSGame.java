@@ -59,7 +59,7 @@ public class RTSGame implements ApplicationListener {
     /** My variables **/
     public static boolean debugRender = false;
     public static boolean debug = true;
-    public static boolean drawShadows = false;
+    public static boolean drawShadows = true;
 
     private Camera camera;
     private IRTSMap map;
@@ -166,14 +166,14 @@ public class RTSGame implements ApplicationListener {
 	Unit tank2 = new Tank(240f, 260f, map);
 	Unit tank3 = new Tank(280f, 260f, map);
 	Unit tank4 = new Tank(200f, 220f, map);
-	tank4.hp = 30f;
+	tank4.setHp(30f);
 	Unit tank5 = new Tank(240f, 220f, map);
-	tank5.hp = 75f;
+	tank5.setHp(75f);
 	Unit tank6 = new Tank(280f, 220f, map);
-	tank6.hp = 50f;
+	tank6.setHp(50f);
 
 	Unit tank7 = new Tank(180f, 1500f, map);
-	tank7.hp = 1f;
+	tank7.setHp(1f);
 
 	Unit gooner = new Gunner(80f, 140f, map);
 

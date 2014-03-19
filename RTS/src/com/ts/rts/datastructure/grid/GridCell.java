@@ -34,14 +34,14 @@ public class GridCell<T extends IBoundsObject> extends AStarNode<T> implements I
     public float z;
     public int col, row;
 
-    private GridMap map;
+    private GridMap<T> map;
 
     /**
      * Creates a grid cell with the given bounds
      * 
      * @param bounds
      */
-    public GridCell(Rectangle bounds, int col, int row, GridMap parent) {
+    public GridCell(Rectangle bounds, int col, int row, GridMap<T> parent) {
 	this.map = parent;
 	this.bounds = bounds;
 	this.x = bounds.getX() + bounds.getWidth() / 2;
@@ -170,7 +170,7 @@ public class GridCell<T extends IBoundsObject> extends AStarNode<T> implements I
 
     @Override
     public boolean isBlocked() {
-	return MapProperties.isMapBlocked(type);
+	return MapProperties.isMapBlocked(type) || objects.size() > 2;
     }
 
     @Override

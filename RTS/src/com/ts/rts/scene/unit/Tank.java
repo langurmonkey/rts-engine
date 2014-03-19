@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
+import com.ts.rts.RTSGame;
 import com.ts.rts.image.TextureManager;
 import com.ts.rts.scene.map.IRTSMap;
 import com.ts.rts.util.VectorPool;
@@ -94,10 +95,10 @@ public class Tank extends Unit {
     public void render() {
 	super.render();
 
-	//	if (malfunction != null) {
-	//	    malfunction.setPosition(pos.x, pos.y);
-	//	    malfunction.draw(RTSGame.getSpriteBatch());
-	//	}
+	if (malfunction != null) {
+	    malfunction.setPosition(pos.x, pos.y);
+	    malfunction.draw(RTSGame.getSpriteBatch());
+	}
     }
 
     @Override
