@@ -35,7 +35,7 @@ public class Gunner extends Unit {
 	maxForce = 150f;
 
 	// rad/s
-	maxTurnRate = (float) (Math.PI);
+	maxTurnRate = (float) (10 * Math.PI);
 
 	// 20 units
 	slowingDistance = 10f;

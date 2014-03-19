@@ -247,7 +247,7 @@ public class Vector2 extends com.badlogic.gdx.math.Vector2 implements Poolable {
      * @return
      */
     public float angle() {
-	return (float) (180 + (-Math.toDegrees(Math.atan2(x, y))));
+	return (float) Math.toDegrees(angleRad());
     }
 
     /**
@@ -256,27 +256,28 @@ public class Vector2 extends com.badlogic.gdx.math.Vector2 implements Poolable {
      * @return
      */
     public float angleRad() {
-	return (float) (Math.PI + Math.atan2(x, y));
+	return (float) (Math.PI - Math.atan2(x, y));
     }
 
     /**
-     * Gets the angle with the other vector in degrees, in [0, 360]
+     * Gets the angle with the other vector in degrees, in [-180, 180]
      * 
      * @param other
      * @return
      */
     public float angle(Vector2 other) {
-	return (float) (180 + (-Math.toDegrees(Math.atan2(x - other.x, y - other.y))));
+	return (float) Math.toDegrees(angleRad(other));
     }
 
     /**
-     * Gets the angle with the other vector in radians, in [0, 2*PI]
+     * Gets the angle with the other vector in radians, in [-PI, PI]
      * 
      * @param other
      * @return
      */
     public float angleRad(Vector2 other) {
-	return (float) (Math.PI + (-Math.atan2(x - other.x, y - other.y)));
+	//	return (float) -Math.atan2(x - other.x, y - other.y);
+	return (float) Math.acos(dotProduct(other) / (length() * other.length()));
     }
 
     /**

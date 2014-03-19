@@ -234,6 +234,12 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
 	shapeRenderer.setColor(new Color(0f, 0f, 0f, 1f));
 	shapeRenderer.rect(imageBounds.x, imageBounds.y, imageBounds.width, imageBounds.height);
 
+	// Heading
+	if (heading != null) {
+	    shapeRenderer.setColor(new Color(1f, 0f, 0f, 1f));
+	    shapeRenderer.line(pos.x, pos.y, heading.x * 40 + pos.x, heading.y * 40 + pos.y);
+	}
+
 	shapeRenderer.end();
 	Gdx.gl.glDisable(GL20.GL_BLEND);
     }

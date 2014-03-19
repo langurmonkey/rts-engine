@@ -164,34 +164,33 @@ public class RTSGame implements ApplicationListener {
 	Unit tank2 = new Tank(240f, 260f, map);
 	Unit tank3 = new Tank(280f, 260f, map);
 	Unit tank4 = new Tank(200f, 220f, map);
-	tank4.setHp(30f);
 	Unit tank5 = new Tank(240f, 220f, map);
 	tank5.setHp(75f);
 	Unit tank6 = new Tank(280f, 220f, map);
 	tank6.setHp(50f);
 
 	Unit tank7 = new Tank(180f, 1500f, map);
-	tank7.setHp(1f);
+	tank7.setHp(10f);
 
 	Unit gooner = new Gunner(80f, 140f, map);
 
 	entities.add(gooner);
-	entities.add(tank1);
-	entities.add(tank2);
-	entities.add(tank3);
-	entities.add(tank4);
-	entities.add(tank5);
-	entities.add(tank6);
-	entities.add(tank7);
+	//	entities.add(tank1);
+	//	entities.add(tank2);
+	//	entities.add(tank3);
+	//	entities.add(tank4);
+	//	entities.add(tank5);
+	//	entities.add(tank6);
+	//	entities.add(tank7);
 
 	player.add(gooner);
-	player.add(tank1);
-	player.add(tank2);
-	player.add(tank3);
-	player.add(tank4);
-	player.add(tank5);
-	player.add(tank6);
-	player.add(tank7);
+	//	player.add(tank1);
+	//	player.add(tank2);
+	//	player.add(tank3);
+	//	player.add(tank4);
+	//	player.add(tank5);
+	//	player.add(tank6);
+	//	player.add(tank7);
 
 	MapObjects mos = map.getMapObjects();
 	if (mos != null) {
@@ -395,10 +394,9 @@ public class RTSGame implements ApplicationListener {
 	}
 	float side2 = side * longestSide / 2;
 	int col = 0, row = 0;
-	Iterator<Unit> it = group.iterator();
 
-	while (it.hasNext()) {
-	    Unit u = it.next();
+	Collections.sort(group);
+	for (Unit u : group) {
 	    Vector2 targetPos = VectorPool.getObject(x - side2 + longestSide * col + longestSide / 2, y - side2
 		    + longestSide * row + longestSide / 2);
 	    if (!map.overlapsWithBlocked(new Rectangle(x - u.hardRadius.width / 2, y - u.hardRadius.height / 2,

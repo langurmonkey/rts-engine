@@ -38,7 +38,7 @@ public abstract class Unit extends MovingEntity {
 
     public Vector2 targetHeading;
 
-    private boolean turning = false;
+    protected boolean turning = false;
 
     /** The unit group it belongs to, if any **/
     public UnitGroup group;
@@ -179,8 +179,17 @@ public abstract class Unit extends MovingEntity {
 	steeringBehaviours.removeDoneBehaviours();
     }
 
-    private void updateHeading(float deltaSecs) {
+    protected void updateHeading(float deltaSecs) {
 	// We're turning, update heading
+
+	if (maxTurnRate >= Math.PI * 2) {
+	    // Optimisation, instant rotation
+	    VectorPool.returnObject(heading);
+	    heading = targetHeading;
+	    turning = false;
+	    return;
+	}
+
 	float angle = heading.angle();
 	float targetAngle = targetHeading.angle();
 	float maxTurn = (float) (Math.toDegrees(maxTurnRate) * deltaSecs);
