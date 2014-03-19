@@ -57,8 +57,8 @@ public class Gunner extends Unit {
 	softRadius = new Circle(x, y, 9);
 	selectionRadius = 13;
 
-	shadowWidth = 20;
-	shadowHeight = 4;
+	shadowA = 9;
+	shadowB = 3;
 
 	viewingDistance = 60;
 

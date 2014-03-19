@@ -21,6 +21,8 @@ public abstract class PositionEntity {
     public Vector2 pos;
     public float z;
 
+    boolean visible = true;
+
     /**
      * The viewing distance in pixels, for the fog of war
      */

@@ -59,10 +59,12 @@ public class RTSGame implements ApplicationListener {
     /** My variables **/
     public static boolean debugRender = false;
     public static boolean debug = true;
+    public static boolean drawShadows = true;
 
     private Camera camera;
     private IRTSMap map;
     private List<PositionPhysicalEntity> entities = new ArrayList<PositionPhysicalEntity>();
+    public List<Unit> player = new ArrayList<Unit>();
     public Selection selection;
 
     /**
@@ -98,7 +100,7 @@ public class RTSGame implements ApplicationListener {
     public void initShaders() {
 	ShaderProgram.pedantic = false;
 	globalShader = new ShaderProgram(Gdx.files.internal("data/shaders/default.vert.glsl"),
-		Gdx.files.internal("data/shaders/lighting.frag.glsl"));
+		Gdx.files.internal("data/shaders/default.frag.glsl"));
 	mapShader = new ShaderProgram(Gdx.files.internal("data/shaders/default.vert.glsl"),
 		Gdx.files.internal("data/shaders/lighting.map.frag.glsl"));
 
@@ -188,6 +190,15 @@ public class RTSGame implements ApplicationListener {
 	entities.add(tank6);
 	entities.add(tank7);
 
+	player.add(gooner);
+	player.add(tank1);
+	player.add(tank2);
+	player.add(tank3);
+	player.add(tank4);
+	player.add(tank5);
+	player.add(tank6);
+	player.add(tank7);
+
 	MapObjects mos = map.getMapObjects();
 	if (mos != null) {
 	    Iterator<MapObject> it = mos.iterator();
@@ -206,6 +217,14 @@ public class RTSGame implements ApplicationListener {
 
 	lastMillis = System.currentTimeMillis();
 
+    }
+
+    public boolean isVisible(Vector2 point) {
+	boolean vis = false;
+	for (Unit u : player) {
+	    vis = vis || u.pos.distance(point) < u.viewingDistance * 2.5;
+	}
+	return vis;
     }
 
     @Override
@@ -258,33 +277,37 @@ public class RTSGame implements ApplicationListener {
 	Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 	cameraShapeRenderer.setProjectionMatrix(orthoCamera.combined);
 
+	// Contains circular light positions and radius
 	float[] lights = new float[entities.size() * 3];
+	// Contains shadow positions and width and height
+	float[] shadows = new float[entities.size() * 4];
 	int i = 0;
+	int j = 0;
 	for (PositionPhysicalEntity e : entities) {
-	    lights[i++] = e.pos.x;
-	    lights[i++] = e.pos.y;
-	    lights[i++] = e.viewingDistance;
-	}
-	globalShader.setUniform3fv("lights", lights, 0, lights.length);
-	globalShader.setUniformi("lightCount", entities.size());
-	globalShader.setUniform2fv("cameraPosition", camera.pos.get(), 0, 2);
+	    if (e.viewingDistance > 0) {
+		lights[i++] = e.pos.x;
+		lights[i++] = e.pos.y;
+		lights[i++] = e.viewingDistance;
+	    }
+	    shadows[j++] = e.pos.x;
+	    shadows[j++] = e.pos.y;
+	    shadows[j++] = e.shadowA * e.shadowA;
+	    shadows[j++] = e.shadowB * e.shadowB;
 
-	mapShader.setUniform3fv("lights", lights, 0, lights.length);
-	mapShader.setUniformi("lightCount", entities.size());
+	}
+
+	mapShader.begin();
+	mapShader.setUniform3fv("lights", lights, 0, i);
+	mapShader.setUniform4fv("shadows", shadows, 0, j);
+	mapShader.setUniformi("lightCount", i / 3);
+	mapShader.setUniformi("shadowCount", (drawShadows ? j / 4 : -1));
 	mapShader.setUniform2fv("cameraPosition", camera.pos.get(), 0, 2);
+	mapShader.end();
 
 	map.renderBase(camera);
 
-	for (PositionPhysicalEntity u : entities) {
-	    u.renderShadow();
-	}
-
 	batch.setProjectionMatrix(camera.getLibgdxCamera().combined);
 	batch.begin();
-
-	globalShader.setUniform3fv("lights", lights, 0, lights.length);
-	globalShader.setUniformi("lightCount", entities.size());
-	globalShader.setUniform2fv("cameraPosition", camera.pos.get(), 0, 2);
 
 	/** Entities **/
 	for (PositionPhysicalEntity ppe : entities) {

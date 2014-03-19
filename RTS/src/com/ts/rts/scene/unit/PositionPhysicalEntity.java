@@ -58,8 +58,8 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
     /** The sprite scale, 1 by default **/
     protected float scale = 1f;
 
-    /** Width and height of shadow **/
-    protected float shadowWidth = 0f, shadowHeight = 0f;
+    /** Semimajor and semiminor axes of the shadow ellipse **/
+    public float shadowA = 0f, shadowB = 0f;
 
     /**
      * Sprite offsets from the center, positive down and left
@@ -161,18 +161,22 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
 	return sprite;
     }
 
-    public void update(float deltaSecs) {
+    public abstract void update(float deltaSecs);
 
+    protected void updateVisible() {
+	visible = RTSGame.getInstance().isVisible(pos);
     }
 
     /**
      * Renders the sprite
      */
     public void render() {
-	RTSGame.getSpriteBatch().draw(sprite, pos.x - sprite.getRegionWidth() / 2 + spriteOffsetX,
-		pos.y - sprite.getRegionHeight() / 2 + spriteOffsetY,
-		sprite.getRegionWidth() / 2 + spriteOffsetX, sprite.getRegionHeight() / 2,
-		sprite.getRegionWidth(), sprite.getRegionHeight(), scale, scale, 0f);
+	if (visible) {
+	    RTSGame.getSpriteBatch().draw(sprite, pos.x - sprite.getRegionWidth() / 2 + spriteOffsetX,
+		    pos.y - sprite.getRegionHeight() / 2 + spriteOffsetY,
+		    sprite.getRegionWidth() / 2 + spriteOffsetX, sprite.getRegionHeight() / 2,
+		    sprite.getRegionWidth(), sprite.getRegionHeight(), scale, scale, 0f);
+	}
     }
 
     public abstract void renderSelection();
@@ -214,13 +218,13 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
      * Default implementation is just a box as big as the bounding box with an offset
      */
     public void renderShadow() {
-	if (shadowWidth != 0f && shadowHeight != 0f) {
+	if (shadowA != 0f && shadowB != 0f) {
 	    // Render shadow
 	    Gdx.gl.glEnable(GL20.GL_BLEND);
 	    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 	    shapeRenderer.begin(ShapeType.Filled);
 	    shapeRenderer.setColor(new Color(0f, 0f, 0f, .5f));
-	    shapeRenderer.ellipse(pos.x - shadowWidth / 2 + 2, pos.y - shadowHeight / 2 - 2, shadowWidth, shadowHeight);
+	    shapeRenderer.ellipse(pos.x - shadowA / 2 + 2, pos.y - shadowB / 2 - 2, shadowA, shadowB);
 	    shapeRenderer.end();
 	    Gdx.gl.glDisable(GL20.GL_BLEND);
 	}

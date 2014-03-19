@@ -82,7 +82,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
 	mapBatch = new SpriteBatch(100, RTSGame.getInstance().mapShader);
 
 	// Initialize map renderer
-	mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, RTSGame.getSpriteBatch());
+	mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, mapBatch);
 
 	initializeMapGenAndRenderer();
 

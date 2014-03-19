@@ -31,8 +31,8 @@ public class PhysicalObject extends PositionPhysicalEntity {
 	softRadius = new Circle(x, y, 10);
 
 	// Default shadow
-	shadowWidth = 10f;
-	shadowHeight = 10f;
+	shadowA = 15f;
+	shadowB = 5f;
 
 	// Add to map, just once (these entities do not move)
 	map.updateEntity(this);
@@ -53,8 +53,9 @@ public class PhysicalObject extends PositionPhysicalEntity {
     }
 
     @Override
-    public void renderShadow() {
+    public void update(float deltaSecs) {
 	// void
+	updateVisible();
     }
 
     @Override
