@@ -8,10 +8,10 @@ public class Main {
 	LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 	cfg.title = "RTS";
 	cfg.useGL20 = true;
-	cfg.width = 900;
-	cfg.height = 600;
+	cfg.width = 1024;
+	cfg.height = 768;
 	cfg.fullscreen = false;
-	cfg.backgroundFPS = 0;
+	cfg.backgroundFPS = -1;
 	cfg.resizable = false;
 	cfg.samples = 0;
 	cfg.vSyncEnabled = true;
