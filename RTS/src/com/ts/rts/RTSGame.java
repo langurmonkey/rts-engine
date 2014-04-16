@@ -175,22 +175,22 @@ public class RTSGame implements ApplicationListener {
 	Unit gooner = new Gunner(80f, 140f, map);
 
 	entities.add(gooner);
-	//	entities.add(tank1);
-	//	entities.add(tank2);
-	//	entities.add(tank3);
-	//	entities.add(tank4);
-	//	entities.add(tank5);
-	//	entities.add(tank6);
-	//	entities.add(tank7);
+	entities.add(tank1);
+	entities.add(tank2);
+	entities.add(tank3);
+	entities.add(tank4);
+	entities.add(tank5);
+	entities.add(tank6);
+	entities.add(tank7);
 
 	player.add(gooner);
-	//	player.add(tank1);
-	//	player.add(tank2);
-	//	player.add(tank3);
-	//	player.add(tank4);
-	//	player.add(tank5);
-	//	player.add(tank6);
-	//	player.add(tank7);
+	player.add(tank1);
+	player.add(tank2);
+	player.add(tank3);
+	player.add(tank4);
+	player.add(tank5);
+	player.add(tank6);
+	player.add(tank7);
 
 	MapObjects mos = map.getMapObjects();
 	if (mos != null) {
