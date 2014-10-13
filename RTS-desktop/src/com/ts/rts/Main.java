@@ -7,14 +7,13 @@ public class Main {
     public static void main(String[] args) {
 	LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 	cfg.title = "RTS";
-	cfg.useGL20 = true;
 	cfg.width = 1024;
 	cfg.height = 768;
 	cfg.fullscreen = false;
 	cfg.backgroundFPS = -1;
 	cfg.resizable = false;
-	cfg.samples = 0;
-	cfg.vSyncEnabled = true;
+	cfg.samples = 4;
+	cfg.vSyncEnabled = false;
 
 	new LwjglApplication(new RTSGame(), cfg);
     }

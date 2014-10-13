@@ -11,7 +11,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -198,8 +198,8 @@ public class RTSGame implements ApplicationListener {
 	    while (it.hasNext()) {
 		MapObject mo = it.next();
 		String name = mo.getName();
-		int x = mo.getProperties().get("x", Integer.class);
-		int y = mo.getProperties().get("y", Integer.class);
+		int x = mo.getProperties().get("x", Float.class).intValue();
+		int y = mo.getProperties().get("y", Float.class).intValue();
 
 		// Trees with an offsetY of 20
 		PhysicalObject po = new PhysicalObject(x, y, 0f, 25f, name, map);
@@ -267,7 +267,7 @@ public class RTSGame implements ApplicationListener {
 
 	// Clear screen
 	Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-	Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	cameraShapeRenderer.setProjectionMatrix(orthoCamera.combined);
 
 	// Contains circular light positions and radius
