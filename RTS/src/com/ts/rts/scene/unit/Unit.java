@@ -131,7 +131,7 @@ public abstract class Unit extends MovingEntity {
 		Vector2 acceleration = steeringForce.divide(mass);
 		vel.add(acceleration.multiply(deltaSecs)).truncate(maxSpeed);
 
-		if (MapProperties.isSlope(cell.getTerrain())) {
+		if (cell != null && MapProperties.isSlope(cell.getTerrain())) {
 		    vel.multiply(slopeVelMult);
 		}
 

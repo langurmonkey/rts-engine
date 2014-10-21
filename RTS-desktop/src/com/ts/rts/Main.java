@@ -12,8 +12,8 @@ public class Main {
 	cfg.fullscreen = false;
 	cfg.backgroundFPS = -1;
 	cfg.resizable = false;
-	cfg.samples = 4;
-	cfg.vSyncEnabled = false;
+	cfg.samples = 2;
+	cfg.vSyncEnabled = true;
 
 	new LwjglApplication(new RTSGame(), cfg);
     }

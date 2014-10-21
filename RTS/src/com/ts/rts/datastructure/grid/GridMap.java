@@ -43,7 +43,7 @@ public class GridMap<T extends IBoundsObject> implements IMap<T> {
 	cells = new GridCell[columns][rows];
 	for (int col = 0; col < columns; col++) {
 	    for (int row = 0; row < rows; row++) {
-		cells[col][row] = new GridCell(new Rectangle(col * cellWidth, row * cellHeight, cellWidth, cellHeight),
+		cells[col][row] = new GridCell<T>(new Rectangle(col * cellWidth, row * cellHeight, cellWidth, cellHeight),
 			col, row, this);
 	    }
 	}
@@ -98,6 +98,9 @@ public class GridMap<T extends IBoundsObject> implements IMap<T> {
     @Override
     public Set<IMapCell<T>> findNearbyBlockedNodes(Vector2 p) {
 	IMapCell<T> cell = getCell(p.x, p.y);
+	if (cell == null)
+	    return new HashSet<IMapCell<T>>();
+
 	Set<IMapCell<T>> cells = cell.findAdjacentCells();
 	cells.add(cell);
 
@@ -114,12 +117,14 @@ public class GridMap<T extends IBoundsObject> implements IMap<T> {
     @Override
     public Set<T> findNearbyObjects(Vector2 p) {
 	IMapCell<T> pointCell = getCell(p.x, p.y);
-	Set<IMapCell<T>> cells = pointCell.findAdjacentCells();
-	cells.add(pointCell);
-
 	Set<T> objects = new HashSet<T>();
-	for (IMapCell<T> cell : cells) {
-	    objects.addAll(cell.getObjects());
+	if (pointCell != null) {
+	    Set<IMapCell<T>> cells = pointCell.findAdjacentCells();
+	    cells.add(pointCell);
+
+	    for (IMapCell<T> cell : cells) {
+		objects.addAll(cell.getObjects());
+	    }
 	}
 	return objects;
     }

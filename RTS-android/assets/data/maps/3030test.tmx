@@ -32,6 +32,11 @@
   <tile id="50" terrain="8,6,8,6"/>
   <tile id="51" terrain="8,6,8,8"/>
   <tile id="52" terrain="6,8,8,8"/>
+  <tile id="59">
+   <properties>
+    <property name="type" value="desert"/>
+   </properties>
+  </tile>
   <tile id="70" terrain="4,3,4,4"/>
   <tile id="71" terrain="3,3,4,4"/>
   <tile id="72" terrain="3,4,4,4"/>
@@ -1145,7 +1150,7 @@
  </tileset>
  <layer name="BaseLayer" width="40" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt2kFOAjEUBuDndFbIQQhyBE+gJNzDS+BSXcgFYIG6d2+ARIZzYAQ9BomdMBOwtC8dpmmL/osvLGYo/7yS9sHMPCGaG2TcsZToWpgtUv37XqVLIhpKM3lOi3irxGzN5HtnjnHXVjUf9xmcZzn2uTB7sajfUp7zoeinbvIdq8w3kaaKTZF5P6PvfD1pUGR8o+3rSLo922beKHX1na/M+KiR51bryo1zH0HuEPU7BS7npsGsI7aa4veY3wm/9pZs8rVF/WvsKGNwe1PVervId6PUMLOsoa/6qRkzyxrafAfGDtfJTsV8vj2lu94jxnz76uS7iyTfKiCuvwQ3Qs6v6iuCenA+NZlDZwI4JQ1DvxuLvNe7EIf9Lqfub4kqe/1V8f9O1zKfjz4C3MO8AQDAX4O9DQD+u4cIMgDkfN+rhuOEWDN0zxqZni8KQfeske29tx+kKAOS
+   eJzt2sFOwjAYB/DPdafBgxjlEXwCMeE9fAk9ggd5ATyA3r0bIXHzOTRMfAwSu2yLo7Rf2q22nfkOv3DYKP99JW2hTSOAVCHDrsUAY6b2Hsvf98xdAMCC2/B7TgGXR2pfSL435Br2bKb5sM/APPK2B0ztSaN+H/yeT8FNbCdfW3W+V24t2FeZmxld55tw8yrjC5SvD9ztSZl5L9TVdb46471EkVusK9bOLIDcPurXBzb7JkHGEV1Ddtjmd4SPvTWdfGes+zOOhDawucm03jbyXQs1zDRr6Kp+YsZMs4Y634GlxXFyZJjPtVX8u/YIMV9Tl3zTQPLlHmHrS2KHz/4V7QKoB2Yryew7EyF9kijWu6Eo1nrn7Hi9i+n6W8Jkrr+s/t+50sznYh1B7KN+I4QQ8t+0ndv+ai/IhdDzEULcugsgAyEF13vVpB0fY4bsrJHqfJEPsrNGuntvP7MS/gc=
   </data>
  </layer>
  <layer name="BaseLayerOverlay" width="40" height="60">
@@ -1153,7 +1158,7 @@
    eJztlDEOgjAUhh+giXdwc+IcTg5ubsZ4E/UkaHTUM6jByegpdNRL+F60CRKKRcDW5P+SP5CWtF8fbYkAAAAAAAAAAAAA3GLUJBpyuob5NWOec2BhXlN6DrsJ8CsH/MoBv3LY8lt6RCuDiJ/JdypVEfNYB86as8mJ+OX1p1MFUjvff7q1+BmSPuKX159OHW6TgGiqifil22ZBPX66ukU831wT8Uu3LV5+Z69av9jL/qdbnm+nifip93bj3a/q+onfKWPNKln1SO6/KLDr9+l8qDrvHfWr+/yK341zLxDxk2eY2LPHnDWW4cLjXgumz34d37zuNiiyL+D3nZ/ak676uV4/236m95INitxLAID/5QEUP5ri
   </data>
  </layer>
- <objectgroup name="ObjectsLayer">
+ <objectgroup name="ObjectsLayer" width="0" height="0">
   <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="264" y="93"/>
   <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="239" y="119"/>
   <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="232" y="80"/>

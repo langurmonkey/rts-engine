@@ -166,6 +166,7 @@ public class RTSGame implements ApplicationListener {
 	Unit tank4 = new Tank(200f, 220f, map);
 	Unit tank5 = new Tank(240f, 220f, map);
 	tank5.setHp(75f);
+	//tank5.steeringBehaviours.addWander();
 	Unit tank6 = new Tank(280f, 220f, map);
 	tank6.setHp(50f);
 
