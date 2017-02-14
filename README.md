@@ -16,3 +16,9 @@ Currently libgdx itself provides an implementation of steering behaviours, wihch
 - Tiled tile map integration.
 - Quadtree and grid for spatial awareness.
 - Some basic graphic effects.
+
+##Video
+
+Here a video demonstrating a few of the features available as of now.
+
+[![RTS Engine demo YouTube](http://img.youtube.com/vi/17fDqcZ0mu8/0.jpg)](http://www.youtube.com/watch?v=17fDqcZ0mu8 "RTS Engine demo video")
