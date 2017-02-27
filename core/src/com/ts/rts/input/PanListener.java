@@ -46,108 +46,107 @@ public class PanListener extends InputAdapter {
 
     private static Set<Integer> movementKeys;
     static {
-	movementKeys = new HashSet<Integer>();
-	movementKeys.add(KEY_UP);
-	movementKeys.add(KEY_DOWN);
-	movementKeys.add(KEY_LEFT);
-	movementKeys.add(KEY_RIGHT);
+        movementKeys = new HashSet<Integer>();
+        movementKeys.add(KEY_UP);
+        movementKeys.add(KEY_DOWN);
+        movementKeys.add(KEY_LEFT);
+        movementKeys.add(KEY_RIGHT);
     }
 
     public PanListener(Camera camera, Selection selection) {
-	super();
-	m_normal = new Pixmap(Gdx.files.internal("data/img/cursor.png"));
-	m_up = new Pixmap(Gdx.files.internal("data/img/up-cursor.png"));
-	m_down = new Pixmap(Gdx.files.internal("data/img/down-cursor.png"));
-	m_left = new Pixmap(Gdx.files.internal("data/img/left-cursor.png"));
-	m_right = new Pixmap(Gdx.files.internal("data/img/right-cursor.png"));
-	m_forbidden = new Pixmap(Gdx.files.internal("data/img/forbidden-cursor.png"));
+        super();
+        m_normal = new Pixmap(Gdx.files.internal("data/img/cursor.png"));
+        m_up = new Pixmap(Gdx.files.internal("data/img/up-cursor.png"));
+        m_down = new Pixmap(Gdx.files.internal("data/img/down-cursor.png"));
+        m_left = new Pixmap(Gdx.files.internal("data/img/left-cursor.png"));
+        m_right = new Pixmap(Gdx.files.internal("data/img/right-cursor.png"));
+        m_forbidden = new Pixmap(Gdx.files.internal("data/img/forbidden-cursor.png"));
 
-	// Normal image
-	Gdx.input.setCursorImage(m_normal, 0, 0);
+        // Normal image
+        Gdx.graphics.setCursor(Gdx.graphics.newCursor(m_normal, 0, 0));
 
-	this.camera = camera;
-	this.selection = selection;
-	// Zone of the screen where the mouse can work without panning
-	this.activeZone = new Rectangle(PADDING, PADDING, camera.canvasWidth - PADDING * 2, camera.canvasHeight
-		- PADDING * 2);
-	this.canvasCenter = VectorPool.getObject(camera.canvasWidth / 2f, camera.canvasHeight / 2f);
+        this.camera = camera;
+        this.selection = selection;
+        // Zone of the screen where the mouse can work without panning
+        this.activeZone = new Rectangle(PADDING, PADDING, camera.canvasWidth - PADDING * 2, camera.canvasHeight - PADDING * 2);
+        this.canvasCenter = VectorPool.getObject(camera.canvasWidth / 2f, camera.canvasHeight / 2f);
     }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-	screenY = Gdx.graphics.getHeight() - screenY;
+        screenY = Gdx.graphics.getHeight() - screenY;
 
-	if (!selection.active && !activeZone.contains(screenX, screenY)) {
-	    Vector2 movement = VectorPool.getObject(screenX, screenY);
-	    movement.subtract(canvasCenter);
-	    camera.setAccel(movement);
-	    float angle = movement.angle();
-	    VectorPool.returnObject(movement);
+        if (!selection.active && !activeZone.contains(screenX, screenY)) {
+            Vector2 movement = VectorPool.getObject(screenX, screenY);
+            movement.subtract(canvasCenter);
+            camera.setAccel(movement);
+            float angle = movement.angle();
+            VectorPool.returnObject(movement);
 
-	    if (angle >= 315 || angle < 45) {
-		Gdx.input.setCursorImage(m_down, 0, 0);
-	    } else if (angle >= 45 && angle < 135) {
-		Gdx.input.setCursorImage(m_right, 0, 0);
-	    } else if (angle >= 135 && angle < 225) {
-		Gdx.input.setCursorImage(m_up, 0, 0);
-	    } else if (angle >= 225 && angle < 315) {
-		Gdx.input.setCursorImage(m_left, 0, 0);
-	    }
-	} else {
-	    camera.stop();
-	    IMapCell<IBoundsObject> cell = RTSGame.game.getMap().getCell(screenX + camera.getCameraDisplacementX(), screenY + camera.getCameraDisplacementY());
-	    if (cell.isBlocked()) {
-		Gdx.input.setCursorImage(m_forbidden, 0, 0);
-	    } else {
-		Gdx.input.setCursorImage(m_normal, 0, 0);
-	    }
+            if (angle >= 315 || angle < 45) {
+                Gdx.graphics.setCursor(Gdx.graphics.newCursor(m_down, 0, 0));
+            } else if (angle >= 45 && angle < 135) {
+                Gdx.graphics.setCursor(Gdx.graphics.newCursor(m_right, 0, 0));
+            } else if (angle >= 135 && angle < 225) {
+                Gdx.graphics.setCursor(Gdx.graphics.newCursor(m_up, 0, 0));
+            } else if (angle >= 225 && angle < 315) {
+                Gdx.graphics.setCursor(Gdx.graphics.newCursor(m_left, 0, 0));
+            }
+        } else {
+            camera.stop();
+            IMapCell<IBoundsObject> cell = RTSGame.game.getMap().getCell(screenX + camera.getCameraDisplacementX(), screenY + camera.getCameraDisplacementY());
+            if (cell.isBlocked()) {
+                Gdx.graphics.setCursor(Gdx.graphics.newCursor(m_forbidden, 0, 0));
+            } else {
+                Gdx.graphics.setCursor(Gdx.graphics.newCursor(m_normal, 0, 0));
+            }
 
-	}
-	return true;
+        }
+        return true;
     }
 
     @Override
     public boolean keyDown(int keycode) {
-	if (movementKeys.contains(Integer.valueOf(keycode))) {
-	    switch (keycode) {
-	    case KEY_UP:
-		camera.up(KEYBOARD_MOVEMENT_MULTIPLIER);
-		break;
-	    case KEY_DOWN:
-		camera.down(KEYBOARD_MOVEMENT_MULTIPLIER);
-		break;
-	    case KEY_LEFT:
-		camera.left(KEYBOARD_MOVEMENT_MULTIPLIER);
-		break;
-	    case KEY_RIGHT:
-		camera.right(KEYBOARD_MOVEMENT_MULTIPLIER);
-		break;
-	    }
-	    return true;
-	}
-	return super.keyDown(keycode);
+        if (movementKeys.contains(Integer.valueOf(keycode))) {
+            switch (keycode) {
+            case KEY_UP:
+                camera.up(KEYBOARD_MOVEMENT_MULTIPLIER);
+                break;
+            case KEY_DOWN:
+                camera.down(KEYBOARD_MOVEMENT_MULTIPLIER);
+                break;
+            case KEY_LEFT:
+                camera.left(KEYBOARD_MOVEMENT_MULTIPLIER);
+                break;
+            case KEY_RIGHT:
+                camera.right(KEYBOARD_MOVEMENT_MULTIPLIER);
+                break;
+            }
+            return true;
+        }
+        return super.keyDown(keycode);
     }
 
     @Override
     public boolean keyUp(int keycode) {
-	if (movementKeys.contains(Integer.valueOf(keycode))) {
-	    switch (keycode) {
-	    case KEY_UP:
-		camera.stopVertical();
-		break;
-	    case KEY_DOWN:
-		camera.stopVertical();
-		break;
-	    case KEY_LEFT:
-		camera.stopHorizontal();
-		break;
-	    case KEY_RIGHT:
-		camera.stopHorizontal();
-		break;
-	    }
-	    return true;
-	}
-	return super.keyUp(keycode);
+        if (movementKeys.contains(Integer.valueOf(keycode))) {
+            switch (keycode) {
+            case KEY_UP:
+                camera.stopVertical();
+                break;
+            case KEY_DOWN:
+                camera.stopVertical();
+                break;
+            case KEY_LEFT:
+                camera.stopHorizontal();
+                break;
+            case KEY_RIGHT:
+                camera.stopHorizontal();
+                break;
+            }
+            return true;
+        }
+        return super.keyUp(keycode);
     }
 
 }
