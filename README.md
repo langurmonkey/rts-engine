@@ -17,6 +17,21 @@ Currently libgdx itself provides an implementation of steering behaviours, wihch
 - Quadtree and grid for spatial awareness.
 - Some basic graphic effects.
 
+## Running
+
+In order to run the RTS engine, first clone the repository:
+
+```bash
+$ git clone https://github.com/langurmonkey/rts-engine.git
+```
+
+Then, just run the following command:
+
+```bash
+$ gradlew desktop:run
+```
+
+
 ## Video
 
 Here a video demonstrating a few of the features available as of now.
