@@ -23,6 +23,7 @@ In order to run the RTS engine, first clone the repository:
 
 ```bash
 $ git clone https://github.com/langurmonkey/rts-engine.git
+$ cd rts-engine
 ```
 
 Then, just run the following command:
