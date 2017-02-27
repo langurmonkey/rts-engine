@@ -1,4 +1,4 @@
-##RTS engine, what?
+## RTS engine, what?
 **Disclaimer:** _This is a work in progress. Most of the code is badly structured, use it at your own risk._
 
 This is an **RTS engine** project on which I work very occasionally. It is a testing sandbox and has no design or focus whatsoever. Maybe it'll grow into a proper game in the future.
@@ -8,7 +8,7 @@ Once I got this pathfinding on quadtree thing up and running, It was time to imp
 
 Currently libgdx itself provides an implementation of steering behaviours, wihch is probably neater than this one.
 
-##Current features
+## Current features
 - 2D graphics.
 - Real time selection and movement of units.
 - Unit life bars.
@@ -17,8 +17,12 @@ Currently libgdx itself provides an implementation of steering behaviours, wihch
 - Quadtree and grid for spatial awareness.
 - Some basic graphic effects.
 
-##Video
+## Video
 
 Here a video demonstrating a few of the features available as of now.
 
 [![RTS Engine demo YouTube](http://img.youtube.com/vi/17fDqcZ0mu8/0.jpg)](http://www.youtube.com/watch?v=17fDqcZ0mu8 "RTS Engine demo video")
+
+## Licensing
+
+This software is distributed under the [GPLv3](https://www.gnu.org/licenses/quick-guide-gplv3.html) license.
