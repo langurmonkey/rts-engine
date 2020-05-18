@@ -1,5 +1,5 @@
 ## RTS engine, what?
-**Disclaimer:** _This is a work in progress. Most of the code is badly structured, use it at your own risk._
+**Disclaimer:** _This is a work-in-progress. Most of the code is badly structured, use it at your own risk._
 
 This is an **RTS engine** project on which I work very occasionally. It is a testing sandbox and has no design or focus whatsoever. Maybe it'll grow into a proper game in the future.
 I started playing with the idea as a time killer some years ago, kicking off the development with a fast version of the A* pathfinding algorithm backed not by a grid (as usual) but by a quadtree. Quadtrees make pathfinding super-fast because of their hierarchical division of space and their adaptive partition sizes. Even though I used visibility graphs to store the navigable nodes from one given point, quadtrees are also fast for checking the properties/elements of a position's surroundings, for child nodes are always spatially contained in parent nodes.
@@ -12,10 +12,11 @@ Currently libgdx itself provides an implementation of steering behaviours, wihch
 - 2D graphics.
 - Real time selection and movement of units.
 - Unit life bars.
+- Fog of war.
 - Steering behaviours that work (with a lot of param tweaking).
 - Tiled tile map integration.
 - Quadtree and grid for spatial awareness.
-- Some basic graphic effects.
+- Some basic graphical and lighting effects.
 
 ## Running
 
