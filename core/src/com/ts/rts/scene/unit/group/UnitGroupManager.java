@@ -34,7 +34,7 @@ public class UnitGroupManager {
     }
 
     private UnitGroupManager() {
-	groups = new HashMap<Integer, UnitGroup>();
+	groups = new HashMap<>();
 	shapeRenderer = RTSGame.game.cameraShapeRenderer;
     }
 

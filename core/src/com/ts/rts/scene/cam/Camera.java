@@ -7,9 +7,8 @@ import com.ts.rts.util.VectorPool;
 
 /**
  * Handles the camera of the scene.
- * 
+ *
  * @author Toni Sagrista
- * 
  */
 public class Camera {
     /**
@@ -58,164 +57,168 @@ public class Camera {
     public static Camera camera;
 
     public static Camera getInstance() {
-	assert camera != null : "Camera not initialized";
-	return camera;
+        assert camera != null : "Camera not initialized";
+        return camera;
     }
 
     public static Camera initialize(OrthographicCamera ortocamera, float camX, float camY, float mapWidth,
-	    float mapHeight, float canvasWidth, float canvasHeight) {
-	camera = new Camera(ortocamera, camX, camY, mapWidth, mapHeight, canvasWidth, canvasHeight);
-	return camera;
+        float mapHeight, float canvasWidth, float canvasHeight) {
+        camera = new Camera(ortocamera, camX, camY, mapWidth, mapHeight, canvasWidth, canvasHeight);
+        return camera;
     }
 
     public Camera(OrthographicCamera camera, float camX, float camY, float mapWidth, float mapHeight,
-	    float canvasWidth, float canvasHeight) {
-	super();
-	this.libgdxCamera = camera;
-	pos = VectorPool.getObject(camX, camY);
+        float canvasWidth, float canvasHeight) {
+        super();
+        this.libgdxCamera = camera;
+        pos = VectorPool.getObject(camX, camY);
 
-	vel = VectorPool.getObject();
+        vel = VectorPool.getObject();
 
-	accel = VectorPool.getObject();
+        accel = VectorPool.getObject();
 
-	this.mapHeight = mapHeight;
-	this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
+        this.mapWidth = mapWidth;
 
-	this.canvasHeight = canvasHeight;
-	this.canvasWidth = canvasWidth;
+        this.canvasHeight = canvasHeight;
+        this.canvasWidth = canvasWidth;
 
     }
 
     public void lookAt(Vector2 pos) {
-	this.pos.set(pos);
+        this.pos.set(pos);
     }
 
     public void lookAt(float x, float y) {
-	pos.set(x, y);
+        pos.set(x, y);
     }
 
     public void update(float secs) {
 
-	// dv = da*dt
-	vel.add(accel.clone().multiply(secs));
+        // dv = da*dt
+        vel.add(accel.clone().multiply(secs));
 
-	// dx = dv*dt
-	pos.add(vel.clone().multiply(secs).truncate(MAX_CAM_VEL));
+        // dx = dv*dt
+        pos.add(vel.clone().multiply(secs).truncate(MAX_CAM_VEL));
 
-	/**
-	 * canvasWidth/2 <= x <= mapWidth - canvasWidth/2
-	 * canvasHeight/2 <= y <= mapHeight - canvasHeight/2
-	 */
+        /**
+         * canvasWidth/2 <= x <= mapWidth - canvasWidth/2
+         * canvasHeight/2 <= y <= mapHeight - canvasHeight/2
+         */
 
-	// Boundary check, do not allow canvas to go outside map
-	if (pos.x > mapWidth - canvasWidth / 2) {
-	    pos.x = mapWidth - canvasWidth / 2;
-	    stopHorizontal();
-	}
-	if (pos.x < canvasWidth / 2) {
-	    pos.x = canvasWidth / 2;
-	    stopHorizontal();
-	}
-	if (pos.y > mapHeight - canvasHeight / 2) {
-	    pos.y = mapHeight - canvasHeight / 2;
-	    stopVertical();
-	}
-	if (pos.y < canvasHeight / 2) {
-	    pos.y = canvasHeight / 2;
-	    stopVertical();
-	}
+        // Boundary check, do not allow canvas to go outside map
+        if (pos.x > mapWidth - canvasWidth / 2) {
+            pos.x = mapWidth - canvasWidth / 2;
+            stopHorizontal();
+        }
+        if (pos.x < canvasWidth / 2) {
+            pos.x = canvasWidth / 2;
+            stopHorizontal();
+        }
+        if (pos.y > mapHeight - canvasHeight / 2) {
+            pos.y = mapHeight - canvasHeight / 2;
+            stopVertical();
+        }
+        if (pos.y < canvasHeight / 2) {
+            pos.y = canvasHeight / 2;
+            stopVertical();
+        }
 
-	// Update libgdx camera
-	libgdxCamera.position.set(pos.x, pos.y, 0);
-	// Tell the camera to update its matrices
-	libgdxCamera.update();
+        // Update libgdx camera
+        libgdxCamera.position.set(pos.x, pos.y, 0);
+        // Tell the camera to update its matrices
+        libgdxCamera.update();
     }
 
     public void setAccel(Vector2 accel) {
-	this.accel.add(accel);
-	this.accel.truncate(MAX_CAM_ACCEL);
+        this.accel.add(accel);
+        this.accel.truncate(MAX_CAM_ACCEL);
     }
 
     public void stop() {
-	this.vel.zero();
-	this.accel.zero();
+        this.vel.zero();
+        this.accel.zero();
     }
 
     /**
      * Triggers movement of this camera to the right
      */
     public void right() {
-	vel.x = MAX_CAM_VEL;
+        vel.x = MAX_CAM_VEL;
     }
 
     public void right(float value) {
-	vel.x = value;
+        vel.x = value;
     }
 
     public void left() {
-	vel.x = -MAX_CAM_VEL;
+        vel.x = -MAX_CAM_VEL;
     }
 
     public void left(float value) {
-	vel.x = -value;
+        vel.x = -value;
     }
 
     /**
      * Stops the horizontal movement of this camera
      */
     public void stopHorizontal() {
-	vel.x = 0;
-	accel.x = 0;
+        vel.x = 0;
+        accel.x = 0;
     }
 
     public void up() {
-	vel.y = MAX_CAM_VEL;
+        vel.y = MAX_CAM_VEL;
     }
 
     public void up(float value) {
-	vel.y = value;
+        vel.y = value;
     }
 
     public void down() {
-	vel.y = -MAX_CAM_VEL;
+        vel.y = -MAX_CAM_VEL;
     }
 
     public void down(float value) {
-	vel.y = -value;
+        vel.y = -value;
     }
 
     public void stopVertical() {
-	vel.y = 0;
-	accel.y = 0;
+        vel.y = 0;
+        accel.y = 0;
     }
 
     public com.badlogic.gdx.graphics.Camera getLibgdxCamera() {
-	return libgdxCamera;
+        return libgdxCamera;
     }
 
     /**
      * Checks if the current camera position contains the given entity
-     * 
+     *
      * @param e
      * @return
      */
     public boolean contains(PositionPhysicalEntity e) {
-	float w2 = canvasWidth / 2;
-	float h2 = canvasHeight / 2;
-	return e.pos.x > pos.x - w2 && e.pos.x < pos.x + w2 && e.pos.y > pos.y - h2 && e.pos.y < pos.y + h2;
+        float w2 = canvasWidth / 2f;
+        float h2 = canvasHeight / 2f;
+        return e.pos.x > pos.x - w2 && e.pos.x < pos.x + w2 && e.pos.y > pos.y - h2 && e.pos.y < pos.y + h2;
     }
 
     @Override
     public String toString() {
-	return "Camera " + pos;
+        return "Camera " + pos;
     }
 
     public float getCameraDisplacementX() {
-	return pos.x - canvasWidth / 2;
+        return pos.x - canvasWidth / 2f;
     }
 
     public float getCameraDisplacementY() {
-	return pos.y - canvasHeight / 2;
+        return pos.y - canvasHeight / 2f;
     }
 
+    public void resize(int width, int height) {
+        this.canvasWidth = width;
+        this.canvasHeight = height;
+    }
 }

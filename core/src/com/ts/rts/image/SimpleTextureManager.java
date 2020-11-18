@@ -20,7 +20,7 @@ public class SimpleTextureManager implements ITextureManager {
 	private Map<String, Texture> textures;
 
 	public SimpleTextureManager() {
-		textures = new HashMap<String, Texture>();
+		textures = new HashMap<>();
 	}
 
 	/**

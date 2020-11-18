@@ -12,98 +12,104 @@ import com.ts.rts.util.VectorPool;
 /**
  * Experimental implementation of a tank.
  * TODO All config must be read from files, as in Gunner.
- * 
+ *
  * @author Toni Sagrista
- * 
  */
 public class Tank extends Unit {
     private ParticleEffect malfunction;
 
     public Tank(float x, float y, IRTSMap map) {
-	super(x, y, map);
+        super(x, y, map);
 
-	/** Physical parameters **/
+        /** Physical parameters **/
 
-	mass = .5f;
+        mass = .5f;
 
-	// m/s
-	maxSpeed = 40f;
+        // m/s
+        maxSpeed = 40f;
 
-	// Kg*m/s^2
-	maxForce = 30f;
+        // Kg*m/s^2
+        maxForce = 30f;
 
-	// rad/s
-	maxTurnRate = (float) (Math.PI / 2);
+        // rad/s
+        maxTurnRate = (float) (Math.PI / 2);
 
-	// 70 units
-	slowingDistance = 70f;
+        // 70 units
+        slowingDistance = 70f;
 
-	// Scale
-	scale = 1f;
+        // Scale
+        scale = 1f;
 
-	// Max health points
-	maxHp = 100;
-	hp = maxHp;
+        // Max health points
+        maxHp = 100;
+        hp = maxHp;
 
-	vel = VectorPool.getObject(0f, 0f);
-	heading = VectorPool.getObject(0, 1);
+        vel = VectorPool.getObject(0f, 0f);
+        heading = VectorPool.getObject(0, 1);
 
-	initGraphics();
-	initHardRadius(height);
+        initGraphics();
+        initHardRadius(height);
 
-	softRadius = new Circle(x, y, 15);
-	selectionRadius = 17;
+        softRadius = new Circle(x, y, 15);
+        selectionRadius = 17;
 
-	shadowA = 15 * scale;
-	shadowB = 15 * scale;
+        shadowA = 15 * scale;
+        shadowB = 15 * scale;
 
-	viewingDistance = 100;
+        viewingDistance = 100;
 
-	rotateImage = true;
+        rotateImage = true;
 
     }
 
     public void initGraphics() {
-	try {
-	    sprite = new Sprite(TextureManager.getTexture("textures", "units/tank-32"));
-	    width = sprite.getRegionWidth() * scale - 5;
-	    height = sprite.getRegionHeight() * scale - 5;
-	} catch (Exception e) {
-	}
+        try {
+            sprite = new Sprite(TextureManager.getTexture("textures", "units/tank-32"));
+            width = sprite.getRegionWidth() * scale - 5;
+            height = sprite.getRegionHeight() * scale - 5;
+        } catch (Exception e) {
+        }
     }
+
+    boolean loading = false;
 
     @Override
     public void update(float deltaSecs) {
-	super.update(deltaSecs);
+        super.update(deltaSecs);
 
-	// If health below 1/3, emit particles
-	if (hp / maxHp < 0.333f) {
-	    if (malfunction == null) {
-		malfunction = new ParticleEffect();
-		malfunction.load(Gdx.files.internal("data/effects/malfunction.p"), Gdx.files.internal("data"));
-	    }
-	    malfunction.update(deltaSecs);
-	} else {
-	    if (malfunction != null) {
-		malfunction.dispose();
-		malfunction = null;
-	    }
-	}
+        // If health below 1/3, emit particles
+        if (hp / maxHp < 0.333f) {
+            if (malfunction == null && !loading) {
+                loading = true;
+                Gdx.app.postRunnable(() -> {
+                    malfunction = new ParticleEffect();
+                    malfunction.load(Gdx.files.internal("data/effects/malfunction.p"), Gdx.files.internal("data"));
+                    loading = false;
+                });
+            }
+            if (malfunction != null)
+                malfunction.update(deltaSecs);
+        } else {
+            if (malfunction != null && !loading) {
+                malfunction.dispose();
+                malfunction = null;
+            }
+        }
     }
 
     @Override
     public void render() {
-	super.render();
+        super.render();
 
-	if (malfunction != null) {
-	    malfunction.setPosition(pos.x, pos.y);
-	    malfunction.draw(RTSGame.getSpriteBatch());
-	}
+        if (malfunction != null) {
+            malfunction.setPosition(pos.x, pos.y);
+            malfunction.draw(RTSGame.getSpriteBatch());
+        }
     }
 
     @Override
     public String getName() {
-	return "Tank";
+        return "Tank";
     }
 
 }

@@ -46,7 +46,7 @@ public class PanListener extends InputAdapter {
 
     private static Set<Integer> movementKeys;
     static {
-        movementKeys = new HashSet<Integer>();
+        movementKeys = new HashSet<>();
         movementKeys.add(KEY_UP);
         movementKeys.add(KEY_DOWN);
         movementKeys.add(KEY_LEFT);
@@ -95,7 +95,7 @@ public class PanListener extends InputAdapter {
         } else {
             camera.stop();
             IMapCell<IBoundsObject> cell = RTSGame.game.getMap().getCell(screenX + camera.getCameraDisplacementX(), screenY + camera.getCameraDisplacementY());
-            if (cell.isBlocked()) {
+            if (cell != null && cell.isBlocked()) {
                 Gdx.graphics.setCursor(Gdx.graphics.newCursor(m_forbidden, 0, 0));
             } else {
                 Gdx.graphics.setCursor(Gdx.graphics.newCursor(m_normal, 0, 0));
@@ -147,6 +147,11 @@ public class PanListener extends InputAdapter {
             return true;
         }
         return super.keyUp(keycode);
+    }
+
+    public void resize(int w, int h){
+        this.activeZone.set(PADDING, PADDING, w - PADDING * 2, h - PADDING * 2);
+        this.canvasCenter.set(w / 2f, h / 2f);
     }
 
 }
