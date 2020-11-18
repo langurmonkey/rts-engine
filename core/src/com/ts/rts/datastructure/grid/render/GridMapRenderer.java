@@ -25,8 +25,13 @@ public class GridMapRenderer implements IMapRenderer {
     BitmapFont font9;
     ShapeRenderer shapeRenderer;
     SpriteBatch fontBatch;
+    private Color colBlocked, colHasobjs, colLine;
 
     public GridMapRenderer() {
+
+        colBlocked = new Color(0f, 0f, 1f, .4f);
+        colHasobjs = new Color(1f, 1f, 0f, .2f);
+        colLine = new Color(1f, 1f, 1f, .8f);
 
         // load font from a .ttf file
         try {
@@ -48,56 +53,69 @@ public class GridMapRenderer implements IMapRenderer {
     public void drawMap(IMap t) {
         GridMap map = (GridMap) t;
 
-        fontBatch.setProjectionMatrix(RTSGame.game.orthoCamera.combined);
-
-        for (int i = 0; i < map.columns; i++) {
-            for (int j = 0; j < map.rows; j++) {
-                drawCell(map.cells[i][j]);
-            }
-        }
-
-    }
-
-    public void drawCell(GridCell cell) {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        // Draw lines
-        if (cell.isBlocked()) {
-            shapeRenderer.begin(ShapeType.Filled);
-            shapeRenderer.setColor(new Color(0f, 0f, 1f, .4f));
-            shapeRenderer.rect(cell.bounds.x, cell.bounds.y, cell.bounds.width, cell.bounds.height);
-            shapeRenderer.end();
-        } else if (cell.hasObjects()) {
-            shapeRenderer.begin(ShapeType.Filled);
-            shapeRenderer.setColor(new Color(1f, 1f, 0f, .2f));
-            shapeRenderer.rect(cell.bounds.x, cell.bounds.y, cell.bounds.width, cell.bounds.height);
-            shapeRenderer.end();
-        }
-        shapeRenderer.begin(ShapeType.Line);
-        shapeRenderer.setColor(new Color(1f, 1f, 1f, .8f));
-        shapeRenderer.rect(cell.bounds.x, cell.bounds.y, cell.bounds.width, cell.bounds.height);
-        shapeRenderer.end();
+
+        drawCellsFilled(map);
+        drawCellsOutline(map);
 
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
-        // Draw text
-        drawCellText(cell);
+        drawCellsText(map);
+
     }
 
-    public void drawCellText(GridCell cell) {
-        // Render coordinates and adjacent nodes
-        fontBatch.begin();
-        // font9.setColor(1f, 1f, 1f, 1f);
-        // font9.draw(fontBatch, "(" + cell.x + "," + cell.y + ")", (float) cell.x - 30f, (float) cell.y - 10);
+    public void drawCellsFilled(GridMap map) {
+        shapeRenderer.begin(ShapeType.Filled);
+        for (int i = 0; i < map.columns; i++) {
+            for (int j = 0; j < map.rows; j++) {
+                GridCell cell = map.cells[i][j];
+                if (cell.isBlocked() || cell.hasObjects()) {
+                    if (cell.isBlocked())
+                        shapeRenderer.setColor(colBlocked);
+                    else if (cell.hasObjects())
+                        shapeRenderer.setColor(colHasobjs);
 
-        if (cell.hasObjects()) {
-            // Render number of objects
-            font9.setColor(.3f, .3f, .3f, 1f);
-            font9.draw(fontBatch, cell.objects.size() + "", cell.bounds.getX() + 2f, cell.bounds.getY() + 10f);
+                    shapeRenderer.rect(cell.bounds.x, cell.bounds.y, cell.bounds.width, cell.bounds.height);
+                }
+            }
         }
+        shapeRenderer.end();
+    }
 
-        font9.setColor(1f, .3f, .3f, 1f);
-        font9.draw(fontBatch, cell.z + "", cell.bounds.getX() + 2f, cell.bounds.getY() + 20f);
+    public void drawCellsOutline(GridMap map) {
+        shapeRenderer.begin(ShapeType.Line);
+        shapeRenderer.setColor(colLine);
+        for (int i = 0; i < map.columns; i++) {
+            for (int j = 0; j < map.rows; j++) {
+                GridCell cell = map.cells[i][j];
+                shapeRenderer.rect(cell.bounds.x, cell.bounds.y, cell.bounds.width, cell.bounds.height);
+            }
+        }
+        shapeRenderer.end();
+
+    }
+
+    public void drawCellsText(GridMap map) {
+        fontBatch.setProjectionMatrix(RTSGame.game.orthoCamera.combined);
+        fontBatch.begin();
+        // Set to 1 to render all
+        int mod = 30;
+        for (int i = 0; i < map.columns; i++) {
+            for (int j = 0; j < map.rows; j++) {
+                if (i % mod == 0 || j % mod == 0) {
+                    GridCell cell = map.cells[i][j];
+                    if (cell.hasObjects()) {
+                        // Render number of objects
+                        font9.setColor(.3f, .3f, .3f, 1f);
+                        font9.draw(fontBatch, cell.objects.size() + "", cell.bounds.getX() + 2f, cell.bounds.getY() + 10f);
+                    }
+
+                    font9.setColor(1f, .3f, .3f, 1f);
+                    font9.draw(fontBatch, cell.z + "", cell.bounds.getX() + 2f, cell.bounds.getY() + 20f);
+                }
+            }
+        }
 
         fontBatch.flush();
         fontBatch.end();
