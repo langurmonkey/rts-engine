@@ -6,3 +6,4 @@ lib/.gradle
 **/.classpath
 **/.settings/
 **/libs/
+**/.idea/

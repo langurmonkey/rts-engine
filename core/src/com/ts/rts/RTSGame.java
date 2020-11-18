@@ -159,7 +159,7 @@ public class RTSGame implements ApplicationListener {
 	// Initialize groups
 	UnitGroupManager.initialize();
 
-	// Initialize unitsmessage
+	// Initialize units
 	Unit tank1 = new Tank(200f, 260f, map);
 	Unit tank2 = new Tank(240f, 260f, map);
 	Unit tank3 = new Tank(280f, 260f, map);
