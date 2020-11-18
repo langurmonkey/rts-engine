@@ -1,20 +1,16 @@
 package com.ts.rts;
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
 public class RTSDesktop {
     public static void main(String[] args) {
-	LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-	cfg.title = "RTS";
-	cfg.width = 1024;
-	cfg.height = 768;
-	cfg.fullscreen = false;
-	cfg.backgroundFPS = -1;
-	cfg.resizable = false;
-	cfg.samples = 2;
-	cfg.vSyncEnabled = true;
+	Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
+	cfg.setTitle("RTS Engine");
+	cfg.setWindowedMode(1024, 768);
+	cfg.setResizable(true);
+	cfg.useVsync(true);
 
-	new LwjglApplication(new RTSGame(), cfg);
+	new Lwjgl3Application(new RTSGame(), cfg);
     }
 }
