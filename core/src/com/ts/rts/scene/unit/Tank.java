@@ -56,7 +56,7 @@ public class Tank extends Unit {
         shadowA = 15 * scale;
         shadowB = 15 * scale;
 
-        viewingDistance = 100;
+        viewingDistance = 160;
 
         rotateImage = true;
 

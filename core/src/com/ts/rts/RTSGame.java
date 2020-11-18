@@ -197,11 +197,12 @@ public class RTSGame implements ApplicationListener {
             while (it.hasNext()) {
                 MapObject mo = it.next();
                 String name = mo.getName();
-                int x = mo.getProperties().get("x", Float.class).intValue();
-                int y = mo.getProperties().get("y", Float.class).intValue();
+                float x = mo.getProperties().get("x", Float.class);
+                float y = mo.getProperties().get("y", Float.class);
+                float ow = mo.getProperties().get("width", Float.class);
 
                 // Trees with an offsetY of 20
-                PhysicalObject po = new PhysicalObject(x, y, 0f, 25f, name, map);
+                PhysicalObject po = new PhysicalObject(x + ow / 2f, y, 0f, 25f, name, map);
                 entities.add(po);
             }
 

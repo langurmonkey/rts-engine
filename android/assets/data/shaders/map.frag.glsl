@@ -40,8 +40,7 @@ void main() {
 			alpha = 1.0;
 		}else if(dist > radius && dist < radius + radius * SMOOTH){
 			// Visibility fade
-			float aux = smoothstep(radius + radius * SMOOTH, radius, dist);
-			alpha = max(aux, alpha);
+			alpha += smoothstep(radius + radius * SMOOTH, radius, dist);
 		}
 	}
 	

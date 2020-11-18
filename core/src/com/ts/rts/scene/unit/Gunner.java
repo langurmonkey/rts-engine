@@ -58,7 +58,7 @@ public class Gunner extends Unit {
         shadowA = 10;
         shadowB = 4;
 
-        viewingDistance = 60;
+        viewingDistance = 120;
 
         lastAngle = heading.angle();
         if (lastAngle <= 180) {

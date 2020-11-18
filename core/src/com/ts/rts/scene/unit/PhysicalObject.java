@@ -26,7 +26,7 @@ public class PhysicalObject extends PositionPhysicalEntity {
         initGraphics();
         initHardRadius(height / 2f);
 
-        // Default soft radius of 5
+        // Default soft radius
         softRadius = new Circle(x, y, 10);
 
         // Default shadow
