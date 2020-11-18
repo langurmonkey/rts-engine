@@ -52,7 +52,7 @@ public class Camera {
      */
     public Vector2 accel;
 
-    private com.badlogic.gdx.graphics.Camera libgdxCamera;
+    private final com.badlogic.gdx.graphics.Camera libgdxCamera;
 
     public static Camera camera;
 

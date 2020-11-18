@@ -23,13 +23,13 @@ public class Tank extends Unit {
 
         /** Physical parameters **/
 
-        mass = .5f;
+        mass = .9f;
 
         // m/s
-        maxSpeed = 40f;
+        maxSpeed = 90f;
 
         // Kg*m/s^2
-        maxForce = 30f;
+        maxForce = 130f;
 
         // rad/s
         maxTurnRate = (float) (Math.PI / 2);

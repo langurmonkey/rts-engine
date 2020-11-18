@@ -24,7 +24,7 @@ public class Selection {
     /**
      * The game
      */
-    private RTSGame game;
+    private final RTSGame game;
 
     /**
      * Is there an active selection in process?
@@ -46,9 +46,9 @@ public class Selection {
      */
     public UnitGroup selected;
 
-    private ShapeRenderer shapeRenderer;
+    private final ShapeRenderer shapeRenderer;
 
-    private Rectangle sel;
+    private final Rectangle sel;
 
     public Selection(RTSGame game) {
         this.game = game;

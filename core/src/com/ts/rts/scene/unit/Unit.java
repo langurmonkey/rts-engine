@@ -141,12 +141,14 @@ public abstract class Unit extends MovingEntity {
             if (!steeringForce.isZeroVector()) {
                 moving = true;
 
-                Vector2 acceleration = steeringForce.divide(mass);
-                vel.add(acceleration.multiply(deltaSecs)).truncate(maxSpeed);
-
-                if (cell != null && MapProperties.isSlope(cell.getTerrain())) {
-                    vel.multiply(slopeVelMult);
+                float maxSpeedCell = maxSpeed;
+                if(cell != null){
+                    maxSpeedCell *= (1f - cell.getSlowdown());
                 }
+
+                Vector2 acceleration = steeringForce.divide(mass);
+                vel.add(acceleration.multiply(deltaSecs)).truncate(maxSpeedCell);
+
 
                 pos.add(vel.multiplyValues(deltaSecs));
 
@@ -186,6 +188,7 @@ public abstract class Unit extends MovingEntity {
         if (Math.sqrt(Math.pow(pos.x - lastUpdateX, 2) + Math.pow(pos.y - lastUpdateY, 2)) > width / 4f) {
             map.updateEntity(this);
             touchLastUpdate();
+            map.updateFogOfWar(pos, viewingDistance);
         }
 
         // Update behaviour list
@@ -313,7 +316,6 @@ public abstract class Unit extends MovingEntity {
 
     /**
      * Updates the bounds position with the given position and the angle given the offset
-     *
      */
     public void updateBounds(float x, float y) {
         // Update hard and soft radius and image bounds

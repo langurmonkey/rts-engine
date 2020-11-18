@@ -11,9 +11,8 @@ import com.ts.rts.util.VectorPool;
 /**
  * Experimental gunner implementation of {@link Unit}.
  * TODO All the configuration must be read from config files.
- * 
+ *
  * @author Toni Sagrista
- * 
  */
 public class Gunner extends Unit {
 
@@ -29,7 +28,7 @@ public class Gunner extends Unit {
         mass = .1f;
 
         // m/s
-        maxSpeed = 30f;
+        maxSpeed = 60f;
 
         // Kg*m/s^2
         maxForce = 150f;
@@ -90,8 +89,8 @@ public class Gunner extends Unit {
             walkRightFrames[3] = new TextureRegion(walkLeftFrames[3]);
             walkRightFrames[3].flip(true, false);
 
-            walkL = new Animation<TextureRegion>(.1f, walkLeftFrames);
-            walkR = new Animation<TextureRegion>(.1f, walkRightFrames);
+            walkL = new Animation<>(.1f, walkLeftFrames);
+            walkR = new Animation<>(.1f, walkRightFrames);
 
             width = sprite.getRegionWidth() * scale;
             height = sprite.getRegionHeight() * scale;

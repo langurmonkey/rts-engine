@@ -4,17 +4,16 @@ import com.ts.rts.datastructure.geom.Vector2;
 
 /**
  * Interface for a steering behaviour.
- * 
+ *
  * @author Toni Sagrista
- * 
  */
 public interface ISteeringBehaviour {
 
-	public Vector2 calculate();
+    Vector2 calculate();
 
-	public boolean isDone();
+    boolean isDone();
 
-	public void render();
+    void render();
 
-	public void dispose();
+    void dispose();
 }

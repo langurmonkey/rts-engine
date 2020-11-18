@@ -54,7 +54,7 @@ public class RTSGame implements ApplicationListener {
 
     private Camera camera;
     private IRTSMap map;
-    private List<PositionPhysicalEntity> entities = new ArrayList<>();
+    private final List<PositionPhysicalEntity> entities = new ArrayList<>();
     public List<Unit> player = new ArrayList<>();
     public Selection selection;
 
@@ -125,7 +125,7 @@ public class RTSGame implements ApplicationListener {
         batch = new SpriteBatch(300, objectsShader);
 
         // Here we use genuine info in the map to find out blocked areas
-        map = new RTSGridMapTiledMap(this, "data/maps/3030test.tmx");
+        map = new RTSGridMapTiledMap(this, "data/maps/Snow01.tmx");
 
         InputMultiplexer multiplexer = new InputMultiplexer();
 
@@ -298,6 +298,7 @@ public class RTSGame implements ApplicationListener {
         }
 
         map.renderOverlays(camera);
+        map.renderFogOfWar(camera);
 
         // Render debug info
         if (debugRender) {

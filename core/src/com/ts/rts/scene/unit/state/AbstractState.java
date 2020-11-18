@@ -4,21 +4,20 @@ import com.ts.rts.scene.unit.Unit;
 
 /**
  * Abstract implementation common to all states.
- * 
+ *
  * @author Toni Sagrista
- * 
  */
 public abstract class AbstractState implements IState {
 
-	protected Unit unit;
+    protected Unit unit;
 
-	public AbstractState(Unit unit) {
-		this.unit = unit;
-	}
+    public AbstractState(Unit unit) {
+        this.unit = unit;
+    }
 
-	@Override
-	public Unit getUnit() {
-		return unit;
-	}
+    @Override
+    public Unit getUnit() {
+        return unit;
+    }
 
 }

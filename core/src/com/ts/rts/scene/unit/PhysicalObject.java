@@ -8,59 +8,58 @@ import com.ts.rts.scene.map.IRTSMap;
 
 /**
  * This represents a physical, non-abstract map object.
- * 
+ *
  * @author Toni Sagrista
- * 
  */
 public class PhysicalObject extends PositionPhysicalEntity {
 
-    private String textureName;
+    private final String textureName;
 
     public PhysicalObject(float x, float y, float offsetX, float offsetY, String textureName, IRTSMap map) {
-	super(x, y);
-	this.map = map;
-	this.shapeRenderer = RTSGame.game.cameraShapeRenderer;
-	this.textureName = textureName;
-	this.spriteOffsetX = offsetX;
-	this.spriteOffsetY = offsetY;
+        super(x, y);
+        this.map = map;
+        this.shapeRenderer = RTSGame.game.cameraShapeRenderer;
+        this.textureName = textureName;
+        this.spriteOffsetX = offsetX;
+        this.spriteOffsetY = offsetY;
 
-	initGraphics();
-	initHardRadius(height / 2f);
+        initGraphics();
+        initHardRadius(height / 2f);
 
-	// Default soft radius of 5
-	softRadius = new Circle(x, y, 10);
+        // Default soft radius of 5
+        softRadius = new Circle(x, y, 10);
 
-	// Default shadow
-	shadowA = 15f;
-	shadowB = 4f;
+        // Default shadow
+        shadowA = 15f;
+        shadowB = 4f;
 
-	// Add to map, just once (these entities do not move)
-	map.updateEntity(this);
+        // Add to map, just once (these entities do not move)
+        map.updateEntity(this);
     }
 
     public PhysicalObject(float x, float y, String textureName, IRTSMap map) {
-	this(x, y, 0f, 0f, textureName, map);
+        this(x, y, 0f, 0f, textureName, map);
     }
 
     @Override
     public void initGraphics() {
-	try {
-	    sprite = new Sprite(TextureManager.getTexture("textures", textureName));
-	    width = sprite.getRegionWidth();
-	    height = sprite.getRegionHeight();
-	} catch (Exception e) {
-	}
+        try {
+            sprite = new Sprite(TextureManager.getTexture("textures", textureName));
+            width = sprite.getRegionWidth();
+            height = sprite.getRegionHeight();
+        } catch (Exception e) {
+        }
     }
 
     @Override
     public void update(float deltaSecs) {
-	// void
-	updateVisible();
+        // void
+        updateVisible();
     }
 
     @Override
     public void renderSelection() {
-	// void
+        // void
     }
 
 }

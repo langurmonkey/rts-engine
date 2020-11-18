@@ -1,173 +1,173 @@
 package com.ts.rts.datastructure;
 
-import java.util.Set;
-
 import com.badlogic.gdx.math.Rectangle;
 import com.ts.rts.scene.map.MapProperties.TerrainType;
 import com.ts.rts.scene.unit.IBoundsObject;
 
+import java.util.Set;
+
 /**
  * A map cell containing objects.
- * 
- * @author Toni Sagrista
- * 
+ *
  * @param <T>
+ * @author Toni Sagrista
  */
 public interface IMapCell<T extends IBoundsObject> {
 
-	/**
-	 * Gets all the objects contained in this cell
-	 * 
-	 * @return
-	 */
-	public Set<T> getObjects();
+    /**
+     * Gets all the objects contained in this cell
+     *
+     * @return
+     */
+    Set<T> getObjects();
 
-	/**
-	 * Checks if the current cell has objects
-	 * 
-	 * @return
-	 */
-	public boolean hasObjects();
+    /**
+     * Checks if the current cell has objects
+     *
+     * @return
+     */
+    boolean hasObjects();
 
-	/**
-	 * Checks if the current cell has objects different than the given object
-	 * 
-	 * @param o
-	 * @return
-	 */
-	public boolean hasObjectsDifferentThan(T o);
+    /**
+     * Checks if the current cell has objects different than the given object
+     *
+     * @param o
+     * @return
+     */
+    boolean hasObjectsDifferentThan(T o);
 
-	/**
-	 * Checks if the object is in this cell
-	 * 
-	 * @param o
-	 * @return
-	 */
-	public boolean containsObject(T o);
+    /**
+     * Checks if the object is in this cell
+     *
+     * @param o
+     * @return
+     */
+    boolean containsObject(T o);
 
-	/**
-	 * Removes the object from the cell
-	 * 
-	 * @param o
-	 * @return True if the object was in the cell and has been removed, false otherwise
-	 */
-	public boolean removeObject(T o);
+    /**
+     * Removes the object from the cell
+     *
+     * @param o
+     * @return True if the object was in the cell and has been removed, false otherwise
+     */
+    boolean removeObject(T o);
 
-	/**
-	 * Adds the given object to the cell with the given bounds
-	 * 
-	 * @param o
-	 * @param oBounds
-	 */
-	public void add(T o);
+    /**
+     * Adds the given object to the cell with the given bounds
+     *
+     * @param o
+     */
+    void add(T o);
 
-	/**
-	 * Returns the x position of the center of this cell
-	 * 
-	 * @return
-	 */
-	public float x();
+    /**
+     * Returns the x position of the center of this cell
+     *
+     * @return
+     */
+    float x();
 
-	/**
-	 * Returns the y position of the center of this cell
-	 * 
-	 * @return
-	 */
-	public float y();
+    /**
+     * Returns the y position of the center of this cell
+     *
+     * @return
+     */
+    float y();
 
-	/**
-	 * Returns the z coordinate at the given position in this cell
-	 * 
-	 * @return
-	 */
-	public float z(float x, float y);
+    /**
+     * Returns the z coordinate at the given position in this cell
+     *
+     * @return
+     */
+    float z(float x, float y);
 
-	/**
-	 * Returns the bounds rectangle
-	 * 
-	 * @return
-	 */
-	public Rectangle bounds();
+    /**
+     * Returns the bounds rectangle
+     *
+     * @return
+     */
+    Rectangle bounds();
 
-	/**
-	 * Gets the list of adjacent cells to this cell
-	 * 
-	 * @return
-	 */
-	public Set<IMapCell<T>> findAdjacentCells();
+    /**
+     * Gets the list of adjacent cells to this cell
+     *
+     * @return
+     */
+    Set<IMapCell<T>> findAdjacentCells();
 
-	public void setTerrainType(TerrainType type);
+    void setTerrainType(TerrainType type);
 
-	/**
-	 * Blocks the cell
-	 */
-	public void block();
+    /**
+     * Blocks the cell
+     */
+    void block();
 
-	/**
-	 * Checks if the cell is blocked
-	 * 
-	 * @return
-	 */
-	public boolean isBlocked();
+    /**
+     * Checks if the cell is blocked
+     *
+     * @return
+     */
+    boolean isBlocked();
 
-	/**
-	 * Checks if the cell is empty of objects and is not blocked
-	 * 
-	 * @return
-	 */
-	public boolean isEmpty();
+    /**
+     * Checks if the cell is empty of objects and is not blocked
+     *
+     * @return
+     */
+    boolean isEmpty();
 
-	/**
-	 * Gets the terrain type
-	 * 
-	 * @return
-	 */
-	public TerrainType getTerrain();
+    /**
+     * Gets the terrain type
+     *
+     * @return
+     */
+    TerrainType getTerrain();
 
-	/**
-	 * Is this in shadow?
-	 * 
-	 * @return
-	 */
-	public boolean isShadow();
+    /**
+     * Is this in shadow?
+     *
+     * @return
+     */
+    boolean isShadow();
 
-	/**
-	 * Gets the f in aStar
-	 * 
-	 * @return
-	 */
-	public float f();
+    /**
+     * Gets the f in aStar
+     *
+     * @return
+     */
+    float f();
 
-	/**
-	 * Gets the g in aStar
-	 * 
-	 * @return
-	 */
-	public float g();
+    /**
+     * Gets the g in aStar
+     *
+     * @return
+     */
+    float g();
 
-	/**
-	 * Sets the g in aStar
-	 * 
-	 * @param g
-	 */
-	public void setG(float g);
+    /**
+     * Sets the g in aStar
+     *
+     * @param g
+     */
+    void setG(float g);
 
-	/**
-	 * Gets the heuristinc in aStar
-	 * 
-	 * @return
-	 */
-	public float h();
+    /**
+     * Gets the heuristinc in aStar
+     *
+     * @return
+     */
+    float h();
 
-	/**
-	 * Sets the heuristic in aStar
-	 * 
-	 * @param h
-	 */
-	public void setH(float h);
+    /**
+     * Sets the heuristic in aStar
+     *
+     * @param h
+     */
+    void setH(float h);
 
-	public IMapCell<T> parent();
+    float getSlowdown();
 
-	public void setParent(IMapCell<T> parent);
+    IMapCell<T> parent();
+
+    void setParent(IMapCell<T> parent);
 
 }

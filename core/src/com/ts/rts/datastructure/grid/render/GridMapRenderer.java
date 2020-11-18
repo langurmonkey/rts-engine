@@ -17,9 +17,8 @@ import com.ts.rts.datastructure.grid.GridMap;
 
 /**
  * Renderer for grid maps.
- * 
+ *
  * @author Toni Sagrista
- * 
  */
 public class GridMapRenderer implements IMapRenderer {
 
@@ -94,11 +93,11 @@ public class GridMapRenderer implements IMapRenderer {
         if (cell.hasObjects()) {
             // Render number of objects
             font9.setColor(.3f, .3f, .3f, 1f);
-            font9.draw(fontBatch, cell.objects.size() + "", (float) cell.bounds.getX() + 2f, (float) cell.bounds.getY() + 10f);
+            font9.draw(fontBatch, cell.objects.size() + "", cell.bounds.getX() + 2f, cell.bounds.getY() + 10f);
         }
 
         font9.setColor(1f, .3f, .3f, 1f);
-        font9.draw(fontBatch, cell.z + "", (float) cell.bounds.getX() + 2f, (float) cell.bounds.getY() + 20f);
+        font9.draw(fontBatch, cell.z + "", cell.bounds.getX() + 2f, cell.bounds.getY() + 20f);
 
         fontBatch.flush();
         fontBatch.end();

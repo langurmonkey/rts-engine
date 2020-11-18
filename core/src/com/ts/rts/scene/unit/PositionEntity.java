@@ -6,18 +6,21 @@ import com.ts.rts.util.VectorPool;
 
 /**
  * A physical or abstract entity that has a position.
- * 
+ *
  * @author Toni Sagrista
- * 
  */
 public abstract class PositionEntity {
     private static long uniqueIdSeq = 0;
     protected final long uniqueId;
 
-    /** Reference to the map **/
+    /**
+     * Reference to the map
+     **/
     protected IRTSMap map;
 
-    /** Position of this entity **/
+    /**
+     * Position of this entity
+     **/
     public Vector2 pos;
     public float z;
 
@@ -29,24 +32,24 @@ public abstract class PositionEntity {
     public int viewingDistance = 0;
 
     public PositionEntity() {
-	this.uniqueId = getUniqueId();
+        this.uniqueId = getUniqueId();
     }
 
     public PositionEntity(Vector2 pos) {
-	this();
-	this.pos = pos;
+        this();
+        this.pos = pos;
     }
 
     public PositionEntity(float x, float y) {
-	this();
-	this.pos = VectorPool.getObject(x, y);
+        this();
+        this.pos = VectorPool.getObject(x, y);
     }
 
     private static synchronized long getUniqueId() {
-	return uniqueIdSeq++;
+        return uniqueIdSeq++;
     }
 
     public void dispose() {
-	VectorPool.returnObject(pos);
+        VectorPool.returnObject(pos);
     }
 }

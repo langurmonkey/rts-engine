@@ -6,8 +6,8 @@ precision mediump float;
 #define LOWP 
 #endif
 
-#define SMOOTH 2
-#define MAX_LIGHTS 20
+#define SMOOTH 1.2
+#define MAX_LIGHTS 100
 
 varying LOWP vec4 v_color;
 varying vec4 v_position;
@@ -41,17 +41,15 @@ void main() {
 		}else if(dist > radius && dist < radius + radius * SMOOTH){
 			// Visibility fade
 			float aux = smoothstep(radius + radius * SMOOTH, radius, dist);
-			if(alpha < 1.0 && alpha < aux){
-				alpha = aux;
-			}
+			alpha = max(aux, alpha);
 		}
 	}
 	
 	// Default dim light
-	alpha += .15;
+	alpha = clamp(alpha, 0.1, 1.0);
 	
 	vec4 texColor = texture2D(u_texture, v_texCoords);
-    gl_FragColor = vec4(texColor.r * alpha, texColor.g * alpha, texColor.b * 1.2 * alpha, texColor.a);
+    gl_FragColor = vec4(texColor.r * alpha, texColor.g * alpha, texColor.b * alpha, texColor.a);
 }
 
 

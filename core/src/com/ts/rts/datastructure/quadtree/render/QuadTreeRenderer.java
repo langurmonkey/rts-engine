@@ -17,9 +17,8 @@ import com.ts.rts.datastructure.quadtree.QuadTree;
 
 /**
  * A renderer for a {@link QuadTree}. It renders the cell borders, the position of each node and the number of objects.
- * 
+ *
  * @author Toni Sagrista
- * 
  */
 public class QuadTreeRenderer implements IMapRenderer {
 
@@ -96,15 +95,15 @@ public class QuadTreeRenderer implements IMapRenderer {
             // Render coordinates and adjacent nodes
             fontBatch.begin();
             font9.setColor(1f, 1f, 1f, 1f);
-            font9.draw(fontBatch, "(" + node.x + "," + node.y + ")", (float) node.x - 30f, (float) node.y - 10);
+            font9.draw(fontBatch, "(" + node.x + "," + node.y + ")", node.x - 30f, node.y - 10);
 
             font9.setColor(0f, .5f, .8f, 1f);
-            font9.draw(fontBatch, node.adjacentNodes.size() + "", (float) node.x - 5f, (float) node.y);
+            font9.draw(fontBatch, node.adjacentNodes.size() + "", node.x - 5f, node.y);
 
             if (node.hasObjects()) {
                 // Render number of objects
                 font9.setColor(.3f, .3f, .3f, 1f);
-                font9.draw(fontBatch, node.objects.size() + "", (float) node.bounds.getX() + 2f, (float) node.bounds.getY() + 10f);
+                font9.draw(fontBatch, node.objects.size() + "", node.bounds.getX() + 2f, node.bounds.getY() + 10f);
 
             }
             fontBatch.flush();

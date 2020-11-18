@@ -6,27 +6,38 @@ import com.ts.rts.datastructure.geom.Vector2;
 
 /**
  * An entity that moves.
- * 
+ *
  * @author Toni Sagrista
- * 
  */
 public abstract class MovingEntity extends PositionPhysicalEntity {
-    /** Velocity [m/s] **/
+    /**
+     * Velocity [m/s]
+     **/
     public Vector2 vel;
 
-    /** Max speed [m/s] **/
+    /**
+     * Max speed [m/s]
+     **/
     public float maxSpeed;
 
-    /** Max force [Kg*m/s^2] **/
+    /**
+     * Max force [Kg*m/s^2]
+     **/
     public float maxForce;
 
-    /** Maximum turn rate [rad/s] **/
+    /**
+     * Maximum turn rate [rad/s]
+     **/
     public float maxTurnRate;
 
-    /** This tells us if we're moving **/
+    /**
+     * This tells us if we're moving
+     **/
     public boolean moving;
 
-    /** The distance from the target at which the unit starts to slow, for the arrive behaviour **/
+    /**
+     * The distance from the target at which the unit starts to slow, for the arrive behaviour
+     **/
     public float slowingDistance;
 
     float lastUpdateX, lastUpdateY;
@@ -34,37 +45,37 @@ public abstract class MovingEntity extends PositionPhysicalEntity {
     public abstract void updatePosition(float secs);
 
     public MovingEntity() {
-	super();
+        super();
     }
 
     public MovingEntity(float x, float y) {
-	super(x, y);
+        super(x, y);
     }
 
     public MovingEntity(Vector2 pos) {
-	super(pos);
+        super(pos);
     }
 
     @Override
     public void renderDebug() {
-	super.renderDebug();
+        super.renderDebug();
 
-	shapeRenderer.begin(ShapeType.Line);
-	if (vel != null) {
-	    shapeRenderer.setColor(new Color(0f, .6f, 0f, 1f));
-	    shapeRenderer.line(pos.x, pos.y, pos.x + vel.x, pos.y + vel.y);
-	}
-	shapeRenderer.end();
+        shapeRenderer.begin(ShapeType.Line);
+        if (vel != null) {
+            shapeRenderer.setColor(new Color(0f, .6f, 0f, 1f));
+            shapeRenderer.line(pos.x, pos.y, pos.x + vel.x, pos.y + vel.y);
+        }
+        shapeRenderer.end();
     }
 
     protected void updateCurrentMaxSpeed() {
-	maxSpeed = maxSpeed * Math.max(hp / maxHp, 0.2f);
+        maxSpeed = maxSpeed * Math.max(hp / maxHp, 0.2f);
     }
 
     @Override
     public void setHp(float newHp) {
-	super.setHp(newHp);
-	updateCurrentMaxSpeed();
+        super.setHp(newHp);
+        updateCurrentMaxSpeed();
     }
 
 }

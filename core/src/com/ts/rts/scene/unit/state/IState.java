@@ -4,20 +4,19 @@ import com.ts.rts.scene.unit.Unit;
 
 /**
  * Represents a unit state.
- * 
+ *
  * @author Toni Sagrista
- * 
  */
 public interface IState {
 
-	public boolean isDone();
+    boolean isDone();
 
-	public void process();
+    void process();
 
-	public Unit getUnit();
+    Unit getUnit();
 
-	/**
-	 * Cleans the unit of this state.
-	 */
-	public void removeState();
+    /**
+     * Cleans the unit of this state.
+     */
+    void removeState();
 }

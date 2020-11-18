@@ -6,17 +6,16 @@ import com.ts.rts.datastructure.geom.Vector2;
 
 /**
  * Interface for an object with rectangle bounds.
- * 
+ *
  * @author Toni Sagrista
- * 
  */
 public interface IBoundsObject {
 
-	public Rectangle bounds();
+    Rectangle bounds();
 
-	public Rectangle getBounds();
+    Rectangle getBounds();
 
-	public Circle softRadius();
+    Circle softRadius();
 
-	public Vector2 pos();
+    Vector2 pos();
 }

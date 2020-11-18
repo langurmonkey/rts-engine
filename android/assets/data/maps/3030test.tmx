@@ -1,1299 +1,156 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="40" height="60" tilewidth="30" tileheight="30">
- <tileset firstgid="1" name="tileset_30x30" tilewidth="30" tileheight="30">
-  <image source="../tileset/tileset_30x30.png" trans="ff00ff" width="960" height="1170"/>
-  <terraintypes>
-   <terrain name="rocky" tile="954"/>
-   <terrain name="sand" tile="535"/>
-   <terrain name="ice" tile="449"/>
-   <terrain name="water" tile="39"/>
-   <terrain name="mud" tile="33"/>
-   <terrain name="snow" tile="705"/>
-   <terrain name="grass" tile="193"/>
-   <terrain name="desert" tile="59"/>
-   <terrain name="vine" tile="49"/>
-  </terraintypes>
-  <tile id="6" terrain="4,4,4,3"/>
-  <tile id="7" terrain="4,4,3,3"/>
-  <tile id="8" terrain="4,4,3,4"/>
-  <tile id="16" terrain="6,6,6,8"/>
-  <tile id="17" terrain="6,6,8,8"/>
-  <tile id="18" terrain="6,6,8,6"/>
-  <tile id="19" terrain="8,8,8,6"/>
-  <tile id="20" terrain="8,8,6,8"/>
-  <tile id="38" terrain="4,3,4,3"/>
-  <tile id="39" terrain="3,3,3,3">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="40" terrain="3,4,3,4"/>
-  <tile id="48" terrain="6,8,6,8"/>
-  <tile id="50" terrain="8,6,8,6"/>
-  <tile id="51" terrain="8,6,8,8"/>
-  <tile id="52" terrain="6,8,8,8"/>
-  <tile id="59">
-   <properties>
-    <property name="type" value="desert"/>
-   </properties>
-  </tile>
-  <tile id="70" terrain="4,3,4,4"/>
-  <tile id="71" terrain="3,3,4,4"/>
-  <tile id="72" terrain="3,4,4,4"/>
-  <tile id="80" terrain="6,8,6,6"/>
-  <tile id="81" terrain="8,8,6,6"/>
-  <tile id="82" terrain="8,6,6,6"/>
-  <tile id="86">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="101" terrain="4,3,3,3"/>
-  <tile id="102" terrain="3,4,3,3"/>
-  <tile id="115" terrain="7,7,7,4"/>
-  <tile id="116" terrain="7,7,4,4"/>
-  <tile id="117" terrain="7,7,4,7"/>
-  <tile id="123" terrain="7,7,7,1">
-   <properties>
-    <property name="type" value="sand"/>
-   </properties>
-  </tile>
-  <tile id="124" terrain="7,7,1,1">
-   <properties>
-    <property name="type" value="sand"/>
-   </properties>
-  </tile>
-  <tile id="125" terrain="7,7,1,7">
-   <properties>
-    <property name="type" value="sand"/>
-   </properties>
-  </tile>
-  <tile id="133" terrain="3,3,4,3"/>
-  <tile id="134" terrain="3,3,3,4"/>
-  <tile id="147" terrain="7,4,7,4"/>
-  <tile id="149" terrain="4,7,4,7"/>
-  <tile id="155" terrain="7,1,7,1">
-   <properties>
-    <property name="type" value="sand"/>
-   </properties>
-  </tile>
-  <tile id="156">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="157" terrain="1,7,1,7">
-   <properties>
-    <property name="type" value="sand"/>
-   </properties>
-  </tile>
-  <tile id="169" terrain="6,6,6,4"/>
-  <tile id="170" terrain="6,6,4,4"/>
-  <tile id="171" terrain="6,6,4,6"/>
-  <tile id="179" terrain="7,4,7,7"/>
-  <tile id="180" terrain="4,4,7,7"/>
-  <tile id="181" terrain="4,7,7,7"/>
-  <tile id="187" terrain="7,1,7,7">
-   <properties>
-    <property name="type" value="desert"/>
-   </properties>
-  </tile>
-  <tile id="188" terrain="1,1,7,7">
-   <properties>
-    <property name="type" value="sand"/>
-   </properties>
-  </tile>
-  <tile id="189" terrain="1,7,7,7">
-   <properties>
-    <property name="type" value="desert"/>
-   </properties>
-  </tile>
-  <tile id="193">
-   <properties>
-    <property name="type" value="grass"/>
-   </properties>
-  </tile>
-  <tile id="196">
-   <properties>
-    <property name="type" value="grass"/>
-   </properties>
-  </tile>
-  <tile id="201" terrain="6,4,6,4"/>
-  <tile id="203" terrain="4,6,4,6"/>
-  <tile id="210" terrain="7,4,4,4"/>
-  <tile id="211" terrain="4,7,4,4"/>
-  <tile id="220" terrain="7,1,1,1">
-   <properties>
-    <property name="type" value="sand"/>
-   </properties>
-  </tile>
-  <tile id="221" terrain="1,7,1,1">
-   <properties>
-    <property name="type" value="sand"/>
-   </properties>
-  </tile>
-  <tile id="233" terrain="6,4,6,6"/>
-  <tile id="234" terrain="4,4,6,6"/>
-  <tile id="235" terrain="4,6,6,6"/>
-  <tile id="242" terrain="4,4,7,4"/>
-  <tile id="243" terrain="4,4,4,7"/>
-  <tile id="252" terrain="1,1,7,1">
-   <properties>
-    <property name="type" value="sand"/>
-   </properties>
-  </tile>
-  <tile id="253" terrain="1,1,1,7">
-   <properties>
-    <property name="type" value="sand"/>
-   </properties>
-  </tile>
-  <tile id="272" terrain="7,7,7,6"/>
-  <tile id="273" terrain="7,7,6,6"/>
-  <tile id="274" terrain="7,7,6,7"/>
-  <tile id="284">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="285">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="304" terrain="7,6,7,6"/>
-  <tile id="306" terrain="6,7,6,7"/>
-  <tile id="316">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="317">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="325" terrain="6,6,6,3"/>
-  <tile id="326" terrain="6,6,3,3"/>
-  <tile id="327" terrain="6,6,3,6"/>
-  <tile id="328" terrain="6,3,3,3"/>
-  <tile id="329" terrain="3,6,3,3"/>
-  <tile id="336" terrain="7,6,7,7"/>
-  <tile id="337" terrain="6,6,7,7"/>
-  <tile id="338" terrain="6,7,7,7"/>
-  <tile id="348">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="357" terrain="6,3,6,3"/>
-  <tile id="359" terrain="3,6,3,6"/>
-  <tile id="360" terrain="3,3,6,3"/>
-  <tile id="361" terrain="3,3,3,6"/>
-  <tile id="382">
-   <properties>
-    <property name="type" value="cactus"/>
-   </properties>
-  </tile>
-  <tile id="383">
-   <properties>
-    <property name="type" value="cactus"/>
-   </properties>
-  </tile>
-  <tile id="389" terrain="6,3,6,6"/>
-  <tile id="390" terrain="3,3,6,6"/>
-  <tile id="391" terrain="3,6,6,6"/>
-  <tile id="416" terrain="5,5,5,2"/>
-  <tile id="417" terrain="5,5,2,2"/>
-  <tile id="418" terrain="5,5,2,5"/>
-  <tile id="419" terrain="2,2,2,3"/>
-  <tile id="420" terrain="2,2,3,3"/>
-  <tile id="421" terrain="2,2,3,2"/>
-  <tile id="422" terrain="2,2,2,3"/>
-  <tile id="423" terrain="2,2,3,3"/>
-  <tile id="424" terrain="2,2,3,2"/>
-  <tile id="425" terrain="2,2,2,3"/>
-  <tile id="426" terrain="2,2,3,3"/>
-  <tile id="427" terrain="2,2,3,2"/>
-  <tile id="448" terrain="5,2,5,2"/>
-  <tile id="449" terrain="2,2,2,2"/>
-  <tile id="450" terrain="2,5,2,5"/>
-  <tile id="451" terrain="2,3,2,3"/>
-  <tile id="453" terrain="3,2,3,2"/>
-  <tile id="454" terrain="2,3,2,3"/>
-  <tile id="456" terrain="3,2,3,2"/>
-  <tile id="457" terrain="2,3,2,3"/>
-  <tile id="459" terrain="3,2,3,2"/>
-  <tile id="480" terrain="5,2,5,5"/>
-  <tile id="481" terrain="2,2,5,5"/>
-  <tile id="482" terrain="2,5,5,5"/>
-  <tile id="483" terrain="2,3,2,2"/>
-  <tile id="484" terrain="3,3,2,2"/>
-  <tile id="485" terrain="3,2,2,2"/>
-  <tile id="486" terrain="2,3,2,2"/>
-  <tile id="487" terrain="3,3,2,2"/>
-  <tile id="488" terrain="3,2,2,2"/>
-  <tile id="489" terrain="2,3,2,2"/>
-  <tile id="490" terrain="3,3,2,2"/>
-  <tile id="491" terrain="3,2,2,2"/>
-  <tile id="508" terrain="1,1,1,4"/>
-  <tile id="509" terrain="1,1,4,4"/>
-  <tile id="510" terrain="1,1,4,1"/>
-  <tile id="513" terrain="5,2,2,2"/>
-  <tile id="514" terrain="2,5,2,2"/>
-  <tile id="515" terrain="2,3,3,3">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="516" terrain="3,2,3,3">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="519" terrain="2,3,3,3"/>
-  <tile id="520" terrain="3,2,3,3"/>
-  <tile id="535" terrain="1,1,1,1"/>
-  <tile id="540" terrain="1,4,1,4"/>
-  <tile id="542" terrain="4,1,4,1"/>
-  <tile id="545" terrain="2,2,5,2"/>
-  <tile id="546" terrain="2,2,2,5"/>
-  <tile id="547" terrain="3,3,2,3">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="548" terrain="3,3,3,2">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="551" terrain="3,3,2,3"/>
-  <tile id="552" terrain="3,3,3,2"/>
-  <tile id="572" terrain="1,4,1,1"/>
-  <tile id="573" terrain="4,4,1,1"/>
-  <tile id="574" terrain="4,1,1,1"/>
-  <tile id="589" terrain="7,5,5,5"/>
-  <tile id="590" terrain="5,7,5,5"/>
-  <tile id="603" terrain="1,4,4,4"/>
-  <tile id="604" terrain="4,1,4,4"/>
-  <tile id="621" terrain="5,5,7,5"/>
-  <tile id="622" terrain="5,5,5,7"/>
-  <tile id="635" terrain="4,4,1,4"/>
-  <tile id="636" terrain="4,4,4,1"/>
-  <tile id="647">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="648">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="649">
-   <properties>
-    <property name="type" value="snow"/>
-   </properties>
-  </tile>
-  <tile id="652" terrain="7,7,7,5"/>
-  <tile id="653" terrain="7,7,5,5"/>
-  <tile id="654" terrain="7,7,5,7"/>
-  <tile id="672">
-   <properties>
-    <property name="type" value="slope_top"/>
-   </properties>
-  </tile>
-  <tile id="673">
-   <properties>
-    <property name="slopev" value="1"/>
-    <property name="type" value="slope_top"/>
-   </properties>
-  </tile>
-  <tile id="674">
-   <properties>
-    <property name="type" value="slope_top"/>
-   </properties>
-  </tile>
-  <tile id="679" terrain="5,5,5,4"/>
-  <tile id="680" terrain="5,5,4,4"/>
-  <tile id="681" terrain="5,5,4,5"/>
-  <tile id="684" terrain="7,5,7,5"/>
-  <tile id="686" terrain="5,7,5,7"/>
-  <tile id="687" terrain="0,,,"/>
-  <tile id="688" terrain=",0,,"/>
-  <tile id="704">
-   <properties>
-    <property name="slopeh" value="1"/>
-    <property name="type" value="slope_left"/>
-   </properties>
-  </tile>
-  <tile id="705">
-   <properties>
-    <property name="type" value="snow"/>
-   </properties>
-  </tile>
-  <tile id="706">
-   <properties>
-    <property name="shadow" value="true"/>
-    <property name="slopeh" value="-1"/>
-    <property name="type" value="slope_right"/>
-   </properties>
-  </tile>
-  <tile id="707">
-   <properties>
-    <property name="slopeh" value="1"/>
-    <property name="slopev" value="1"/>
-    <property name="type" value="slope_top"/>
-   </properties>
-  </tile>
-  <tile id="708">
-   <properties>
-    <property name="slopeh" value="-1"/>
-    <property name="slopev" value="1"/>
-    <property name="type" value="slope_top"/>
-   </properties>
-  </tile>
-  <tile id="709" terrain="5,4,4,4"/>
-  <tile id="710" terrain="4,5,4,4"/>
-  <tile id="711" terrain="5,4,5,4"/>
-  <tile id="713" terrain="4,5,4,5"/>
-  <tile id="716" terrain="7,5,7,7"/>
-  <tile id="717" terrain="5,5,7,7"/>
-  <tile id="718" terrain="5,7,7,7"/>
-  <tile id="719" terrain=",,0,"/>
-  <tile id="720" terrain=",,,0"/>
-  <tile id="736">
-   <properties>
-    <property name="type" value="slope_bottom"/>
-   </properties>
-  </tile>
-  <tile id="737">
-   <properties>
-    <property name="shadow" value="true"/>
-    <property name="slopev" value="-1"/>
-    <property name="type" value="slope_bottom"/>
-   </properties>
-  </tile>
-  <tile id="738">
-   <properties>
-    <property name="shadow" value="true"/>
-    <property name="type" value="slope_bottom"/>
-   </properties>
-  </tile>
-  <tile id="739">
-   <properties>
-    <property name="shadow" value="yes"/>
-    <property name="slopeh" value="1"/>
-    <property name="slopev" value="-1"/>
-    <property name="type" value="slope_bottom"/>
-   </properties>
-  </tile>
-  <tile id="740">
-   <properties>
-    <property name="shadow" value="true"/>
-    <property name="slopeh" value="-1"/>
-    <property name="slopev" value="-1"/>
-    <property name="type" value="slope_bottom"/>
-   </properties>
-  </tile>
-  <tile id="741" terrain="4,4,5,4"/>
-  <tile id="742" terrain="4,4,4,5"/>
-  <tile id="743" terrain="5,4,5,5"/>
-  <tile id="744" terrain="4,4,5,5"/>
-  <tile id="745" terrain="4,5,5,5"/>
-  <tile id="752" terrain="0,0,0,"/>
-  <tile id="753" terrain="0,0,,"/>
-  <tile id="754" terrain="0,0,,0"/>
-  <tile id="774" terrain="4,4,4,3">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="775" terrain="4,4,3,3">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="776" terrain="4,4,3,4">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="777">
-   <properties>
-    <property name="slopeh" value="-1"/>
-    <property name="slopev" value="-1"/>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="778">
-   <properties>
-    <property name="slopev" value="-1"/>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="779">
-   <properties>
-    <property name="slopeh" value="1"/>
-    <property name="slopev" value="-1"/>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="784" terrain="0,,0,"/>
-  <tile id="786" terrain=",0,,0"/>
-  <tile id="796">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="797">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="798">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="806" terrain="4,3,4,3">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="808" terrain="3,4,3,4">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="809">
-   <properties>
-    <property name="slopeh" value="-1"/>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="811">
-   <properties>
-    <property name="slopeh1" value=""/>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="813" terrain="0,0,0,5"/>
-  <tile id="814" terrain="0,0,5,5"/>
-  <tile id="815" terrain="0,0,5,0"/>
-  <tile id="816" terrain="0,,0,0"/>
-  <tile id="817" terrain=",,0,0"/>
-  <tile id="818" terrain=",0,0,0"/>
-  <tile id="828">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="829">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="830">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="838" terrain="4,3,4,4">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="839" terrain="3,3,4,4">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="840" terrain="3,4,4,4">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="841">
-   <properties>
-    <property name="slopeh" value="-1"/>
-    <property name="slopev" value="1"/>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="842">
-   <properties>
-    <property name="slopev" value="1"/>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="843">
-   <properties>
-    <property name="slopeh" value="1"/>
-    <property name="slopev" value="1"/>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="845" terrain="0,5,0,5"/>
-  <tile id="846">
-   <properties>
-    <property name="type" value="tree"/>
-   </properties>
-  </tile>
-  <tile id="847" terrain="5,0,5,0"/>
-  <tile id="854" terrain="0,0,0,0"/>
-  <tile id="860">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="861">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="862">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="872">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="873">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="877" terrain="0,5,0,0"/>
-  <tile id="878" terrain="5,5,0,0"/>
-  <tile id="879" terrain="5,0,0,0"/>
-  <tile id="886" terrain="0,0,0,0"/>
-  <tile id="892">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="893">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="894">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="904">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="905">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="909" terrain="0,5,5,5">
-   <properties>
-    <property name="type" value="snow"/>
-   </properties>
-  </tile>
-  <tile id="910" terrain="5,0,5,5">
-   <properties>
-    <property name="type" value="snow"/>
-   </properties>
-  </tile>
-  <tile id="924">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="925">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="926">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="941" terrain="5,5,0,5">
-   <properties>
-    <property name="type" value="snow"/>
-   </properties>
-  </tile>
-  <tile id="942" terrain="5,5,5,0">
-   <properties>
-    <property name="type" value="snow"/>
-   </properties>
-  </tile>
-  <tile id="954" terrain="0,0,0,0"/>
-  <tile id="956">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="957">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="958">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="988">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="989">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="1018">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="1019">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="1020">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="1021">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="1050">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="1051">
-   <properties>
-    <property name="type" value="water"/>
-   </properties>
-  </tile>
-  <tile id="1073">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="1074">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="1075">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="1076">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="1105">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="1106">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="1107">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="1108">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="1118">
-   <properties>
-    <property name="type" value="shore"/>
-   </properties>
-  </tile>
-  <tile id="1119">
-   <properties>
-    <property name="type" value="shore"/>
-   </properties>
-  </tile>
-  <tile id="1130">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="1131">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="1132">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="1133">
-   <properties>
-    <property name="shadow" value="true"/>
-    <property name="type" value="snow"/>
-   </properties>
-  </tile>
-  <tile id="1134">
-   <properties>
-    <property name="shadow" value="true"/>
-    <property name="type" value="snow"/>
-   </properties>
-  </tile>
-  <tile id="1135">
-   <properties>
-    <property name="type" value="rocky"/>
-   </properties>
-  </tile>
-  <tile id="1136">
-   <properties>
-    <property name="type" value="rocky"/>
-   </properties>
-  </tile>
-  <tile id="1138">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="1139">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="1140">
-   <properties>
-    <property name="shadow" value="true"/>
-    <property name="type" value="snow"/>
-   </properties>
-  </tile>
-  <tile id="1150">
-   <properties>
-    <property name="type" value="shore"/>
-   </properties>
-  </tile>
-  <tile id="1151">
-   <properties>
-    <property name="type" value="shore"/>
-   </properties>
-  </tile>
-  <tile id="1162">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="1163">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="1164">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="1165">
-   <properties>
-    <property name="shadow" value="true"/>
-    <property name="type" value="snow"/>
-   </properties>
-  </tile>
-  <tile id="1166">
-   <properties>
-    <property name="shadow" value="true"/>
-    <property name="type" value="snow"/>
-   </properties>
-  </tile>
-  <tile id="1169">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="1170">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="1171">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="1172">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="1181">
-   <properties>
-    <property name="type" value="shore"/>
-   </properties>
-  </tile>
-  <tile id="1182">
-   <properties>
-    <property name="type" value="shore"/>
-   </properties>
-  </tile>
-  <tile id="1183">
-   <properties>
-    <property name="type" value="shore"/>
-   </properties>
-  </tile>
-  <tile id="1184">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="1185">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="1186">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="1187">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="1191">
-   <properties>
-    <property name="type" value="tree"/>
-   </properties>
-  </tile>
-  <tile id="1192">
-   <properties>
-    <property name="type" value="tree"/>
-   </properties>
-  </tile>
-  <tile id="1193">
-   <properties>
-    <property name="type" value="tree"/>
-   </properties>
-  </tile>
-  <tile id="1194">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="1195">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="1196">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="1197">
-   <properties>
-    <property name="type" value="tree"/>
-   </properties>
-  </tile>
-  <tile id="1198">
-   <properties>
-    <property name="type" value="tree"/>
-   </properties>
-  </tile>
-  <tile id="1213">
-   <properties>
-    <property name="type" value="shore"/>
-   </properties>
-  </tile>
-  <tile id="1215">
-   <properties>
-    <property name="type" value="shore"/>
-   </properties>
-  </tile>
-  <tile id="1218">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="1219">
-   <properties>
-    <property name="type" value="cliff"/>
-   </properties>
-  </tile>
-  <tile id="1226">
-   <properties>
-    <property name="shadow" value="true"/>
-    <property name="type" value="snow"/>
-   </properties>
-  </tile>
-  <tile id="1228">
-   <properties>
-    <property name="shadow" value="true"/>
-   </properties>
-  </tile>
-  <tile id="1229">
-   <properties>
-    <property name="type" value="tree"/>
-   </properties>
-  </tile>
-  <tile id="1245">
-   <properties>
-    <property name="type" value="shore"/>
-   </properties>
-  </tile>
-  <tile id="1246">
-   <properties>
-    <property name="type" value="shore"/>
-   </properties>
-  </tile>
-  <tile id="1247">
-   <properties>
-    <property name="type" value="shore"/>
-   </properties>
-  </tile>
- </tileset>
- <tileset firstgid="1249" name="tileset_30x30_overlays" tilewidth="30" tileheight="30">
-  <image source="../tileset/tileset_30x30_overlays.png" trans="ff00ff" width="384" height="192"/>
- </tileset>
- <tileset firstgid="1321" name="tileset_trees" tilewidth="30" tileheight="30">
-  <image source="../tileset/tree_atlas.png" trans="ff00ff" width="180" height="120"/>
-  <tile id="6">
-   <properties>
-    <property name="type" value="tree"/>
-   </properties>
-  </tile>
-  <tile id="7">
-   <properties>
-    <property name="type" value="tree"/>
-   </properties>
-  </tile>
-  <tile id="8">
-   <properties>
-    <property name="type" value="tree"/>
-   </properties>
-  </tile>
-  <tile id="9">
-   <properties>
-    <property name="type" value="tree"/>
-   </properties>
-  </tile>
-  <tile id="10">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="11">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="15">
-   <properties>
-    <property name="type" value="tree"/>
-   </properties>
-  </tile>
-  <tile id="18">
-   <properties>
-    <property name="type" value="tree"/>
-   </properties>
-  </tile>
-  <tile id="19">
-   <properties>
-    <property name="type" value="tree"/>
-   </properties>
-  </tile>
-  <tile id="20">
-   <properties>
-    <property name="type" value="tree"/>
-   </properties>
-  </tile>
-  <tile id="22">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
-  <tile id="23">
-   <properties>
-    <property name="type" value="rock"/>
-   </properties>
-  </tile>
- </tileset>
- <tileset firstgid="1345" name="roads" tilewidth="30" tileheight="30">
-  <image source="../tileset/road.png" trans="ff00ff" width="120" height="240"/>
-  <tile id="0">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="1">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="2">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="3">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="5">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="7">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="8">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="9">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="10">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="11">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="12">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="13">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="14">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="15">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="17">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="19">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="22">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="24">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="25">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="28">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
-  <tile id="29">
-   <properties>
-    <property name="type" value="road"/>
-   </properties>
-  </tile>
- </tileset>
- <layer name="BaseLayer" width="40" height="60">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="40" height="60" tilewidth="30" tileheight="30" infinite="0" nextlayerid="4" nextobjectid="140">
+ <tileset firstgid="1" source="../tileset/tileset_30x30.tsx"/>
+ <tileset firstgid="1249" source="../tileset/tileset_30x30_overlays.tsx"/>
+ <tileset firstgid="1321" source="../tileset/fir_tree_whole.tsx"/>
+ <tileset firstgid="1345" source="../tileset/roads.tsx"/>
+ <layer id="1" name="BaseLayer" width="40" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt2sFOwjAYB/DPdafBgxjlEXwCMeE9fAk9ggd5ATyA3r0bIXHzOTRMfAwSu2yLo7Rf2q22nfkOv3DYKP99JW2hTSOAVCHDrsUAY6b2Hsvf98xdAMCC2/B7TgGXR2pfSL435Br2bKb5sM/APPK2B0ztSaN+H/yeT8FNbCdfW3W+V24t2FeZmxld55tw8yrjC5SvD9ztSZl5L9TVdb46471EkVusK9bOLIDcPurXBzb7JkHGEV1Ddtjmd4SPvTWdfGes+zOOhDawucm03jbyXQs1zDRr6Kp+YsZMs4Y634GlxXFyZJjPtVX8u/YIMV9Tl3zTQPLlHmHrS2KHz/4V7QKoB2Yryew7EyF9kijWu6Eo1nrn7Hi9i+n6W8Jkrr+s/t+50sznYh1B7KN+I4QQ8t+0ndv+ai/IhdDzEULcugsgAyEF13vVpB0fY4bsrJHqfJEPsrNGuntvP7MS/gc=
+   eJzt2kFOAjEUBuDndFbIQQhyBE+gJNzDS+BSXcgFYIG6d2+ARIZzYAQ9BomdMBOwtC8dpmmL/osvLGYo/7yS9sHMPCGaG2TcsZToWpgtUv37XqVLIhpKM3lOi3irxGzN5HtnjnHXVjUf9xmcZzn2uTB7sajfUp7zoeinbvIdq8w3kaaKTZF5P6PvfD1pUGR8o+3rSLo922beKHX1na/M+KiR51bryo1zH0HuEPU7BS7npsGsI7aa4veY3wm/9pZs8rVF/WvsKGNwe1PVervId6PUMLOsoa/6qRkzyxrafAfGDtfJTsV8vj2lu94jxnz76uS7iyTfKiCuvwQ3Qs6v6iuCenA+NZlDZwI4JQ1DvxuLvNe7EIf9Lqfub4kqe/1V8f9O1zKfjz4C3MO8AQDAX4O9DQD+u4cIMgDkfN+rhuOEWDN0zxqZni8KQfeske29tx+kKAOS
   </data>
  </layer>
- <layer name="BaseLayerOverlay" width="40" height="60">
+ <layer id="2" name="OverlayLayer" width="40" height="60">
   <data encoding="base64" compression="zlib">
    eJztlDEOgjAUhh+giXdwc+IcTg5ubsZ4E/UkaHTUM6jByegpdNRL+F60CRKKRcDW5P+SP5CWtF8fbYkAAAAAAAAAAAAA3GLUJBpyuob5NWOec2BhXlN6DrsJ8CsH/MoBv3LY8lt6RCuDiJ/JdypVEfNYB86as8mJ+OX1p1MFUjvff7q1+BmSPuKX159OHW6TgGiqifil22ZBPX66ukU831wT8Uu3LV5+Z69av9jL/qdbnm+nifip93bj3a/q+onfKWPNKln1SO6/KLDr9+l8qDrvHfWr+/yK341zLxDxk2eY2LPHnDWW4cLjXgumz34d37zuNiiyL+D3nZ/ak676uV4/236m95INitxLAID/5QEUP5ri
   </data>
  </layer>
- <objectgroup name="ObjectsLayer" width="0" height="0">
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="264" y="93"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="239" y="119"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="232" y="80"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="156" y="116"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="277" y="133"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="164" y="227"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="203" y="128"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="209" y="103"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="255" y="155"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="171" y="168"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="582" y="237"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="569" y="399"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="368" y="469"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="811" y="767"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="873" y="723"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="812" y="722"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="793" y="724"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="752" y="712"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="745" y="788"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="636" y="797"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="66" y="1284"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="113" y="1241"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="114" y="1238"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="126" y="1262"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="182" y="1251"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="216" y="1205"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="185" y="1181"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="105" y="1196"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="54" y="1225"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="132" y="1221"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="150" y="1181"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="808" y="1471"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="804" y="1510"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="781" y="1514"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="752" y="1513"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="994" y="1660"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="937" y="1673"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="988" y="1736"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="1030" y="999"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="1050" y="964"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="1049" y="940"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="970" y="1006"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="981" y="957"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="1041" y="904"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="1121" y="931"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="1120" y="995"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="1089" y="1005"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="1097" y="951"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="1074" y="527"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="1047" y="510"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="1030" y="562"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="1057" y="557"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="1092" y="561"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="1032" y="531"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="955" y="498"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="992" y="482"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="990" y="504"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="1117" y="479"/>
-  <object name="trees/tree-fir2" type="tree-fir2" x="1142" y="512"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="365" y="417"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="386" y="436"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="1069" y="482"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="1013" y="512"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="1014" y="539"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="990" y="253"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="965" y="237"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="882" y="214"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="620" y="43"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="596" y="51"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="581" y="1057"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="639" y="1037"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="614" y="1055"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="593" y="1038"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="288" y="938"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="345" y="938"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="354" y="980"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="319" y="963"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="291" y="973"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="410" y="1356"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="433" y="1411"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="390" y="1401"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="421" y="1394"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="726" y="1514"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="771" y="1536"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="781" y="1496"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="748" y="1486"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="806" y="1531"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="937" y="1696"/>
-  <object name="trees/tree-fir-leafless" type="tree-fir-leafless" x="966" y="1688"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="359" y="449"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="399" y="457"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="546" y="385"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="555" y="425"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="609" y="256"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="899" y="235"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="931" y="209"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1086" y="508"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="978" y="543"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1007" y="570"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1042" y="459"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1093" y="461"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1060" y="994"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="988" y="1007"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1004" y="976"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1099" y="1026"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1142" y="1008"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1165" y="965"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1131" y="906"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1089" y="921"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1117" y="961"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1077" y="959"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="694" y="815"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="724" y="792"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="776" y="817"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="767" y="781"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="650" y="1074"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="612" y="997"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="572" y="1022"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="557" y="1045"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="317" y="1017"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="283" y="1009"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="168" y="1202"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="209" y="1250"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="63" y="1253"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="348" y="1392"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="375" y="1431"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="423" y="1429"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="714" y="1488"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="690" y="1528"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="852" y="1508"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="898" y="1646"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="931" y="1668"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="903" y="1696"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="951" y="1724"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1056" y="1694"/>
-  <object name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1028" y="1729"/>
+ <objectgroup id="3" name="ObjectsLayer">
+  <object id="1" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="264" y="93"/>
+  <object id="2" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="239" y="119"/>
+  <object id="3" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="232" y="80"/>
+  <object id="4" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="156" y="116"/>
+  <object id="5" name="trees/tree-fir2" type="tree-fir2" x="277" y="133"/>
+  <object id="6" name="trees/tree-fir2" type="tree-fir2" x="164" y="227"/>
+  <object id="7" name="trees/tree-fir2" type="tree-fir2" x="203" y="128"/>
+  <object id="8" name="trees/tree-fir2" type="tree-fir2" x="209" y="103"/>
+  <object id="9" name="trees/tree-fir2" type="tree-fir2" x="255" y="155"/>
+  <object id="10" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="171" y="168"/>
+  <object id="11" name="trees/tree-fir2" type="tree-fir2" x="582" y="237"/>
+  <object id="12" name="trees/tree-fir2" type="tree-fir2" x="569" y="399"/>
+  <object id="13" name="trees/tree-fir2" type="tree-fir2" x="368" y="469"/>
+  <object id="14" name="trees/tree-fir2" type="tree-fir2" x="811" y="767"/>
+  <object id="15" name="trees/tree-fir2" type="tree-fir2" x="873" y="723"/>
+  <object id="16" name="trees/tree-fir2" type="tree-fir2" x="812" y="722"/>
+  <object id="17" name="trees/tree-fir2" type="tree-fir2" x="793" y="724"/>
+  <object id="18" name="trees/tree-fir2" type="tree-fir2" x="752" y="712"/>
+  <object id="19" name="trees/tree-fir2" type="tree-fir2" x="745" y="788"/>
+  <object id="20" name="trees/tree-fir2" type="tree-fir2" x="636" y="797"/>
+  <object id="21" name="trees/tree-fir2" type="tree-fir2" x="66" y="1284"/>
+  <object id="22" name="trees/tree-fir2" type="tree-fir2" x="113" y="1241"/>
+  <object id="23" name="trees/tree-fir2" type="tree-fir2" x="114" y="1238"/>
+  <object id="24" name="trees/tree-fir2" type="tree-fir2" x="126" y="1262"/>
+  <object id="25" name="trees/tree-fir2" type="tree-fir2" x="182" y="1251"/>
+  <object id="26" name="trees/tree-fir2" type="tree-fir2" x="216" y="1205"/>
+  <object id="27" name="trees/tree-fir2" type="tree-fir2" x="185" y="1181"/>
+  <object id="28" name="trees/tree-fir2" type="tree-fir2" x="105" y="1196"/>
+  <object id="29" name="trees/tree-fir2" type="tree-fir2" x="54" y="1225"/>
+  <object id="30" name="trees/tree-fir2" type="tree-fir2" x="132" y="1221"/>
+  <object id="31" name="trees/tree-fir2" type="tree-fir2" x="150" y="1181"/>
+  <object id="32" name="trees/tree-fir2" type="tree-fir2" x="808" y="1471"/>
+  <object id="33" name="trees/tree-fir2" type="tree-fir2" x="804" y="1510"/>
+  <object id="34" name="trees/tree-fir2" type="tree-fir2" x="781" y="1514"/>
+  <object id="35" name="trees/tree-fir2" type="tree-fir2" x="752" y="1513"/>
+  <object id="36" name="trees/tree-fir2" type="tree-fir2" x="994" y="1660"/>
+  <object id="37" name="trees/tree-fir2" type="tree-fir2" x="937" y="1673"/>
+  <object id="38" name="trees/tree-fir2" type="tree-fir2" x="988" y="1736"/>
+  <object id="39" name="trees/tree-fir2" type="tree-fir2" x="1030" y="999"/>
+  <object id="40" name="trees/tree-fir2" type="tree-fir2" x="1050" y="964"/>
+  <object id="41" name="trees/tree-fir2" type="tree-fir2" x="1049" y="940"/>
+  <object id="42" name="trees/tree-fir2" type="tree-fir2" x="970" y="1006"/>
+  <object id="43" name="trees/tree-fir2" type="tree-fir2" x="981" y="957"/>
+  <object id="44" name="trees/tree-fir2" type="tree-fir2" x="1041" y="904"/>
+  <object id="45" name="trees/tree-fir2" type="tree-fir2" x="1121" y="931"/>
+  <object id="46" name="trees/tree-fir2" type="tree-fir2" x="1120" y="995"/>
+  <object id="47" name="trees/tree-fir2" type="tree-fir2" x="1089" y="1005"/>
+  <object id="48" name="trees/tree-fir2" type="tree-fir2" x="1097" y="951"/>
+  <object id="49" name="trees/tree-fir2" type="tree-fir2" x="1074" y="527"/>
+  <object id="50" name="trees/tree-fir2" type="tree-fir2" x="1047" y="510"/>
+  <object id="51" name="trees/tree-fir2" type="tree-fir2" x="1030" y="562"/>
+  <object id="52" name="trees/tree-fir2" type="tree-fir2" x="1057" y="557"/>
+  <object id="53" name="trees/tree-fir2" type="tree-fir2" x="1092" y="561"/>
+  <object id="54" name="trees/tree-fir2" type="tree-fir2" x="1032" y="531"/>
+  <object id="55" name="trees/tree-fir2" type="tree-fir2" x="955" y="498"/>
+  <object id="56" name="trees/tree-fir2" type="tree-fir2" x="992" y="482"/>
+  <object id="57" name="trees/tree-fir2" type="tree-fir2" x="990" y="504"/>
+  <object id="58" name="trees/tree-fir2" type="tree-fir2" x="1117" y="479"/>
+  <object id="59" name="trees/tree-fir2" type="tree-fir2" x="1142" y="512"/>
+  <object id="60" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="365" y="417"/>
+  <object id="61" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="386" y="436"/>
+  <object id="62" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="1069" y="482"/>
+  <object id="63" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="1013" y="512"/>
+  <object id="64" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="1014" y="539"/>
+  <object id="65" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="990" y="253"/>
+  <object id="66" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="965" y="237"/>
+  <object id="67" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="882" y="214"/>
+  <object id="68" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="620" y="43"/>
+  <object id="69" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="596" y="51"/>
+  <object id="70" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="581" y="1057"/>
+  <object id="71" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="639" y="1037"/>
+  <object id="72" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="614" y="1055"/>
+  <object id="73" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="593" y="1038"/>
+  <object id="74" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="288" y="938"/>
+  <object id="75" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="345" y="938"/>
+  <object id="76" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="354" y="980"/>
+  <object id="77" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="319" y="963"/>
+  <object id="78" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="291" y="973"/>
+  <object id="79" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="410" y="1356"/>
+  <object id="80" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="433" y="1411"/>
+  <object id="81" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="390" y="1401"/>
+  <object id="82" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="421" y="1394"/>
+  <object id="83" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="726" y="1514"/>
+  <object id="84" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="771" y="1536"/>
+  <object id="85" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="781" y="1496"/>
+  <object id="86" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="748" y="1486"/>
+  <object id="87" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="806" y="1531"/>
+  <object id="88" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="937" y="1696"/>
+  <object id="89" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="966" y="1688"/>
+  <object id="90" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="359" y="449"/>
+  <object id="91" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="399" y="457"/>
+  <object id="92" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="546" y="385"/>
+  <object id="93" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="555" y="425"/>
+  <object id="94" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="609" y="256"/>
+  <object id="95" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="899" y="235"/>
+  <object id="96" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="931" y="209"/>
+  <object id="97" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1086" y="508"/>
+  <object id="98" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="978" y="543"/>
+  <object id="99" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1007" y="570"/>
+  <object id="100" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1042" y="459"/>
+  <object id="101" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1093" y="461"/>
+  <object id="102" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1060" y="994"/>
+  <object id="103" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="988" y="1007"/>
+  <object id="104" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1004" y="976"/>
+  <object id="105" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1099" y="1026"/>
+  <object id="106" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1142" y="1008"/>
+  <object id="107" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1165" y="965"/>
+  <object id="108" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1131" y="906"/>
+  <object id="109" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1089" y="921"/>
+  <object id="110" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1117" y="961"/>
+  <object id="111" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1077" y="959"/>
+  <object id="112" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="694" y="815"/>
+  <object id="113" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="724" y="792"/>
+  <object id="114" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="776" y="817"/>
+  <object id="115" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="767" y="781"/>
+  <object id="116" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="650" y="1074"/>
+  <object id="117" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="612" y="997"/>
+  <object id="118" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="572" y="1022"/>
+  <object id="119" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="557" y="1045"/>
+  <object id="120" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="317" y="1017"/>
+  <object id="121" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="283" y="1009"/>
+  <object id="122" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="168" y="1202"/>
+  <object id="123" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="209" y="1250"/>
+  <object id="124" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="63" y="1253"/>
+  <object id="125" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="348" y="1392"/>
+  <object id="126" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="375" y="1431"/>
+  <object id="127" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="423" y="1429"/>
+  <object id="128" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="714" y="1488"/>
+  <object id="129" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="690" y="1528"/>
+  <object id="130" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="852" y="1508"/>
+  <object id="131" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="898" y="1646"/>
+  <object id="132" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="931" y="1668"/>
+  <object id="133" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="903" y="1696"/>
+  <object id="134" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="951" y="1724"/>
+  <object id="135" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1056" y="1694"/>
+  <object id="136" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="1028" y="1729"/>
+  <object id="137" name="trees/tree-fir2-snow" type="tree-fir2-snow" x="268" y="673.333" width="26.6667" height="22.6667"/>
  </objectgroup>
 </map>

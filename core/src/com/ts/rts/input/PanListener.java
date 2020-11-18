@@ -1,8 +1,5 @@
 package com.ts.rts.input;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
@@ -16,11 +13,13 @@ import com.ts.rts.scene.selection.Selection;
 import com.ts.rts.scene.unit.IBoundsObject;
 import com.ts.rts.util.VectorPool;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Pan listener which manages camera pan mouse moves.
- * 
+ *
  * @author Toni Sagrista
- * 
  */
 public class PanListener extends InputAdapter {
     /**
@@ -28,10 +27,10 @@ public class PanListener extends InputAdapter {
      */
     private static final int PADDING = 20;
 
-    private Camera camera;
-    private Selection selection;
-    private Rectangle activeZone;
-    private Vector2 canvasCenter;
+    private final Camera camera;
+    private final Selection selection;
+    private final Rectangle activeZone;
+    private final Vector2 canvasCenter;
 
     // Definition of movement keys
     private static final int KEY_UP = Keys.W;
@@ -44,7 +43,8 @@ public class PanListener extends InputAdapter {
 
     private static final float KEYBOARD_MOVEMENT_MULTIPLIER = 500f;
 
-    private static Set<Integer> movementKeys;
+    private static final Set<Integer> movementKeys;
+
     static {
         movementKeys = new HashSet<>();
         movementKeys.add(KEY_UP);
@@ -149,7 +149,7 @@ public class PanListener extends InputAdapter {
         return super.keyUp(keycode);
     }
 
-    public void resize(int w, int h){
+    public void resize(int w, int h) {
         this.activeZone.set(PADDING, PADDING, w - PADDING * 2, h - PADDING * 2);
         this.canvasCenter.set(w / 2f, h / 2f);
     }

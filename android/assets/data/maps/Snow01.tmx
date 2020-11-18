@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="300" height="300" tilewidth="30" tileheight="30" infinite="0" nextlayerid="5" nextobjectid="63">
+ <tileset firstgid="1" source="../tileset/tileset_30x30.tsx"/>
+ <tileset firstgid="1249" source="../tileset/fir_tree_whole.tsx"/>
+ <tileset firstgid="1273" source="../tileset/tileset_30x30_overlays.tsx"/>
+ <layer id="1" name="BaseLayer0" width="300" height="300">
+  <data encoding="base64" compression="zlib">
+   eJzt3dttE1EUQFGLRAIqAUQxFMKjEV6F8CgifCKaCEofjAVIFkocy4w9s2fWx/qzpfu1de6ZsXz1YLO5Yq9vMzgDwCH0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIq9Aqo0CugQq+ACr0CKvQKqNAroEKvgAq9Air0CqjQK6BCr4AKvQIKbgY/Z3AOgH20CijQKqDCzgqo0CugQq+ACr0CKvQKqNAroEKvoOX5xfRnmIpeQceaW7WlV7AMX/8x9XlOQa9geZbaLr0CKvQKqNAroGJfr9b+LAKYF/MVUKFXwD5zumfpFXCXObVqS6+g4Zj3qJb2HpZewTItpVG7junV3GZEYB3MV7AO2/+WuY7z3zjQcuw9by2zycPh/vfoDo/dDeFs/mcnNVav5r7DfzI06enmds/0ChLGnq8O6dUUu269gvO6PoG17H70CqjQK6BCr2A6Y+y157wfH5tewTTGbIxe6RWU7Pbq5eVm82rwevDmcvqzjUWvYHneDo16N3g/+BDo1YuL3+77nF7B8nwaGvV58GWkXp1iR/a3Ubvu+45ewfJ8Hxr18Y8fM+vVbZ3SK2As5itgDg75Xc1cnj/qFVChV0CFXgEVegVU6BWc1y8lK9kL
+  </data>
+ </layer>
+ <layer id="4" name="BaseLayer1" width="300" height="300">
+  <data encoding="base64" compression="zlib">
+   eJzt2yEOgEAQA8CK/f8/OU0C8s5dEGgSdsbUVtY0AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADo6Khn1dQsAgB6utbtu2wsA4NVZzwQAAAAAAAAAAAAAAAA2f2UAAIB/mOYfB7o=
+  </data>
+ </layer>
+ <layer id="2" name="OverlayLayer" width="300" height="300">
+  <data encoding="base64" compression="zlib">
+   eJzt2yEOgEAMBMCKu8cAGvj/W0CTwAs4g0CAAk4wk2xqq5o1jQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJ40pYg51d4CAOAf1tK7Nt0LAODSks4TAAAADk2OaEu6XHsTgHt9uVNDyeheAQAAAAAAAAAv8K8MAAAAwJd2OD4IyA==
+  </data>
+ </layer>
+ <objectgroup id="3" name="ObjectsLayer">
+  <object id="1" name="trees/tree-fir2" type="tree-fir2" x="332.667" y="8369.33"/>
+  <object id="6" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="243.333" y="8183.33"/>
+  <object id="7" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="425.333" y="8242.67"/>
+  <object id="8" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="653.333" y="7904"/>
+  <object id="9" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="581.333" y="7869.33"/>
+  <object id="10" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="642.667" y="7789.33"/>
+  <object id="11" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="616" y="7921.33"/>
+  <object id="12" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="430.667" y="8766.67"/>
+  <object id="13" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="457.333" y="8741.33"/>
+  <object id="14" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="488" y="8768"/>
+  <object id="15" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="456" y="8794.67"/>
+  <object id="16" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="400" y="8829.33"/>
+  <object id="17" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="533.333" y="8862.67"/>
+  <object id="18" name="trees/tree-fir-leafless" type="tree-fir-leafless" x="534.667" y="8820"/>
+  <object id="19" name="trees/tree-fir2" type="tree-fir2" x="156" y="7806.67"/>
+  <object id="20" name="trees/tree-fir2" type="tree-fir2" x="116" y="7790.67"/>
+  <object id="21" name="trees/tree-fir2" type="tree-fir2" x="1212" y="8592"/>
+  <object id="22" name="trees/tree-fir2" type="tree-fir2" x="1225.33" y="8566.67"/>
+  <object id="23" name="trees/tree-fir2" type="tree-fir2" x="1252" y="8602.67"/>
+  <object id="24" name="trees/tree-fir2" type="tree-fir2" x="1214.67" y="8622.67"/>
+  <object id="25" name="trees/tree-fir2" type="tree-fir2" x="1177.33" y="8629.33"/>
+  <object id="26" name="trees/tree-fir2" type="tree-fir2" x="1148" y="8588"/>
+  <object id="27" name="trees/tree-fir2" type="tree-fir2" x="1136" y="8642.67"/>
+  <object id="28" name="trees/tree-fir2" type="tree-fir2" x="1130.67" y="8680"/>
+  <object id="29" name="trees/tree-fir2" type="tree-fir2" x="1250.67" y="8710.67"/>
+  <object id="30" name="trees/tree-fir2" type="tree-fir2" x="1306.67" y="8684"/>
+  <object id="31" name="trees/tree-fir2" type="tree-fir2" x="1317.33" y="8634.67"/>
+  <object id="32" name="trees/tree-fir2" type="tree-fir2" x="1286.67" y="8613.33"/>
+  <object id="33" name="trees/tree-fir2" type="tree-fir2" x="1544" y="8014.67"/>
+  <object id="34" name="trees/tree-fir2" type="tree-fir2" x="1497.33" y="7966.67"/>
+  <object id="35" name="trees/tree-fir2" type="tree-fir2" x="1494.67" y="8029.33"/>
+  <object id="36" name="trees/tree-fir2" type="tree-fir2" x="1564" y="8049.33"/>
+  <object id="37" name="trees/tree-fir2" type="tree-fir2" x="1572" y="8045.33"/>
+  <object id="38" name="trees/tree-fir2" type="tree-fir2" x="1288" y="8072"/>
+  <object id="39" name="trees/tree-fir2" type="tree-fir2" x="1370.67" y="8006.67"/>
+  <object id="40" name="trees/tree-fir2" type="tree-fir2" x="1464" y="8069.33"/>
+  <object id="41" name="trees/tree-fir2" type="tree-fir2" x="1502.67" y="8102.67"/>
+  <object id="42" name="trees/tree-fir2" type="tree-fir2" x="1497.33" y="8090.67"/>
+  <object id="43" name="trees/tree-fir2" type="tree-fir2" x="334.667" y="7488"/>
+  <object id="44" name="trees/tree-fir2" type="tree-fir2" x="582.667" y="7488"/>
+  <object id="45" name="trees/tree-fir2" type="tree-fir2" x="412" y="7532"/>
+  <object id="46" name="trees/tree-fir2" type="tree-fir2" x="310.667" y="7582.67"/>
+  <object id="47" name="trees/tree-fir2" type="tree-fir2" x="446.667" y="7493.33"/>
+  <object id="48" name="trees/tree-fir2" type="tree-fir2" x="494.667" y="7504"/>
+  <object id="49" name="trees/tree-fir2" type="tree-fir2" x="396" y="7542.67"/>
+  <object id="50" name="trees/tree-fir2" type="tree-fir2" x="573.333" y="7558.67"/>
+  <object id="51" name="trees/tree-fir2" type="tree-fir2" x="430.667" y="7604"/>
+  <object id="52" name="trees/tree-fir2" type="tree-fir2" x="476" y="7633.33"/>
+  <object id="53" name="trees/tree-fir2" type="tree-fir2" x="565.333" y="7633.33"/>
+  <object id="54" name="trees/tree-fir2" type="tree-fir2" x="516" y="7562.67"/>
+  <object id="55" name="trees/tree-fir2" type="tree-fir2" x="746.667" y="7558.67"/>
+  <object id="56" name="trees/tree-fir2" type="tree-fir2" x="894.667" y="7469.33"/>
+  <object id="57" name="trees/tree-fir2" type="tree-fir2" x="701.333" y="7381.33"/>
+  <object id="58" name="trees/tree-fir2" type="tree-fir2" x="538.667" y="7428"/>
+  <object id="59" name="trees/tree-fir2" type="tree-fir2" x="836" y="7480"/>
+  <object id="60" name="trees/tree-fir2" type="tree-fir2" x="692" y="7472"/>
+  <object id="61" name="trees/tree-fir2" type="tree-fir2" x="670.667" y="7458.67"/>
+  <object id="62" name="trees/tree-fir2" type="tree-fir2" x="730.667" y="7508"/>
+ </objectgroup>
+</map>
