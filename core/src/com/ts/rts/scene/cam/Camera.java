@@ -3,7 +3,7 @@ package com.ts.rts.scene.cam;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.ts.rts.datastructure.geom.Vector2;
 import com.ts.rts.scene.unit.PositionPhysicalEntity;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector2Pool;
 
 /**
  * Handles the camera of the scene.
@@ -71,11 +71,11 @@ public class Camera {
         float canvasWidth, float canvasHeight) {
         super();
         this.libgdxCamera = camera;
-        pos = VectorPool.getObject(camX, camY);
+        pos = Vector2Pool.getObject(camX, camY);
 
-        vel = VectorPool.getObject();
+        vel = Vector2Pool.getObject();
 
-        accel = VectorPool.getObject();
+        accel = Vector2Pool.getObject();
 
         this.mapHeight = mapHeight;
         this.mapWidth = mapWidth;

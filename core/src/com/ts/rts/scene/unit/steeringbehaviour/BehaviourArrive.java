@@ -3,7 +3,10 @@ package com.ts.rts.scene.unit.steeringbehaviour;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 import com.ts.rts.scene.unit.MovingEntity;
+import com.ts.rts.util.Vector2Pool;
+import com.ts.rts.util.Vector3Pool;
 
 /**
  * Steers the agent in such a way that it decelerates onto the target position.
@@ -13,39 +16,39 @@ import com.ts.rts.scene.unit.MovingEntity;
 public class BehaviourArrive extends AbstractSteeringBehaviour {
     protected static final float doneDistanceSq = 7 * 7;
 
-    protected Vector2 targetPosition;
-    protected Vector2 desiredVelocity;
-    protected Vector2 pos;
+    protected Vector3 targetPosition;
+    protected Vector3 desiredVelocity;
+    protected Vector3 pos;
 
-    public BehaviourArrive(MovingEntity unit, Vector2 targetPosition) {
+    public BehaviourArrive(MovingEntity unit, Vector3 targetPosition) {
         super(unit);
         this.targetPosition = targetPosition;
         this.pos = unit.pos;
     }
 
     @Override
-    public Vector2 calculate() {
+    public Vector3 calculate() {
         return impl2();
     }
 
-    private Vector2 impl2() {
-        desiredVelocity = targetPosition.clone().subtract(pos);
-        float distance = desiredVelocity.length();
+    private Vector3 impl2() {
+        desiredVelocity = Vector3Pool.getObject(targetPosition).sub(pos);
+        float distance = desiredVelocity.len();
         if (distance < unit.slowingDistance) {
             // Inside the slowing area
             // desired_velocity = normalize(desired_velocity) * max_velocity * (distance / slowingRadius)
-            desiredVelocity.normalise().multiply(unit.maxForce * distance / unit.slowingDistance);
+            desiredVelocity.nor().scl(unit.maxForce * distance / unit.slowingDistance);
         } else {
             // Outside the slowing area.
             // desired_velocity = normalize(desired_velocity) * max_velocity
-            desiredVelocity.normalise().multiply(unit.maxForce);
+            desiredVelocity.nor().scl(unit.maxForce);
         }
-        return desiredVelocity.subtract(unit.vel);
+        return desiredVelocity.sub(unit.vel);
     }
 
     @Override
     public boolean isDone() {
-        return pos.distanceSq(targetPosition) < doneDistanceSq;
+        return pos.dst2(targetPosition) < doneDistanceSq;
     }
 
     @Override

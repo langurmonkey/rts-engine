@@ -4,11 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Circle;
 import com.ts.rts.RTSGame;
 import com.ts.rts.scene.map.IRTSMap;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector3Pool;
 
 /**
  * Experimental implementation of a tank.
@@ -20,7 +22,7 @@ public class Tank extends Unit {
     private ParticleEffect malfunction;
 
     public Tank(float x, float y, IRTSMap map) {
-        super(x, y, map);
+        super(x, y, 0, map);
 
         /** Physical parameters **/
 
@@ -45,16 +47,16 @@ public class Tank extends Unit {
         maxHp = 100;
         hp = maxHp;
 
-        vel = VectorPool.getObject(0f, 0f);
-        heading = VectorPool.getObject(0, 1);
+        vel = Vector3Pool.getObject(0f, 0f);
+        heading = Vector3Pool.getObject(0, 1);
 
         softRadius = new Circle(x, y, 15);
         selectionRadius = 17;
 
-        shadowA = 15 * scale;
-        shadowB = 15 * scale;
+        shadowFlipY = false;
+        shadowOffsetY = 25;
 
-        viewingDistance = 160;
+        viewDistance = 160;
 
         rotateImage = true;
 
@@ -100,12 +102,12 @@ public class Tank extends Unit {
     }
 
     @Override
-    public void render() {
-        super.render();
+    public void render(SpriteBatch batch, ShaderProgram program) {
+        super.render(batch, program);
 
         if (malfunction != null) {
             malfunction.setPosition(pos.x, pos.y);
-            malfunction.draw(RTSGame.getSpriteBatch());
+            malfunction.draw(batch);
         }
     }
 

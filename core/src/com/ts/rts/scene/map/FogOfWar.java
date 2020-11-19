@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector3;
 import com.ts.rts.RTSGame;
 import com.ts.rts.datastructure.geom.Vector2;
 import com.ts.rts.scene.cam.Camera;
@@ -61,7 +62,7 @@ public class FogOfWar {
      * @param position
      * @param radius
      */
-    public void update(Vector2 position, int radius) {
+    public void update(Vector3 position, int radius) {
         int x = (int) (position.x / tileSize);
         int y = (int) (position.y / tileSize);
         int blocks = Math.round(radius / tileSize);

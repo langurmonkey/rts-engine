@@ -18,15 +18,15 @@ public class PhysicalObject extends PositionPhysicalEntity {
     private final String textureName;
 
     public PhysicalObject(float x, float y, float offsetX, float offsetY, String textureName, IRTSMap map) {
-        super(x, y);
+        super(x, y, 0);
         this.map = map;
         this.textureName = textureName;
         this.spriteOffsetX = offsetX;
         this.spriteOffsetY = offsetY;
 
         // Default shadow
-        shadowA = 15f;
-        shadowB = 4f;
+        shadowFlipY = true;
+        shadowOffsetY = 0;
 
         // Default soft radius
         softRadius = new Circle(x, y, 10);

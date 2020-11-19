@@ -10,7 +10,7 @@ import com.ts.rts.scene.unit.PositionPhysicalEntity;
 import com.ts.rts.scene.unit.Unit;
 import com.ts.rts.scene.unit.group.UnitGroup;
 import com.ts.rts.scene.unit.group.UnitGroupManager;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector2Pool;
 
 import java.util.Set;
 
@@ -52,8 +52,8 @@ public class Selection {
 
     public Selection(RTSGame game) {
         this.game = game;
-        start = VectorPool.getObject();
-        end = VectorPool.getObject();
+        start = Vector2Pool.getObject();
+        end = Vector2Pool.getObject();
         // The selection is in screen coordinates
         shapeRenderer = RTSGame.game.screenShapeRenderer;
         this.selected = null;

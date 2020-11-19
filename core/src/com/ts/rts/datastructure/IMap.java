@@ -2,6 +2,7 @@ package com.ts.rts.datastructure;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.ts.rts.scene.unit.IBoundsObject;
 
 import java.util.Set;
@@ -24,19 +25,17 @@ public interface IMap<T extends IBoundsObject> {
 
     /**
      * Finds the nearby blocked nodes to this point
-     *
-     * @param p
-     * @return
      */
     Set<IMapCell<T>> findNearbyBlockedNodes(Vector2 p);
+    Set<IMapCell<T>> findNearbyBlockedNodes(Vector3 p);
+    Set<IMapCell<T>> findNearbyBlockedNodes(float x, float y);
 
     /**
      * Finds the nearby objects to this point
-     *
-     * @param p
-     * @return
      */
     Set<T> findNearbyObjects(Vector2 p);
+    Set<T> findNearbyObjects(Vector3 p);
+    Set<T> findNearbyObjects(float x, float y);
 
     /**
      * Gets the cell where the given point is located, null if it is outside the map

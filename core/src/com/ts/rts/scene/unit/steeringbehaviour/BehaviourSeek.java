@@ -3,8 +3,10 @@ package com.ts.rts.scene.unit.steeringbehaviour;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 import com.ts.rts.scene.unit.MovingEntity;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector2Pool;
+import com.ts.rts.util.Vector3Pool;
 
 /**
  * Returns a force that directs the agent toward a target position.
@@ -12,22 +14,30 @@ import com.ts.rts.util.VectorPool;
  * @author Toni Sagrista
  */
 public class BehaviourSeek extends AbstractSteeringBehaviour {
-    private final Vector2 targetPosition;
-    private Vector2 desiredVelocity;
+    private final Vector3 targetPosition;
+    private Vector3 desiredVelocity;
 
-    public BehaviourSeek(MovingEntity unit, Vector2 targetPosition) {
+    public BehaviourSeek(MovingEntity unit, Vector3 targetPosition) {
         super(unit);
         this.targetPosition = targetPosition;
     }
 
     @Override
-    public Vector2 calculate() {
-        desiredVelocity = targetPosition.clone().subtract(unit.pos).normalise().multiply(unit.maxForce);
-        return desiredVelocity.subtract(unit.vel);
+    public Vector3 calculate() {
+        desiredVelocity = targetPosition.clone().sub(unit.pos).nor().scl(unit.maxForce);
+        return desiredVelocity.sub(unit.vel);
     }
 
     public ISteeringBehaviour updateTarget(Vector2 newTarget) {
-        targetPosition.set(newTarget);
+        return updateTarget(newTarget.x, newTarget.y);
+    }
+
+    public ISteeringBehaviour updateTarget(Vector3 newTarget) {
+        return updateTarget(newTarget.x, newTarget.y);
+    }
+
+    public ISteeringBehaviour updateTarget(float x, float y) {
+        targetPosition.set(x, y);
         return this;
     }
 
@@ -49,6 +59,6 @@ public class BehaviourSeek extends AbstractSteeringBehaviour {
 
     @Override
     public void dispose() {
-        VectorPool.returnObject(targetPosition);
+        Vector3Pool.returnObject(targetPosition);
     }
 }

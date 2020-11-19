@@ -3,6 +3,7 @@ package com.ts.rts.scene.unit.steeringbehaviour;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 import com.ts.rts.scene.unit.MovingEntity;
 import com.ts.rts.scene.unit.group.UnitGroup;
 
@@ -15,27 +16,27 @@ public class BehaviourAlignment extends AbstractSteeringBehaviour {
     protected static final float doneDistanceSq = 5 * 5;
 
     private final UnitGroup group;
-    private final Vector2 targetPosition;
-    private Vector2 desiredVelocity;
+    private final Vector3 targetPosition;
+    private Vector3 desiredVelocity;
 
-    public BehaviourAlignment(MovingEntity unit, UnitGroup group, Vector2 targetPosition) {
+    public BehaviourAlignment(MovingEntity unit, UnitGroup group, Vector3 targetPosition) {
         super(unit);
         this.group = group;
         this.targetPosition = targetPosition;
     }
 
     @Override
-    public Vector2 calculate() {
-        desiredVelocity = targetPosition.clone().subtract(group.pos);
+    public Vector3 calculate() {
+        desiredVelocity = targetPosition.clone().sub(group.pos);
         return desiredVelocity;
     }
 
     @Override
     public boolean isDone() {
-        return group.pos.distanceSq(targetPosition) < doneDistanceSq;
+        return group.pos.dst2(targetPosition) < doneDistanceSq;
     }
 
-    public void updateTarget(Vector2 newTarget) {
+    public void updateTarget(Vector3 newTarget) {
         targetPosition.set(newTarget);
     }
 

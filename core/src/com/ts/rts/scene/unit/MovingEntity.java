@@ -3,7 +3,7 @@ package com.ts.rts.scene.unit;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 
 /**
  * An entity that moves.
@@ -14,7 +14,7 @@ public abstract class MovingEntity extends PositionPhysicalEntity {
     /**
      * Velocity [m/s]
      **/
-    public Vector2 vel;
+    public Vector3 vel;
 
     /**
      * Max speed [m/s]
@@ -49,11 +49,11 @@ public abstract class MovingEntity extends PositionPhysicalEntity {
         super();
     }
 
-    public MovingEntity(float x, float y) {
-        super(x, y);
+    public MovingEntity(float x, float y, float z) {
+        super(x, y, z);
     }
 
-    public MovingEntity(Vector2 pos) {
+    public MovingEntity(Vector3 pos) {
         super(pos);
     }
 

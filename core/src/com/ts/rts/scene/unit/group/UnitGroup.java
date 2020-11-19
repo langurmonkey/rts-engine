@@ -3,7 +3,8 @@ package com.ts.rts.scene.unit.group;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.ts.rts.scene.unit.PositionEntity;
 import com.ts.rts.scene.unit.Unit;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector2Pool;
+import com.ts.rts.util.Vector3Pool;
 
 import java.util.*;
 
@@ -23,19 +24,19 @@ public class UnitGroup extends PositionEntity implements List<Unit> {
         super();
         this.group = new LinkedList<>();
         this.shapeRenderer = shapeRenderer;
-        this.pos = VectorPool.getObject();
+        this.pos = Vector3Pool.getObject();
     }
 
     public void update() {
-        pos.zero();
+        pos.setZero();
         for (Unit unit : group) {
             pos.add(unit.pos);
         }
-        pos.divide(group.size());
+        pos.scl(1f / group.size());
     }
 
     public void render() {
-        if (!pos.isZeroVector()) {
+        if (!pos.isZero()) {
             shapeRenderer.circle(pos.x, pos.y, 3);
         }
     }

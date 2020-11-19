@@ -4,21 +4,22 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.ts.rts.RTSGame;
-import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 
 /**
  * Represents an entity which is physical and has a position.
  *
  * @author Toni Sagrista
  */
-public abstract class PositionPhysicalEntity extends PositionEntity implements IBoundsObject,
-    Comparable<PositionPhysicalEntity> {
+public abstract class PositionPhysicalEntity extends PositionEntity implements IBoundsObject, Comparable<PositionPhysicalEntity> {
 
     /**
      * The default sprite
@@ -61,17 +62,16 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
     /**
      * Heading
      **/
-    public Vector2 heading;
+    public Vector3 heading;
 
     /**
      * The sprite scale, 1 by default
      **/
     protected float scale = 1f;
 
-    /**
-     * Semimajor and semiminor axes of the shadow ellipse
-     **/
-    public float shadowA = 0f, shadowB = 0f;
+    /** Shadow attributes **/
+    public boolean shadowFlipY = true;
+    public float shadowOffsetY = 0;
 
     /**
      * Units in which the image rotates, such as tanks
@@ -87,11 +87,11 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
         super();
     }
 
-    public PositionPhysicalEntity(float x, float y) {
-        super(x, y);
+    public PositionPhysicalEntity(float x, float y, float z) {
+        super(x, y, z);
     }
 
-    public PositionPhysicalEntity(Vector2 pos) {
+    public PositionPhysicalEntity(Vector3 pos) {
         super(pos);
     }
 
@@ -130,7 +130,7 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
     }
 
     @Override
-    public Vector2 pos() {
+    public Vector3 pos() {
         return pos;
     }
 
@@ -192,39 +192,43 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
     /**
      * Renders the sprite
      */
-    public void render() {
+    public void render(SpriteBatch batch, ShaderProgram program) {
         if (visible)
-            renderSprite();
+            renderSprite(batch, program);
     }
 
-    public void renderSprite() {
+    public void renderSprite(SpriteBatch batch, ShaderProgram program) {
         // By default, heading rotates sprite
-        positionSpriteAndDraw();
+        positionSpriteAndDraw(batch, program);
     }
 
     /**
      * Renders the texture region returned by getImageToDraw
      */
-    protected void positionSpriteAndDraw() {
+    protected void positionSpriteAndDraw(SpriteBatch batch, ShaderProgram shader) {
         TextureRegion spriteToDraw = getImageToDraw();
         float angle = 0f;
         if (rotateImage) {
-            angle = heading.angle();
+            angle = heading.angle2();
         }
 
-        // Set shadow
-        RTSGame.game.objectsShader.setUniformf("u_shadow_pos", this.pos.x + 1, this.pos.y - 2);
-        RTSGame.game.objectsShader.setUniformf("u_shadow_size", shadowA * shadowA, shadowB * shadowB);
+        if(RTSGame.drawShadows) {
+            spriteToDraw.flip(false, shadowFlipY);
+            batch.setColor(0.2f, 0.2f, 0.2f, 0.3f);
+            batch.draw(spriteToDraw, pos.x - spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, pos.y - spriteToDraw.getRegionHeight() / 2 + spriteOffsetY - spriteToDraw.getRegionHeight() + spriteOffsetY + shadowOffsetY, spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, spriteToDraw.getRegionHeight() / 2, spriteToDraw.getRegionWidth(), spriteToDraw.getRegionHeight(), scale, scale, angle);
 
-        RTSGame.getSpriteBatch().draw(spriteToDraw, pos.x - spriteToDraw.getRegionWidth() / 2 + spriteOffsetX,
-            pos.y - spriteToDraw.getRegionHeight() / 2 + spriteOffsetY,
-            spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, spriteToDraw.getRegionHeight() / 2,
-            spriteToDraw.getRegionWidth(), spriteToDraw.getRegionHeight(), scale, scale, angle);
+            spriteToDraw.flip(false, shadowFlipY);
+            batch.setColor(1, 1, 1, 1);
+        }
+        batch.draw(spriteToDraw, pos.x - spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, pos.y - spriteToDraw.getRegionHeight() / 2 + spriteOffsetY, spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, spriteToDraw.getRegionHeight() / 2, spriteToDraw.getRegionWidth(), spriteToDraw.getRegionHeight(), scale, scale, angle);
     }
 
     public abstract void renderShapeFilledLayer0(ShapeRenderer sr);
+
     public abstract void renderShapeLineLayer1(ShapeRenderer sr);
+
     public abstract void renderShapeFilledLayer2(ShapeRenderer sr);
+
     public abstract void renderShapeLineLayer3(ShapeRenderer sr);
 
     @Override
@@ -264,22 +268,6 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
 
         sr.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
-    }
-
-    /**
-     * Default implementation is just a box as big as the bounding box with an offset
-     */
-    public void renderShadow(ShapeRenderer sr) {
-        if (shadowA != 0f && shadowB != 0f) {
-            // Render shadow
-            Gdx.gl.glEnable(GL20.GL_BLEND);
-            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-            sr.begin(ShapeType.Filled);
-            sr.setColor(new Color(0f, 0f, 0f, .5f));
-            sr.ellipse(pos.x - shadowA / 2 + 2, pos.y - shadowB / 2 - 2, shadowA, shadowB);
-            sr.end();
-            Gdx.gl.glDisable(GL20.GL_BLEND);
-        }
     }
 
     public void setHp(float newHp) {

@@ -1,8 +1,11 @@
 package com.ts.rts.scene.unit.steeringbehaviour;
 
 import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 import com.ts.rts.scene.unit.MovingEntity;
 import com.ts.rts.scene.unit.group.UnitGroup;
+import com.ts.rts.util.Vector2Pool;
+import com.ts.rts.util.Vector3Pool;
 
 /**
  * The cohesion behavior is responsible for keeping the members of a group together. The vehicle is steered to the
@@ -18,12 +21,12 @@ public class BehaviourCohesion extends AbstractSteeringBehaviour {
     public BehaviourCohesion(MovingEntity unit, UnitGroup group) {
         super(unit);
         this.group = group;
-        this.seek = new BehaviourSeek(unit, group.pos.clone());
+        this.seek = new BehaviourSeek(unit, Vector3Pool.getObject(group.pos));
     }
 
     @Override
-    public Vector2 calculate() {
-        return seek.updateTarget(group.pos).calculate().multiply(.1f);
+    public Vector3 calculate() {
+        return seek.updateTarget(group.pos.x, group.pos.y).calculate().scl(.1f);
     }
 
     @Override

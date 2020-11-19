@@ -14,6 +14,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Logger;
 import com.ts.rts.RTSGame;
 import com.ts.rts.datastructure.IMap;
@@ -26,7 +27,7 @@ import com.ts.rts.datastructure.mapgen.IMapGen;
 import com.ts.rts.scene.cam.Camera;
 import com.ts.rts.scene.map.MapProperties.TerrainType;
 import com.ts.rts.scene.unit.IBoundsObject;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector2Pool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -161,15 +162,15 @@ public abstract class RTSAbstractMap implements IRTSMap {
         path = null;
         map.clearPath();
         astar.clear();
-        Vector2 ini = VectorPool.getObject(inix, iniy);
-        Vector2 end = VectorPool.getObject(endx, endy);
+        Vector2 ini = Vector2Pool.getObject(inix, iniy);
+        Vector2 end = Vector2Pool.getObject(endx, endy);
         path = astar.findPath(ini, end);
-        VectorPool.returnObjects(ini, end);
+        Vector2Pool.returnObjects(ini, end);
         return path;
     }
 
     @Override
-    public void updateFogOfWar(Vector2 position, int radius) {
+    public void updateFogOfWar(Vector3 position, int radius) {
         if (fogOfWar != null) {
             fogOfWar.update(position, radius);
         }
@@ -238,11 +239,18 @@ public abstract class RTSAbstractMap implements IRTSMap {
         return map.findNearbyObjects(pos);
     }
 
+    @Override public Set<IBoundsObject> getNearbyEntities(Vector3 pos) {
+        return map.findNearbyObjects(pos);
+    }
+
     @Override
     public Set<IMapCell<IBoundsObject>> getNearbyBlockedNodes(Vector2 pos) {
         return map.findNearbyBlockedNodes(pos);
     }
 
+    @Override public Set<IMapCell<IBoundsObject>> getNearbyBlockedNodes(Vector3 pos) {
+        return map.findNearbyBlockedNodes(pos);
+    }
     /**
      * Checks if the given rectangle overlaps with a blocked node
      *
@@ -255,10 +263,19 @@ public abstract class RTSAbstractMap implements IRTSMap {
 
     @Override
     public boolean walkable(Vector2 ini, Vector2 end, IBoundsObject entity) {
+        return walkable(ini.x, ini.y, end.x, end.y, entity);
+    }
+
+    @Override
+    public boolean walkable(Vector3 ini, Vector3 end, IBoundsObject entity) {
+        return walkable(ini.x, ini.y, end.x, end.y, entity);
+    }
+
+    public boolean walkable(float inix, float iniy, float endx, float endy, IBoundsObject entity) {
         float step = entity.bounds().width / 2f;
         Rectangle r = new Rectangle(0, 0, entity.bounds().width, entity.bounds().height);
-        Vector2 current = ini.clone();
-        Vector2 advance = end.clone().subtract(ini);
+        Vector2 current = Vector2Pool.getObject(inix, iniy);
+        Vector2 advance = Vector2Pool.getObject(endx, endy).subtract(inix, iniy);
         float len = advance.len();
         int nsteps = (int) (len / step);
 
@@ -273,7 +290,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
             current.add(advance);
         }
 
-        VectorPool.returnObjects(current, advance);
+        Vector2Pool.returnObjects(current, advance);
 
         return true;
     }
@@ -284,8 +301,18 @@ public abstract class RTSAbstractMap implements IRTSMap {
     }
 
     @Override
+    public TerrainType getTerrainType(Vector3 point) {
+        return null;
+    }
+
+    @Override
     public IMapCell<IBoundsObject> getCell(Vector2 point) {
         return map.getCell(point);
+    }
+
+    @Override
+    public IMapCell<IBoundsObject> getCell(Vector3 point) {
+        return null;
     }
 
     @Override

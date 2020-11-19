@@ -4,17 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.ts.rts.RTSGame;
 import com.ts.rts.datastructure.IMapCell;
-import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 import com.ts.rts.scene.map.IRTSMap;
-import com.ts.rts.scene.map.MapProperties;
 import com.ts.rts.scene.unit.group.UnitGroup;
 import com.ts.rts.scene.unit.state.IState;
 import com.ts.rts.scene.unit.state.StateManager;
 import com.ts.rts.scene.unit.steeringbehaviour.SteeringBehaviours;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector3Pool;
 
 /**
  * A moving entity.
@@ -42,7 +40,7 @@ public abstract class Unit extends MovingEntity {
      **/
     public SteeringBehaviours steeringBehaviours;
 
-    public Vector2 targetHeading;
+    public Vector3 targetHeading;
 
     protected boolean turning = false;
 
@@ -80,8 +78,8 @@ public abstract class Unit extends MovingEntity {
      * @param y
      * @param map
      */
-    public Unit(float x, float y, IRTSMap map) {
-        super(x, y);
+    public Unit(float x, float y, float z, IRTSMap map) {
+        super(x, y, z);
         this.map = map;
         this.steeringBehaviours = new SteeringBehaviours(this);
         this.shapeRenderer = RTSGame.game.cameraShapeRenderer;
@@ -135,44 +133,43 @@ public abstract class Unit extends MovingEntity {
     public void updatePosition(float deltaSecs) {
         /** PHYSICAL MOVEMENT IMPLEMENTATION **/
         // First, get terrain type
-        cell = map.getCell(pos);
+        cell = map.getCell(pos.x, pos.y);
 
         if (!turning) {
-            Vector2 steeringForce = steeringBehaviours.calculate().truncate(maxForce);
-            if (!steeringForce.isZeroVector()) {
+            Vector3 steeringForce = steeringBehaviours.calculate().truncate(maxForce);
+            if (!steeringForce.isZero()) {
                 moving = true;
 
                 float maxSpeedCell = maxSpeed;
-                if(cell != null){
+                if (cell != null) {
                     maxSpeedCell *= (1f - cell.getSlowdown());
                 }
 
-                Vector2 acceleration = steeringForce.divide(mass);
-                vel.add(acceleration.multiply(deltaSecs)).truncate(maxSpeedCell);
-
-
-                pos.add(vel.multiplyValues(deltaSecs));
+                Vector3 acceleration = Vector3Pool.getObject(steeringForce.scl(1f / mass));
+                vel.add(acceleration.scl(deltaSecs)).limit(maxSpeedCell);
+                pos.add(acceleration.set(vel).scl(deltaSecs));
+                Vector3Pool.returnObject(acceleration);
 
                 // Update heading if the vehicle has a velocity greater than a very small value
-                if (vel.lengthSquared() > 0.00000001f) {
-                    targetHeading = vel.clone().normalise();
+                if (vel.len2() > 0.00000001f) {
+                    targetHeading = Vector3Pool.getObject(vel).nor();
 
-                    float currentTurn = targetHeading.angleRad(heading);
+                    float currentTurn = targetHeading.angle2Rad(heading);
                     float maxTurn = maxTurnRate * deltaSecs;
 
                     if (currentTurn > maxTurn) {
                         // Approach heading to targetHeading
                         turning = true;
                     } else {
-                        VectorPool.returnObject(heading);
+                        Vector3Pool.returnObject(heading);
                         heading = targetHeading;
                     }
                 }
             } else {
-                vel.zero();
+                vel.setZero();
                 moving = false;
             }
-            VectorPool.returnObject(steeringForce);
+            Vector3Pool.returnObject(steeringForce);
         }
 
         if (turning) {
@@ -181,7 +178,7 @@ public abstract class Unit extends MovingEntity {
         }
 
         // Update height
-        z = cell.z(pos.x, pos.y);
+        pos.z = cell.z(pos.x, pos.y);
 
         updateBounds(pos.x, pos.y);
 
@@ -189,7 +186,7 @@ public abstract class Unit extends MovingEntity {
         if (Math.sqrt(Math.pow(pos.x - lastUpdateX, 2) + Math.pow(pos.y - lastUpdateY, 2)) > width / 4f) {
             map.updateEntity(this);
             touchLastUpdate();
-            map.updateFogOfWar(pos, (int) (viewingDistance * 2.2f));
+            map.updateFogOfWar(pos, (int) (viewDistance * 2.2f));
         }
 
         // Update behaviour list
@@ -201,14 +198,14 @@ public abstract class Unit extends MovingEntity {
 
         if (maxTurnRate >= Math.PI * 2) {
             // Optimisation, instant rotation
-            VectorPool.returnObject(heading);
+            Vector3Pool.returnObject(heading);
             heading = targetHeading;
             turning = false;
             return;
         }
 
-        float angle = heading.angle();
-        float targetAngle = targetHeading.angle();
+        float angle = heading.angle2();
+        float targetAngle = targetHeading.angle2();
         float maxTurn = (float) (Math.toDegrees(maxTurnRate) * deltaSecs);
 
         // Find out which side we're going
@@ -240,26 +237,25 @@ public abstract class Unit extends MovingEntity {
             futureAngle = futureAngle - 360;
         }
 
-        if ((futureAngle % 360 > targetAngle && angle < targetAngle)
-            || (futureAngle % 360 < targetAngle & angle > targetAngle)) {
+        if ((futureAngle % 360 > targetAngle && angle < targetAngle) || (futureAngle % 360 < targetAngle & angle > targetAngle)) {
             // Finish
-            VectorPool.returnObject(heading);
+            Vector3Pool.returnObject(heading);
             heading = targetHeading;
             turning = false;
         } else {
             // Advance step
-            heading.rotate((float) Math.toRadians(maxTurn));
+            heading.rotate2(maxTurn);
         }
 
     }
 
     @Override
-    public void renderShapeFilledLayer0(ShapeRenderer sr){
+    public void renderShapeFilledLayer0(ShapeRenderer sr) {
     }
 
     @Override
-    public void renderShapeLineLayer1(ShapeRenderer sr){
-        if(selected){
+    public void renderShapeLineLayer1(ShapeRenderer sr) {
+        if (selected) {
             // Selection box
             sr.setColor(new Color(0f, 0f, 0f, .9f));
             sr.circle(pos.x + spriteOffsetX, pos.y + spriteOffsetY, selectionRadius + 1);
@@ -272,10 +268,11 @@ public abstract class Unit extends MovingEntity {
 
     int startx, starty;
     float healthLength;
+
     @Override
-    public void renderShapeFilledLayer2(ShapeRenderer sr){
-        if(selected){
-           // Health bar
+    public void renderShapeFilledLayer2(ShapeRenderer sr) {
+        if (selected) {
+            // Health bar
             startx = Math.round(pos.x - selectionRadius + spriteOffsetX);
             starty = Math.round(pos.y - selectionRadius + spriteOffsetY);
             healthLength = getHealthLength(selectionRadius * 2f);
@@ -286,15 +283,14 @@ public abstract class Unit extends MovingEntity {
     }
 
     @Override
-    public void renderShapeLineLayer3(ShapeRenderer sr){
-        if(selected) {
+    public void renderShapeLineLayer3(ShapeRenderer sr) {
+        if (selected) {
             // Health outline
             float[] color = getHealthColor();
             sr.setColor(new Color(color[0], color[1], color[2], 1f));
             sr.line(startx, starty, startx, starty + healthLength - 1f);
         }
     }
-
 
     public void renderDebug(ShapeRenderer sr) {
         super.renderDebug(sr);
@@ -369,7 +365,7 @@ public abstract class Unit extends MovingEntity {
 
     @Override
     public void dispose() {
-        VectorPool.returnObjects(vel, heading);
+        Vector3Pool.returnObjects(heading, vel);
         super.dispose();
     }
 

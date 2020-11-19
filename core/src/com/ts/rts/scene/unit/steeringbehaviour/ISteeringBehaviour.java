@@ -1,6 +1,6 @@
 package com.ts.rts.scene.unit.steeringbehaviour;
 
-import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 
 /**
  * Interface for a steering behaviour.
@@ -9,7 +9,7 @@ import com.ts.rts.datastructure.geom.Vector2;
  */
 public interface ISteeringBehaviour {
 
-    Vector2 calculate();
+    Vector3 calculate();
 
     boolean isDone();
 

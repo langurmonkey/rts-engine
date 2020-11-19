@@ -2,9 +2,10 @@ package com.ts.rts.scene.unit.steeringbehaviour;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 import com.ts.rts.scene.unit.Unit;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector2Pool;
+import com.ts.rts.util.Vector3Pool;
 
 import java.util.Random;
 
@@ -18,21 +19,21 @@ public class BehaviourWander extends AbstractSteeringBehaviour {
 
     float wanderRadius = 30f, wanderDistance = 50f, wanderJitter = 600f;
     float wanderAngle = 0f;
-    Vector2 circleCenter, displacement;
+    Vector3 circleCenter, displacement;
 
     public BehaviourWander(Unit unit) {
         super(unit);
-        displacement = VectorPool.getObject(1, 0).multiply(wanderRadius);
+        displacement = Vector3Pool.getObject(1, 0, 0).scl(wanderRadius);
     }
 
     @Override
-    public Vector2 calculate() {
+    public Vector3 calculate() {
         return impl2();
     }
 
-    private Vector2 impl2() {
+    private Vector3 impl2() {
         // Calculate circle center
-        circleCenter = unit.heading.clone().normalise().multiply(wanderDistance);
+        circleCenter = unit.heading.clone().nor().scl(wanderDistance);
 
         // Randomly change the vector direction
         // by making it change its current angle
@@ -79,7 +80,7 @@ public class BehaviourWander extends AbstractSteeringBehaviour {
 
     @Override
     public void dispose() {
-        VectorPool.returnObject(displacement);
+        Vector3Pool.returnObject(displacement);
     }
 
 }

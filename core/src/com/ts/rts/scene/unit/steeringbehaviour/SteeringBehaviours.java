@@ -1,10 +1,10 @@
 package com.ts.rts.scene.unit.steeringbehaviour;
 
-import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 import com.ts.rts.scene.map.IRTSMap;
 import com.ts.rts.scene.unit.Unit;
 import com.ts.rts.scene.unit.group.UnitGroup;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector3Pool;
 
 import java.util.*;
 
@@ -28,14 +28,14 @@ public class SteeringBehaviours {
         this.unit = unit;
     }
 
-    public Vector2 calculate() {
-        Vector2 sum = VectorPool.getObject();
+    public Vector3 calculate() {
+        Vector3 sum = Vector3Pool.getObject();
         Set<BehaviourClass> bhs = sbMap.keySet();
         for (BehaviourClass bh : bhs) {
             ISteeringBehaviour sb = sbMap.get(bh);
-            Vector2 partialForce = sb.calculate();
+            Vector3 partialForce = sb.calculate();
             sum.add(partialForce);
-            VectorPool.returnObject(partialForce);
+            Vector3Pool.returnObject(partialForce);
         }
         return sum;
     }
@@ -67,17 +67,17 @@ public class SteeringBehaviours {
         }
     }
 
-    public void addSeek(Vector2 targetPosition) {
+    public void addSeek(Vector3 targetPosition) {
         sbMap.remove(BehaviourClass.M_SEEK);
         sbMap.put(BehaviourClass.M_SEEK, new BehaviourSeek(unit, targetPosition));
     }
 
-    public void addFlee(Vector2 targetPosition) {
+    public void addFlee(Vector3 targetPosition) {
         sbMap.remove(BehaviourClass.M_FLEE);
         sbMap.put(BehaviourClass.M_FLEE, new BehaviourFlee(unit, targetPosition));
     }
 
-    public void addArrive(Vector2 targetPosition) {
+    public void addArrive(Vector3 targetPosition) {
         sbMap.remove(BehaviourClass.M_ARRIVE);
         sbMap.put(BehaviourClass.M_ARRIVE, new BehaviourArrive(unit, targetPosition));
     }

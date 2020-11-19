@@ -4,10 +4,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.ts.rts.datastructure.IMapCell;
 import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 import com.ts.rts.scene.map.IRTSMap;
 import com.ts.rts.scene.unit.IBoundsObject;
 import com.ts.rts.scene.unit.MovingEntity;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector2Pool;
+import com.ts.rts.util.Vector3Pool;
 
 import java.util.Set;
 
@@ -21,7 +23,7 @@ public class BehaviourAvoidWalls extends AbstractSteeringBehaviour {
     private final IRTSMap map;
     float effectRadius = 50f;
 
-    private Vector2 force;
+    private Vector3 force;
 
     public BehaviourAvoidWalls(MovingEntity unit, IRTSMap map) {
         super(unit);
@@ -29,18 +31,18 @@ public class BehaviourAvoidWalls extends AbstractSteeringBehaviour {
     }
 
     @Override
-    public Vector2 calculate() {
+    public Vector3 calculate() {
         Set<IMapCell<IBoundsObject>> blocked = map.getNearbyBlockedNodes(unit.pos);
-        force = VectorPool.getObject();
+        force = Vector3Pool.getObject();
         for (IMapCell<IBoundsObject> node : blocked) {
-            Vector2 entityUnit = unit.pos.clone().subtract(node.x(), node.y());
+            Vector3 entityUnit = unit.pos.clone().sub(node.x(), node.y());
             float length = entityUnit.len();
             if (length < (unit.softRadius.radius + 8 + node.bounds().width / 2)) {
                 // Calculate force
-                entityUnit.normalise().multiply((1 / length) * 200);
+                entityUnit.nor().scl((1 / length) * 200);
                 force.add(entityUnit);
             }
-            VectorPool.returnObject(entityUnit);
+            Vector3Pool.returnObject(entityUnit);
         }
         return force;
     }

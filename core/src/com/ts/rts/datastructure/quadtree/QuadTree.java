@@ -7,6 +7,7 @@ package com.ts.rts.datastructure.quadtree;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.ts.rts.datastructure.IMap;
 import com.ts.rts.datastructure.IMapCell;
 import com.ts.rts.datastructure.Pair;
@@ -84,9 +85,20 @@ public class QuadTree<T extends IBoundsObject> implements IMap<T> {
      * @param p
      * @return
      */
+    @Override
     public Set<T> findNearbyObjects(Vector2 p) {
+        return findNearbyObjects(p.x, p.y);
+    }
+
+    @Override
+    public Set<T> findNearbyObjects(Vector3 p) {
+        return findNearbyObjects(p.x, p.y);
+    }
+
+    @Override
+    public Set<T> findNearbyObjects(float x, float y) {
         Set<T> set = new HashSet<>();
-        QuadNode<T> n = getCell(p);
+        QuadNode<T> n = getCell(x, y);
         set.addAll(n.objects);
 
         for (Pair<QuadNode<T>, Float> pair : n.adjacentNodes) {
@@ -95,7 +107,6 @@ public class QuadTree<T extends IBoundsObject> implements IMap<T> {
         }
 
         return set;
-
     }
 
     /**
@@ -104,9 +115,20 @@ public class QuadTree<T extends IBoundsObject> implements IMap<T> {
      * @param p
      * @return
      */
+    @Override
     public Set<IMapCell<T>> findNearbyBlockedNodes(Vector2 p) {
+        return findNearbyBlockedNodes(p.x, p.y);
+    }
+
+    @Override
+    public Set<IMapCell<T>> findNearbyBlockedNodes(Vector3 p) {
+        return findNearbyBlockedNodes(p.x, p.y);
+    }
+
+    @Override
+    public Set<IMapCell<T>> findNearbyBlockedNodes(float x, float y) {
         Set<IMapCell<T>> blocked = new HashSet<>();
-        QuadNode<T> n = getCell(p);
+        QuadNode<T> n = getCell(x, y);
         if (n.isBlocked()) {
             blocked.add(n);
         }
@@ -149,8 +171,7 @@ public class QuadTree<T extends IBoundsObject> implements IMap<T> {
      * @return
      */
     public boolean overlapsWithBlocked(Rectangle r) {
-        return isInBlocked(r.x, r.y) || isInBlocked(r.x + r.width, r.y) || isInBlocked(r.x + r.width, r.y + r.height)
-            || isInBlocked(r.x, r.y + r.height);
+        return isInBlocked(r.x, r.y) || isInBlocked(r.x + r.width, r.y) || isInBlocked(r.x + r.width, r.y + r.height) || isInBlocked(r.x, r.y + r.height);
     }
 
 }

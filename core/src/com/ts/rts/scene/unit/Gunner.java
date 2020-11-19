@@ -1,13 +1,11 @@
 package com.ts.rts.scene.unit;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Circle;
 import com.ts.rts.scene.map.IRTSMap;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector3Pool;
 
 /**
  * Experimental gunner implementation of {@link Unit}.
@@ -22,7 +20,7 @@ public class Gunner extends Unit {
     Animation<TextureRegion> walkR;
 
     public Gunner(float x, float y, IRTSMap map) {
-        super(x, y, map);
+        super(x, y, 0, map);
 
         /** Physical parameters **/
 
@@ -47,16 +45,16 @@ public class Gunner extends Unit {
         maxHp = 20;
         hp = maxHp;
 
-        vel = VectorPool.getObject(0f, 0f);
-        heading = VectorPool.getObject(0, -1);
+        vel = Vector3Pool.getObject(0f, 0f);
+        heading = Vector3Pool.getObject(0, -1);
 
         softRadius = new Circle(pos.x, pos.y, 13);
         selectionRadius = 18;
 
-        shadowA = 10;
-        shadowB = 4;
+        shadowFlipY = true;
+        shadowOffsetY = 0;
 
-        viewingDistance = 120;
+        viewDistance = 120;
     }
 
     @Override
@@ -93,7 +91,7 @@ public class Gunner extends Unit {
 
             initHardRadius(height / 2f);
 
-            lastAngle = heading.angle();
+            lastAngle = heading.angle2();
             if (lastAngle <= 180) {
                 sprite.flip(true, false);
             }
@@ -101,14 +99,14 @@ public class Gunner extends Unit {
         }
     }
 
-    public void renderSprite() {
+    public void renderSprite(SpriteBatch batch, ShaderProgram program) {
         // Flip if necessary the sprite
-        float angle = heading.angle();
+        float angle = heading.angle2();
         if ((lastAngle > 180 && angle <= 180) || (lastAngle <= 180 && angle > 180)) {
             sprite.flip(true, false);
         }
         lastAngle = angle;
-        positionSpriteAndDraw();
+        positionSpriteAndDraw(batch, program);
     }
 
     protected TextureRegion getImageToDraw() {
@@ -116,7 +114,7 @@ public class Gunner extends Unit {
             return sprite;
         } else {
             TextureRegion spriteToDraw;
-            if (heading.angle() > 180) {
+            if (heading.angle2() > 180) {
                 // left
                 spriteToDraw = walkL.getKeyFrame(stateTime, true);
             } else {

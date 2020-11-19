@@ -1,6 +1,7 @@
 package com.ts.rts.scene.unit.steeringbehaviour;
 
 import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 import com.ts.rts.scene.unit.MovingEntity;
 import com.ts.rts.scene.unit.group.UnitGroup;
 
@@ -11,7 +12,7 @@ import com.ts.rts.scene.unit.group.UnitGroup;
  */
 public class BehaviourArriveGroup extends BehaviourArrive {
 
-    public BehaviourArriveGroup(MovingEntity unit, Vector2 targetPosition, UnitGroup group) {
+    public BehaviourArriveGroup(MovingEntity unit, Vector3 targetPosition, UnitGroup group) {
         super(unit, targetPosition);
         this.pos = group.pos;
     }

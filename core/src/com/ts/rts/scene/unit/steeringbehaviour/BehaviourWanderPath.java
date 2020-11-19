@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.ts.rts.datastructure.IMapCell;
 import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 import com.ts.rts.scene.map.IRTSMap;
 import com.ts.rts.scene.unit.IBoundsObject;
 import com.ts.rts.scene.unit.MovingEntity;
@@ -21,7 +22,7 @@ public class BehaviourWanderPath extends AbstractSteeringBehaviour {
     private final IRTSMap map;
     private final Random rand;
 
-    private final Vector2 referencePosition;
+    private final Vector3 referencePosition;
     private final int wanderRadius;
     private BehaviourFollowPath pathFollowing;
     private float timeToNextPath;
@@ -39,7 +40,7 @@ public class BehaviourWanderPath extends AbstractSteeringBehaviour {
     }
 
     @Override
-    public Vector2 calculate() {
+    public Vector3 calculate() {
         long offset = System.currentTimeMillis() - timer;
         // Update path every 12 seconds
         if (offset > timeToNextPath) {
@@ -60,7 +61,7 @@ public class BehaviourWanderPath extends AbstractSteeringBehaviour {
             timer = System.currentTimeMillis();
 
             // Time to next path is the time the unit would take to get there in a straight line at max speed
-            float dist = unit.pos.distance(xy[0], xy[1]);
+            float dist = unit.pos.dst(xy[0], xy[1], 0);
             timeToNextPath = (dist / unit.maxSpeed) * 1000;
         }
 

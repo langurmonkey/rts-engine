@@ -6,7 +6,7 @@ import com.ts.rts.scene.unit.MovingEntity;
 
 /**
  * An abstract steering behaviour. Most of the behaviours implemented have been extracted from the paper
- * "Steering behaviors for autonomous characters" by Craig Reynolds ({@link http://www.red3d.com/cwr/steer/}).
+ * "Steering behaviors for autonomous characters" by Craig Reynolds).
  *
  * @author Toni Sagrista
  */

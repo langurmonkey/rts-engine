@@ -3,6 +3,7 @@ package com.ts.rts.scene.map;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.ts.rts.datastructure.IMapCell;
 import com.ts.rts.datastructure.geom.Vector2;
 import com.ts.rts.scene.cam.Camera;
@@ -34,7 +35,7 @@ public interface IRTSMap {
 
     int getHeight();
 
-    void updateFogOfWar(Vector2 position, int radius);
+    void updateFogOfWar(Vector3 position, int radius);
 
     List<IMapCell<IBoundsObject>> findPath(Float inix, Float iniy, Float endx, Float endy);
 
@@ -49,10 +50,13 @@ public interface IRTSMap {
     Set<IMapCell<IBoundsObject>> findLeafNodesWith(IBoundsObject entity);
 
     Set<IBoundsObject> getNearbyEntities(Vector2 pos);
+    Set<IBoundsObject> getNearbyEntities(Vector3 pos);
 
     Set<IMapCell<IBoundsObject>> getNearbyBlockedNodes(Vector2 pos);
+    Set<IMapCell<IBoundsObject>> getNearbyBlockedNodes(Vector3 pos);
 
     boolean walkable(Vector2 ini, Vector2 end, IBoundsObject entity);
+    boolean walkable(Vector3 ini, Vector3 end, IBoundsObject entity);
 
     /**
      * Checks if the given rectangle overlaps with a blocked node
@@ -63,8 +67,10 @@ public interface IRTSMap {
     boolean overlapsWithBlocked(Rectangle r);
 
     TerrainType getTerrainType(Vector2 point);
+    TerrainType getTerrainType(Vector3 point);
 
     IMapCell<IBoundsObject> getCell(Vector2 point);
+    IMapCell<IBoundsObject> getCell(Vector3 point);
 
     IMapCell<IBoundsObject> getCell(float x, float y);
 

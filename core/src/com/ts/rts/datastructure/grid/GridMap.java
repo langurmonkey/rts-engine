@@ -2,6 +2,7 @@ package com.ts.rts.datastructure.grid;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.ts.rts.datastructure.IMap;
 import com.ts.rts.datastructure.IMapCell;
 import com.ts.rts.scene.unit.IBoundsObject;
@@ -94,7 +95,17 @@ public class GridMap<T extends IBoundsObject> implements IMap<T> {
 
     @Override
     public Set<IMapCell<T>> findNearbyBlockedNodes(Vector2 p) {
-        IMapCell<T> cell = getCell(p.x, p.y);
+        return findNearbyBlockedNodes(p.x, p.y);
+    }
+
+    @Override
+    public Set<IMapCell<T>> findNearbyBlockedNodes(Vector3 p) {
+        return findNearbyBlockedNodes(p.x, p.y);
+    }
+
+    @Override
+    public Set<IMapCell<T>> findNearbyBlockedNodes(float x, float y) {
+        IMapCell<T> cell = getCell(x, y);
         if (cell == null)
             return new HashSet<>();
 
@@ -113,7 +124,17 @@ public class GridMap<T extends IBoundsObject> implements IMap<T> {
 
     @Override
     public Set<T> findNearbyObjects(Vector2 p) {
-        IMapCell<T> pointCell = getCell(p.x, p.y);
+        return findNearbyObjects(p.x, p.y);
+    }
+
+    @Override
+    public Set<T> findNearbyObjects(Vector3 p) {
+        return findNearbyObjects(p.x, p.y);
+    }
+
+    @Override
+    public Set<T> findNearbyObjects(float x, float y) {
+        IMapCell<T> pointCell = getCell(x, y);
         Set<T> objects = new HashSet<>();
         if (pointCell != null) {
             Set<IMapCell<T>> cells = pointCell.findAdjacentCells();

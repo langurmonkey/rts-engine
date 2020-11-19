@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Logger;
 import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 import com.ts.rts.input.KeyboardListener;
 import com.ts.rts.input.PanListener;
 import com.ts.rts.input.SelectionListener;
@@ -30,9 +31,9 @@ import com.ts.rts.scene.unit.*;
 import com.ts.rts.scene.unit.group.UnitGroup;
 import com.ts.rts.scene.unit.group.UnitGroupManager;
 import com.ts.rts.scene.unit.steeringbehaviour.Path;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector2Pool;
+import com.ts.rts.util.Vector3Pool;
 
-import javax.swing.text.Position;
 import java.util.*;
 
 /**
@@ -136,7 +137,10 @@ public class RTSGame implements ApplicationListener {
 
         cameraShapeRenderer = new ShapeRenderer();
         screenShapeRenderer = new ShapeRenderer();
-        VectorPool.initialize(5000);
+
+        // Vector pools
+        Vector2Pool.initialize(100);
+        Vector3Pool.initialize(5000);
 
         orthoCamera = new OrthographicCamera(w, h);
         orthoCamera.setToOrtho(false, w, h);
@@ -246,7 +250,15 @@ public class RTSGame implements ApplicationListener {
     public boolean isVisible(Vector2 point) {
         boolean vis = false;
         for (Unit u : player) {
-            vis = vis || u.pos.distance(point) < u.viewingDistance * 2.5;
+            vis = vis || u.pos.dst(point.x, point.y, 0) < u.viewDistance * 2.5;
+        }
+        return vis;
+    }
+
+    public boolean isVisible(Vector3 point) {
+        boolean vis = false;
+        for (Unit u : player) {
+            vis = vis || u.pos.dst(point) < u.viewDistance * 2.5;
         }
         return vis;
     }
@@ -314,10 +326,10 @@ public class RTSGame implements ApplicationListener {
         // Contains shadow positions and width and height
         int i = 0;
         for (PositionPhysicalEntity e : entities) {
-            if (e.viewingDistance > 0) {
+            if (e.viewDistance > 0) {
                 lights[i++] = e.pos.x;
                 lights[i++] = e.pos.y;
-                lights[i++] = e.viewingDistance;
+                lights[i++] = e.viewDistance;
             }
         }
 
@@ -335,7 +347,7 @@ public class RTSGame implements ApplicationListener {
         /** Entities **/
         spriteBatch.begin();
         for (PositionPhysicalEntity ppe : entities) {
-            ppe.render();
+            ppe.render(spriteBatch, objectsShader);
         }
         spriteBatch.end();
 
@@ -455,18 +467,18 @@ public class RTSGame implements ApplicationListener {
 
         Collections.sort(group);
         for (Unit u : group) {
-            Vector2 targetPos = VectorPool.getObject(x - side2 + longestSide * col + longestSide / 2, y - side2
+            Vector2 targetPos = Vector2Pool.getObject(x - side2 + longestSide * col + longestSide / 2, y - side2
                 + longestSide * row + longestSide / 2);
             if (!map.overlapsWithBlocked(new Rectangle(x - u.hardRadius.width / 2, y - u.hardRadius.height / 2,
                 u.hardRadius.width, u.hardRadius.height))) {
                 // Calculate path
-                Path path = new Path(map.findPath(u.pos.x, u.pos.y, targetPos.x, targetPos.y), u.pos, targetPos.x,
+                Path path = new Path(map.findPath(u.pos.x, u.pos.y, targetPos.x, targetPos.y), u.pos.x, u.pos.y, targetPos.x,
                     targetPos.y);
                 path.smooth(u, map);
                 if (path.size() > 0)
                     u.steeringBehaviours.addFollowPath(path);
             }
-            VectorPool.returnObject(targetPos);
+            Vector2Pool.returnObject(targetPos);
 
             // Advance position in grid
             col++;
@@ -486,7 +498,7 @@ public class RTSGame implements ApplicationListener {
      * @param y
      */
     public void moveUnit(Unit unit, int x, int y) {
-        Path path = new Path(map.findPath(unit.pos.x, unit.pos.y, (float) x, (float) y), unit.pos, (float) x, (float) y);
+        Path path = new Path(map.findPath(unit.pos.x, unit.pos.y, (float) x, (float) y), unit.pos.x, unit.pos.y, (float) x, (float) y);
         path.smooth(unit, map);
         unit.steeringBehaviours.addFollowPath(path);
     }

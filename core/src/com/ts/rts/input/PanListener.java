@@ -11,7 +11,7 @@ import com.ts.rts.datastructure.geom.Vector2;
 import com.ts.rts.scene.cam.Camera;
 import com.ts.rts.scene.selection.Selection;
 import com.ts.rts.scene.unit.IBoundsObject;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector2Pool;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -69,7 +69,7 @@ public class PanListener extends InputAdapter {
         this.selection = selection;
         // Zone of the screen where the mouse can work without panning
         this.activeZone = new Rectangle(PADDING, PADDING, camera.canvasWidth - PADDING * 2, camera.canvasHeight - PADDING * 2);
-        this.canvasCenter = VectorPool.getObject(camera.canvasWidth / 2f, camera.canvasHeight / 2f);
+        this.canvasCenter = Vector2Pool.getObject(camera.canvasWidth / 2f, camera.canvasHeight / 2f);
     }
 
     @Override
@@ -77,11 +77,11 @@ public class PanListener extends InputAdapter {
         screenY = Gdx.graphics.getHeight() - screenY;
 
         if (!selection.active && !activeZone.contains(screenX, screenY)) {
-            Vector2 movement = VectorPool.getObject(screenX, screenY);
+            Vector2 movement = Vector2Pool.getObject(screenX, screenY);
             movement.subtract(canvasCenter);
             camera.setAccel(movement);
             float angle = movement.angle();
-            VectorPool.returnObject(movement);
+            Vector2Pool.returnObject(movement);
 
             if (angle >= 315 || angle < 45) {
                 Gdx.graphics.setCursor(Gdx.graphics.newCursor(m_down, 0, 0));

@@ -2,10 +2,12 @@ package com.ts.rts.scene.unit.steeringbehaviour;
 
 import com.ts.rts.datastructure.IMapCell;
 import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 import com.ts.rts.scene.map.IRTSMap;
 import com.ts.rts.scene.unit.IBoundsObject;
 import com.ts.rts.scene.unit.PositionPhysicalEntity;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector2Pool;
+import com.ts.rts.util.Vector3Pool;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,16 +21,20 @@ import java.util.List;
  */
 public class Path {
 
-    private List<Vector2> waypoints;
-    private Iterator<Vector2> it;
-    private Vector2 current;
+    private List<Vector3> waypoints;
+    private Iterator<Vector3> it;
+    private Vector3 current;
+
+    public Path(List<IMapCell<IBoundsObject>> nodes, float x, float y, float finalX, float finalY) {
+        this(nodes, Vector3Pool.getObject(x, y), finalX, finalY);
+    }
 
     /**
      * Creates a path using a list of nodes, an entity and a target position
      *
      * @param nodes
      */
-    public Path(List<IMapCell<IBoundsObject>> nodes, Vector2 pos, float finalX, float finalY) {
+    public Path(List<IMapCell<IBoundsObject>> nodes, Vector3 pos, float finalX, float finalY) {
         waypoints = new LinkedList<>();
 
         if (nodes != null) {
@@ -36,14 +42,14 @@ public class Path {
                 // At least two waypoints
                 for (int i = nodes.size() - 1; i >= 0; i--) {
                     IMapCell<IBoundsObject> node = nodes.get(i);
-                    Vector2 point;
+                    Vector3 point;
 
                     if (i == nodes.size() - 1) {
                         point = pos;
                     } else if (i == 0) {
-                        point = VectorPool.getObject(finalX, finalY);
+                        point = Vector3Pool.getObject(finalX, finalY);
                     } else {
-                        point = VectorPool.getObject(node.x(), node.y());
+                        point = Vector3Pool.getObject(node.x(), node.y());
                     }
 
                     waypoints.add(point);
@@ -51,7 +57,7 @@ public class Path {
                 }
             } else {
                 // Only one waypoint, we're moving in the same node
-                waypoints.add(VectorPool.getObject(finalX, finalY));
+                waypoints.add(Vector3Pool.getObject(finalX, finalY));
             }
 
             resetPath();
@@ -62,7 +68,7 @@ public class Path {
     /**
      * Creates a path with the given list of waypoints
      */
-    private Path(List<Vector2> waypoints) {
+    private Path(List<Vector3> waypoints) {
         this.waypoints = waypoints;
         resetPath();
     }
@@ -97,7 +103,7 @@ public class Path {
      *
      * @return
      */
-    public Vector2 currentWaypoint() {
+    public Vector3 currentWaypoint() {
         return current;
     }
 
@@ -116,7 +122,7 @@ public class Path {
      * @param i The waypoint index
      * @return
      */
-    public Vector2 get(int i) {
+    public Vector3 get(int i) {
         assert i >= 0 && i < size() : "Index out of bounds";
         return waypoints.get(i);
     }
@@ -126,16 +132,16 @@ public class Path {
      *
      */
     public void smooth(PositionPhysicalEntity entity, IRTSMap map) {
-        List<Vector2> smoothed = new ArrayList<>();
+        List<Vector3> smoothed = new ArrayList<>();
         smoothed.addAll(waypoints);
 
         int checkPoint = 0;
         int currentPoint = 1;
         while (currentPoint + 1 < waypoints.size()) {
             if (map.walkable(waypoints.get(checkPoint), waypoints.get(currentPoint + 1), entity)) {
-                Vector2 v = waypoints.get(currentPoint);
+                Vector3 v = waypoints.get(currentPoint);
                 smoothed.remove(v);
-                VectorPool.returnObject(v);
+                Vector3Pool.returnObject(v);
                 currentPoint++;
             } else {
                 checkPoint = currentPoint;
@@ -156,13 +162,13 @@ public class Path {
     }
 
     public void dispose() {
-        VectorPool.returnObjects(waypoints);
+        Vector3Pool.returnObjects(waypoints);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Vector2 waypoint : waypoints) {
+        for (Vector3 waypoint : waypoints) {
             sb.append(waypoint.toString());
         }
         return sb.toString();

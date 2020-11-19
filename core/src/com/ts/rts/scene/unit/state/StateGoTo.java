@@ -24,7 +24,7 @@ public class StateGoTo extends AbstractState {
 
     @Override
     public boolean isDone() {
-        return unit.pos().distanceSq(target) < doneDistanceSq;
+        return unit.pos().dst2(target) < doneDistanceSq;
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.ts.rts.scene.unit;
 
-import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 import com.ts.rts.scene.map.IRTSMap;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector3Pool;
 
 /**
  * A physical or abstract entity that has a position.
@@ -21,28 +21,27 @@ public abstract class PositionEntity {
     /**
      * Position of this entity
      **/
-    public Vector2 pos;
-    public float z;
+    public Vector3 pos;
 
     boolean visible = true;
 
     /**
      * The viewing distance in pixels, for the fog of war
      */
-    public int viewingDistance = 0;
+    public int viewDistance = 0;
 
     public PositionEntity() {
         this.uniqueId = getUniqueId();
     }
 
-    public PositionEntity(Vector2 pos) {
+    public PositionEntity(Vector3 pos) {
         this();
         this.pos = pos;
     }
 
-    public PositionEntity(float x, float y) {
+    public PositionEntity(float x, float y, float z) {
         this();
-        this.pos = VectorPool.getObject(x, y);
+        this.pos = Vector3Pool.getObject(x, y, z);
     }
 
     private static synchronized long getUniqueId() {
@@ -50,6 +49,6 @@ public abstract class PositionEntity {
     }
 
     public void dispose() {
-        VectorPool.returnObject(pos);
+        Vector3Pool.returnObject(pos);
     }
 }

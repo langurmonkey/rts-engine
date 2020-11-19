@@ -3,9 +3,11 @@ package com.ts.rts.scene.unit.steeringbehaviour;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 import com.ts.rts.scene.unit.MovingEntity;
 import com.ts.rts.scene.unit.group.UnitGroup;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector2Pool;
+import com.ts.rts.util.Vector3Pool;
 
 /**
  * This behaviour creates a force that leads the unit to the next waypoint in a path.
@@ -26,12 +28,12 @@ public class BehaviourFollowPath extends AbstractSteeringBehaviour {
         if (group != null) {
             cohesion = new BehaviourCohesion(unit, group);
         }
-        seek = new BehaviourSeek(unit, VectorPool.getObject());
+        seek = new BehaviourSeek(unit, Vector3Pool.getObject());
     }
 
     @Override
-    public Vector2 calculate() {
-        if (unit.pos.distanceSq(path.currentWaypoint()) < waypointSeekDistSq) {
+    public Vector3 calculate() {
+        if (unit.pos.dst2(path.currentWaypoint()) < waypointSeekDistSq) {
             path.nextWaypoint();
         }
         if (!path.finished()) {
@@ -55,7 +57,7 @@ public class BehaviourFollowPath extends AbstractSteeringBehaviour {
     @Override
     public void renderBehaviour() {
         for (int j = 1; j < path.size(); j++) {
-            Vector2 waypoint = path.get(j);
+            Vector3 waypoint = path.get(j);
             shapeRenderer.begin(ShapeType.Filled);
             shapeRenderer.setColor(new Color(0f, .6f, 0f, .7f));
             shapeRenderer.circle(waypoint.x, waypoint.y, 5f);

@@ -1,7 +1,7 @@
 package com.ts.rts.datastructure.geom;
 
 import com.badlogic.gdx.utils.Pool.Poolable;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector2Pool;
 
 /**
  * A poolable extension of libgdx 2D vector with several re-implemented methods.
@@ -49,6 +49,12 @@ public class Vector2 extends com.badlogic.gdx.math.Vector2 implements Poolable {
         return this;
     }
 
+    public Vector2 add(Vector3 v) {
+        x += v.x;
+        y += v.y;
+        return this;
+    }
+
     public Vector2 add(float[] values) {
         x += values[0];
         y += values[1];
@@ -66,6 +72,12 @@ public class Vector2 extends com.badlogic.gdx.math.Vector2 implements Poolable {
     }
 
     public Vector2 subtract(Vector2 v) {
+        x -= v.x;
+        y -= v.y;
+        return this;
+    }
+
+    public Vector2 subtract(Vector3 v) {
         x -= v.x;
         y -= v.y;
         return this;
@@ -235,7 +247,11 @@ public class Vector2 extends com.badlogic.gdx.math.Vector2 implements Poolable {
 
     @Override
     public Vector2 clone() {
-        return VectorPool.getObject(x, y);
+        return Vector2Pool.getObject(x, y);
+    }
+
+    public void ret(){
+        Vector2Pool.returnObject(this);
     }
 
     public boolean isZeroVector() {

@@ -1,8 +1,9 @@
 package com.ts.rts.scene.unit.steeringbehaviour;
 
 import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 import com.ts.rts.scene.unit.MovingEntity;
-import com.ts.rts.util.VectorPool;
+import com.ts.rts.util.Vector3Pool;
 
 /**
  * Flee produces a steering force to steer the agent away from a position.
@@ -12,25 +13,25 @@ import com.ts.rts.util.VectorPool;
 public class BehaviourFlee extends AbstractSteeringBehaviour {
     private static final float panicDistanceSq = 100f * 100f;
 
-    private final Vector2 targetPosition;
+    private final Vector3 targetPosition;
 
-    public BehaviourFlee(MovingEntity unit, Vector2 targetPosition) {
+    public BehaviourFlee(MovingEntity unit, Vector3 targetPosition) {
         super(unit);
         this.targetPosition = targetPosition;
     }
 
     @Override
-    public Vector2 calculate() {
+    public Vector3 calculate() {
         // Only flee if the target is within panic distance
-        if (unit.pos.distanceSq(targetPosition) > panicDistanceSq) {
-            return VectorPool.getObject();
+        if (unit.pos.dst2(targetPosition) > panicDistanceSq) {
+            return Vector3Pool.getObject();
         } else {
-            Vector2 desiredVelocity = unit.pos.clone().subtract(targetPosition).normalise().multiply(unit.maxSpeed);
-            return desiredVelocity.subtract(unit.vel);
+            Vector3 desiredVelocity = unit.pos.clone().sub(targetPosition).nor().scl(unit.maxSpeed);
+            return desiredVelocity.sub(unit.vel);
         }
     }
 
-    public void updateTarget(Vector2 newTarget) {
-        targetPosition.set(newTarget.x, newTarget.y);
+    public void updateTarget(Vector3 newTarget) {
+        targetPosition.set(newTarget);
     }
 }

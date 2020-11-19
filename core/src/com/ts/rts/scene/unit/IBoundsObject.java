@@ -2,7 +2,7 @@ package com.ts.rts.scene.unit;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
-import com.ts.rts.datastructure.geom.Vector2;
+import com.ts.rts.datastructure.geom.Vector3;
 
 /**
  * Interface for an object with rectangle bounds.
@@ -17,5 +17,5 @@ public interface IBoundsObject {
 
     Circle softRadius();
 
-    Vector2 pos();
+    Vector3 pos();
 }
