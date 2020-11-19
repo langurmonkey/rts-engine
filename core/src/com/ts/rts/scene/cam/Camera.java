@@ -199,9 +199,21 @@ public class Camera {
      * @return
      */
     public boolean contains(PositionPhysicalEntity e) {
-        float w2 = canvasWidth / 2f;
-        float h2 = canvasHeight / 2f;
-        return e.pos.x > pos.x - w2 && e.pos.x < pos.x + w2 && e.pos.y > pos.y - h2 && e.pos.y < pos.y + h2;
+        float w2 = canvasWidth / 2f + 60;
+        float h2 = canvasHeight / 2f + 60;
+        return e.pos.x >= pos.x - w2 && e.pos.x <= pos.x + w2 && e.pos.y >= pos.y - h2 && e.pos.y <= pos.y + h2;
+    }
+
+    /**
+     * Check if the current viewport contains this point
+     * @param x
+     * @param y
+     * @return
+     */
+    public boolean containsPoint(float x, float y, float size){
+        float w2 = canvasWidth / 2f + size;
+        float h2 = canvasHeight / 2f + size;
+        return x >= pos.x - w2 && x <= pos.x + w2 && y >= pos.y - h2 && y <= pos.y + h2;
     }
 
     @Override

@@ -189,7 +189,7 @@ public abstract class Unit extends MovingEntity {
         if (Math.sqrt(Math.pow(pos.x - lastUpdateX, 2) + Math.pow(pos.y - lastUpdateY, 2)) > width / 4f) {
             map.updateEntity(this);
             touchLastUpdate();
-            map.updateFogOfWar(pos, viewingDistance);
+            map.updateFogOfWar(pos, (int) (viewingDistance * 2.2f));
         }
 
         // Update behaviour list

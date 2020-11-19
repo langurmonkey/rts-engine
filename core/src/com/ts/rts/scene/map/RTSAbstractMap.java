@@ -65,7 +65,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
     protected int renderTileWidth, renderTileHeight;
 
     public RTSAbstractMap(RTSGame game, String tiledMapPath) {
-        this(game, tiledMapPath, false);
+        this(game, tiledMapPath, true);
     }
 
     public RTSAbstractMap(RTSGame game, String tiledMapPath, boolean useFogOfWar) {
