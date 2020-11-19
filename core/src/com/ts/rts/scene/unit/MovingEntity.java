@@ -1,6 +1,7 @@
 package com.ts.rts.scene.unit;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.ts.rts.datastructure.geom.Vector2;
 
@@ -57,15 +58,15 @@ public abstract class MovingEntity extends PositionPhysicalEntity {
     }
 
     @Override
-    public void renderDebug() {
-        super.renderDebug();
+    public void renderDebug(ShapeRenderer sr) {
+        super.renderDebug(sr);
 
-        shapeRenderer.begin(ShapeType.Line);
+        sr.begin(ShapeType.Line);
         if (vel != null) {
-            shapeRenderer.setColor(new Color(0f, .6f, 0f, 1f));
-            shapeRenderer.line(pos.x, pos.y, pos.x + vel.x, pos.y + vel.y);
+            sr.setColor(new Color(0f, .6f, 0f, 1f));
+            sr.line(pos.x, pos.y, pos.x + vel.x, pos.y + vel.y);
         }
-        shapeRenderer.end();
+        sr.end();
     }
 
     protected void updateCurrentMaxSpeed() {

@@ -1,6 +1,7 @@
 package com.ts.rts.image;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.loaders.AssetLoader;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -13,12 +14,15 @@ import java.util.Set;
  *
  * @author Toni Sagrista
  */
+@Deprecated
 public class AtlasTextureManager implements ITextureManager {
 
     private final Map<String, TextureAtlas> atlases;
 
+
     public AtlasTextureManager() {
         atlases = new HashMap<>();
+        AssetLoader al;
     }
 
     @Override

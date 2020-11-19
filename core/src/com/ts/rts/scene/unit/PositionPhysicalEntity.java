@@ -1,6 +1,7 @@
 package com.ts.rts.scene.unit;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -94,7 +95,11 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
         super(pos);
     }
 
-    public abstract void initGraphics();
+    /**
+     * This method is called after all loading has happened. Intitializes
+     * sprites and other assets.
+     */
+    public abstract void initAssets(AssetManager assets);
 
     /**
      * Initializes the hard radius and the image bounds. The position of the entity must be set, as well as
@@ -189,10 +194,10 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
      */
     public void render() {
         if (visible)
-            renderEntity();
+            renderSprite();
     }
 
-    public void renderEntity() {
+    public void renderSprite() {
         // By default, heading rotates sprite
         positionSpriteAndDraw();
     }
@@ -217,59 +222,62 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
             spriteToDraw.getRegionWidth(), spriteToDraw.getRegionHeight(), scale, scale, angle);
     }
 
-    public abstract void renderSelection();
+    public abstract void renderShapeFilledLayer0(ShapeRenderer sr);
+    public abstract void renderShapeLineLayer1(ShapeRenderer sr);
+    public abstract void renderShapeFilledLayer2(ShapeRenderer sr);
+    public abstract void renderShapeLineLayer3(ShapeRenderer sr);
 
     @Override
     public int compareTo(PositionPhysicalEntity o) {
         return Float.compare(pos.y, o.pos.y) / -1;
     }
 
-    public void renderDebug() {
+    public void renderDebug(ShapeRenderer sr) {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        shapeRenderer.begin(ShapeType.Filled);
+        sr.begin(ShapeType.Filled);
 
         // Hard radius
-        shapeRenderer.setColor(new Color(0f, 0f, .4f, .4f));
-        shapeRenderer.rect(hardRadius.x, hardRadius.y, hardRadius.width, hardRadius.height);
+        sr.setColor(new Color(0f, 0f, .4f, .4f));
+        sr.rect(hardRadius.x, hardRadius.y, hardRadius.width, hardRadius.height);
 
         // Soft radius
-        shapeRenderer.setColor(new Color(0f, .4f, 0f, .2f));
-        shapeRenderer.circle(softRadius.x, softRadius.y, softRadius.radius);
+        sr.setColor(new Color(0f, .4f, 0f, .2f));
+        sr.circle(softRadius.x, softRadius.y, softRadius.radius);
 
         // Position
-        shapeRenderer.setColor(new Color(0f, 1f, 0f, 1f));
-        shapeRenderer.circle(pos.x, pos.y, 1);
-        shapeRenderer.end();
+        sr.setColor(new Color(0f, 1f, 0f, 1f));
+        sr.circle(pos.x, pos.y, 1);
+        sr.end();
 
-        shapeRenderer.begin(ShapeType.Line);
+        sr.begin(ShapeType.Line);
         // Image bounds
-        shapeRenderer.setColor(new Color(0f, 0f, 0f, 1f));
-        shapeRenderer.rect(imageBounds.x, imageBounds.y, imageBounds.width, imageBounds.height);
+        sr.setColor(new Color(0f, 0f, 0f, 1f));
+        sr.rect(imageBounds.x, imageBounds.y, imageBounds.width, imageBounds.height);
 
         // Heading
         if (heading != null) {
-            shapeRenderer.setColor(new Color(1f, 0f, 0f, 1f));
-            shapeRenderer.line(pos.x, pos.y, heading.x * 40 + pos.x, heading.y * 40 + pos.y);
+            sr.setColor(new Color(1f, 0f, 0f, 1f));
+            sr.line(pos.x, pos.y, heading.x * 40 + pos.x, heading.y * 40 + pos.y);
         }
 
-        shapeRenderer.end();
+        sr.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
     /**
      * Default implementation is just a box as big as the bounding box with an offset
      */
-    public void renderShadow() {
+    public void renderShadow(ShapeRenderer sr) {
         if (shadowA != 0f && shadowB != 0f) {
             // Render shadow
             Gdx.gl.glEnable(GL20.GL_BLEND);
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-            shapeRenderer.begin(ShapeType.Filled);
-            shapeRenderer.setColor(new Color(0f, 0f, 0f, .5f));
-            shapeRenderer.ellipse(pos.x - shadowA / 2 + 2, pos.y - shadowB / 2 - 2, shadowA, shadowB);
-            shapeRenderer.end();
+            sr.begin(ShapeType.Filled);
+            sr.setColor(new Color(0f, 0f, 0f, .5f));
+            sr.ellipse(pos.x - shadowA / 2 + 2, pos.y - shadowB / 2 - 2, shadowA, shadowB);
+            sr.end();
             Gdx.gl.glDisable(GL20.GL_BLEND);
         }
     }

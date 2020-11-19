@@ -1,7 +1,12 @@
 package com.ts.rts.scene.map;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.ts.rts.RTSGame;
@@ -23,6 +28,9 @@ public class FogOfWar {
     private final int height;
 
     private final ShapeRenderer shapeRenderer;
+    private final SpriteBatch batch;
+
+    private Sprite black;
 
     /**
      * Creates a new fog of war with the given with and height (in tiles) and the tile size
@@ -38,6 +46,12 @@ public class FogOfWar {
         this.fog = new byte[width][height];
         this.tileSize = tileSize;
         this.shapeRenderer = RTSGame.game.cameraShapeRenderer;
+        this.batch = RTSGame.game.getSpriteBatch();
+    }
+
+    public void doneLoading(AssetManager assets){
+        Texture tex = assets.get("data/tileset/tile-black.png");
+        black = new Sprite(tex);
     }
 
     /**

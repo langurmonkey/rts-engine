@@ -1,10 +1,11 @@
 package com.ts.rts.scene.unit;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
-import com.ts.rts.image.TextureManager;
 import com.ts.rts.scene.map.IRTSMap;
 import com.ts.rts.util.VectorPool;
 
@@ -49,34 +50,27 @@ public class Gunner extends Unit {
         vel = VectorPool.getObject(0f, 0f);
         heading = VectorPool.getObject(0, -1);
 
-        initGraphics();
-        initHardRadius(height / 2f);
-
-        softRadius = new Circle(x, y, 13);
+        softRadius = new Circle(pos.x, pos.y, 13);
         selectionRadius = 18;
 
         shadowA = 10;
         shadowB = 4;
 
         viewingDistance = 120;
-
-        lastAngle = heading.angle();
-        if (lastAngle <= 180) {
-            sprite.flip(true, false);
-        }
     }
 
     @Override
-    public void initGraphics() {
+    public void initAssets(AssetManager assets) {
         try {
-            sprite = new Sprite(TextureManager.getTexture("textures", "units/goon-blue-stand-left"));
+            TextureAtlas ta = assets.get("data/img/textures/textures.pack");
+            sprite = new Sprite(ta.findRegion("units/goon-blue-stand-left"));
 
             TextureRegion[] walkLeftFrames = new TextureRegion[4];
 
-            walkLeftFrames[0] = TextureManager.getTexture("textures", "units/goon-blue-walk1-left");
-            walkLeftFrames[1] = TextureManager.getTexture("textures", "units/goon-blue-walk2-left");
-            walkLeftFrames[2] = TextureManager.getTexture("textures", "units/goon-blue-walk1-left");
-            walkLeftFrames[3] = TextureManager.getTexture("textures", "units/goon-blue-walk3-left");
+            walkLeftFrames[0] = ta.findRegion( "units/goon-blue-walk1-left");
+            walkLeftFrames[1] = ta.findRegion( "units/goon-blue-walk2-left");
+            walkLeftFrames[2] = ta.findRegion( "units/goon-blue-walk1-left");
+            walkLeftFrames[3] = ta.findRegion( "units/goon-blue-walk3-left");
 
             TextureRegion[] walkRightFrames = new TextureRegion[4];
 
@@ -97,11 +91,17 @@ public class Gunner extends Unit {
 
             spriteOffsetY = 11f;
 
+            initHardRadius(height / 2f);
+
+            lastAngle = heading.angle();
+            if (lastAngle <= 180) {
+                sprite.flip(true, false);
+            }
         } catch (Exception e) {
         }
     }
 
-    public void renderEntity() {
+    public void renderSprite() {
         // Flip if necessary the sprite
         float angle = heading.angle();
         if ((lastAngle > 180 && angle <= 180) || (lastAngle <= 180 && angle > 180)) {

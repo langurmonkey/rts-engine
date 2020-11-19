@@ -1,11 +1,12 @@
 package com.ts.rts.scene.unit;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Circle;
 import com.ts.rts.RTSGame;
-import com.ts.rts.image.TextureManager;
 import com.ts.rts.scene.map.IRTSMap;
 import com.ts.rts.util.VectorPool;
 
@@ -47,9 +48,6 @@ public class Tank extends Unit {
         vel = VectorPool.getObject(0f, 0f);
         heading = VectorPool.getObject(0, 1);
 
-        initGraphics();
-        initHardRadius(height);
-
         softRadius = new Circle(x, y, 15);
         selectionRadius = 17;
 
@@ -62,11 +60,15 @@ public class Tank extends Unit {
 
     }
 
-    public void initGraphics() {
+    @Override
+    public void initAssets(AssetManager assets) {
         try {
-            sprite = new Sprite(TextureManager.getTexture("textures", "units/tank-32"));
+            TextureAtlas ta = assets.get("data/img/textures/textures.pack");
+            sprite = new Sprite(ta.findRegion( "units/tank-32"));
             width = sprite.getRegionWidth() * scale - 5;
             height = sprite.getRegionHeight() * scale - 5;
+
+            initHardRadius(height);
         } catch (Exception e) {
         }
     }

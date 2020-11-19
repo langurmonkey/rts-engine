@@ -3,19 +3,22 @@ package com.ts.rts;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Logger;
 import com.ts.rts.datastructure.geom.Vector2;
-import com.ts.rts.image.TextureManager;
 import com.ts.rts.input.KeyboardListener;
 import com.ts.rts.input.PanListener;
 import com.ts.rts.input.SelectionListener;
@@ -29,6 +32,7 @@ import com.ts.rts.scene.unit.group.UnitGroupManager;
 import com.ts.rts.scene.unit.steeringbehaviour.Path;
 import com.ts.rts.util.VectorPool;
 
+import javax.swing.text.Position;
 import java.util.*;
 
 /**
@@ -40,10 +44,14 @@ import java.util.*;
  */
 public class RTSGame implements ApplicationListener {
 
+    private static AssetManager assets;
+    public static AssetManager assets() {
+        return assets;
+    }
+
     private Logger logger;
 
     public OrthographicCamera orthoCamera;
-    private SpriteBatch batch;
 
     /**
      * My variables
@@ -52,12 +60,24 @@ public class RTSGame implements ApplicationListener {
     public static boolean debug = true;
     public static boolean drawShadows = true;
 
+
+    public enum AppStatus {
+        BOOTING, LOADING, READY
+    }
+
+
+    public static AppStatus status = AppStatus.BOOTING;
+
     private Camera camera;
     private IRTSMap map;
     private final List<PositionPhysicalEntity> entities = new ArrayList<>();
     public List<Unit> player = new ArrayList<>();
     public Selection selection;
 
+    /**
+     * Sprite batch
+     */
+    private SpriteBatch spriteBatch;
     /**
      * This is the global shape renderer used to render objects in the camera reference system
      */
@@ -87,7 +107,7 @@ public class RTSGame implements ApplicationListener {
     public ShaderProgram objectsShader, mapShader;
 
     public static SpriteBatch getSpriteBatch() {
-        return game.batch;
+        return game.spriteBatch;
     }
 
     public void initShaders() {
@@ -122,7 +142,7 @@ public class RTSGame implements ApplicationListener {
         orthoCamera.setToOrtho(false, w, h);
         orthoCamera.zoom = 1f;
         initShaders();
-        batch = new SpriteBatch(300, objectsShader);
+        spriteBatch = new SpriteBatch(5000, objectsShader);
 
         // Here we use genuine info in the map to find out blocked areas
         map = new RTSGridMapTiledMap(this, "data/maps/Snow01.tmx");
@@ -152,7 +172,11 @@ public class RTSGame implements ApplicationListener {
         /**
          * Initialize textures and scene entities
          */
-        TextureManager.initialize();
+        assets = new AssetManager();
+        assets.load("data/img/textures/textures.pack", TextureAtlas.class);
+        assets.load("data/tileset/tile-black.png", Texture.class);
+        status = AppStatus.LOADING;
+        logger.info("Loading assets...");
 
         // Initialize groups
         UnitGroupManager.initialize();
@@ -212,6 +236,13 @@ public class RTSGame implements ApplicationListener {
 
     }
 
+    public void doneLoading(){
+        map.doneLoading(assets);
+        for(PositionPhysicalEntity entity : entities){
+            entity.initAssets(assets);
+        }
+    }
+
     public boolean isVisible(Vector2 point) {
         boolean vis = false;
         for (Unit u : player) {
@@ -223,7 +254,7 @@ public class RTSGame implements ApplicationListener {
     @Override
     public void dispose() {
         logger.info("Dispose called");
-        batch.dispose();
+        spriteBatch.dispose();
         map.dispose();
     }
 
@@ -237,10 +268,20 @@ public class RTSGame implements ApplicationListener {
         }
 
         deltaSecs = Math.min(deltaSecs, .4f);
-        if (!paused) {
-            updateScene(deltaSecs);
+
+        if (status == AppStatus.LOADING) {
+            assets.update();
+            if(assets.isFinished()){
+                doneLoading();
+                status = AppStatus.READY;
+                logger.info("Loading finished");
+            }
+        } else if (status == AppStatus.READY) {
+            if (!paused) {
+                updateScene(deltaSecs);
+            }
+            renderScene(deltaSecs);
         }
-        renderScene(deltaSecs);
     }
 
     /**
@@ -286,17 +327,17 @@ public class RTSGame implements ApplicationListener {
         mapShader.setUniformf("u_camera_offset", camera.pos.x - Gdx.graphics.getWidth() / 2f, camera.pos.y - Gdx.graphics.getHeight() / 2f);
         map.renderBase(camera);
 
-        batch.setProjectionMatrix(camera.getLibgdxCamera().combined);
+        spriteBatch.setProjectionMatrix(camera.getLibgdxCamera().combined);
         objectsShader.bind();
         objectsShader.setUniformf("u_camera_offset", camera.pos.x - Gdx.graphics.getWidth() / 2f, camera.pos.y - Gdx.graphics.getHeight() / 2f);
         objectsShader.setUniformi("u_draw_shadows", (drawShadows ? 1 : -1));
 
         /** Entities **/
+        spriteBatch.begin();
         for (PositionPhysicalEntity ppe : entities) {
-            batch.begin();
             ppe.render();
-            batch.end();
         }
+        spriteBatch.end();
 
         map.renderOverlays(camera);
         map.renderFogOfWar(camera);
@@ -306,14 +347,30 @@ public class RTSGame implements ApplicationListener {
             UnitGroupManager.getInstance().render();
             map.renderDebug();
             for (PositionPhysicalEntity ppe : entities) {
-                ppe.renderDebug();
+                ppe.renderDebug(cameraShapeRenderer);
             }
         }
 
-        // Render selections
-        for (PositionPhysicalEntity ppe : entities) {
-            ppe.renderSelection();
-        }
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        // Render shape renderer layers
+        // Layer 0 - filled
+        cameraShapeRenderer.begin(ShapeType.Filled);
+        entities.forEach(ppe -> ppe.renderShapeFilledLayer0(cameraShapeRenderer));
+        cameraShapeRenderer.end();
+        // Layer 1 - line
+        cameraShapeRenderer.begin(ShapeType.Line);
+        entities.forEach(ppe -> ppe.renderShapeLineLayer1(cameraShapeRenderer));
+        cameraShapeRenderer.end();
+        // Layer 2 - filled
+        cameraShapeRenderer.begin(ShapeType.Filled);
+        entities.forEach(ppe -> ppe.renderShapeFilledLayer2(cameraShapeRenderer));
+        cameraShapeRenderer.end();
+        // Layer 3 - line
+        cameraShapeRenderer.begin(ShapeType.Line);
+        entities.forEach(ppe -> ppe.renderShapeLineLayer3(cameraShapeRenderer));
+        cameraShapeRenderer.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
 
         selection.render();
 
@@ -471,14 +528,14 @@ public class RTSGame implements ApplicationListener {
     }
 
     /**
-     * Gets the units inside the given rectangle
+     * Gets the player units inside the given rectangle
      *
      * @param rect The rectangle in map coordinates
      * @return
      */
     public Set<PositionPhysicalEntity> getInsideUnits(Rectangle rect) {
         Set<PositionPhysicalEntity> list = new HashSet<>();
-        for (PositionPhysicalEntity u : entities) {
+        for (PositionPhysicalEntity u : player) {
             if (rect.overlaps(u.imageBounds)) {
                 list.add(u);
             }

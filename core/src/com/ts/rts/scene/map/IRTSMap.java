@@ -1,5 +1,6 @@
 package com.ts.rts.scene.map;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.math.Rectangle;
 import com.ts.rts.datastructure.IMapCell;
@@ -18,6 +19,9 @@ import java.util.Set;
  * @author Toni Sagrista
  */
 public interface IRTSMap {
+
+    void doneLoading(AssetManager assets);
+
     void renderBase(Camera camera);
 
     void renderOverlays(Camera camera);

@@ -3,6 +3,7 @@ package com.ts.rts.scene.unit;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.ts.rts.RTSGame;
 import com.ts.rts.datastructure.IMapCell;
@@ -252,42 +253,51 @@ public abstract class Unit extends MovingEntity {
 
     }
 
-    public void renderSelection() {
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        if (selected) {
-            /** SELECTION BOX **/
-            shapeRenderer.begin(ShapeType.Line);
-            shapeRenderer.setColor(new Color(0f, 0f, 0f, .9f));
-            shapeRenderer.circle(pos.x + spriteOffsetX, pos.y + spriteOffsetY, selectionRadius + 1);
-            shapeRenderer.setColor(new Color(1f, 1f, 1f, .8f));
-            shapeRenderer.circle(pos.x + spriteOffsetX, pos.y + spriteOffsetY, selectionRadius);
-            shapeRenderer.setColor(new Color(1f, 1f, 1f, .5f));
-            shapeRenderer.circle(pos.x + spriteOffsetX, pos.y + spriteOffsetY, selectionRadius - 1);
-            shapeRenderer.end();
-
-            /** HEALTH BAR **/
-            int startx = Math.round(pos.x - selectionRadius + spriteOffsetX);
-            int starty = Math.round(pos.y - selectionRadius + spriteOffsetY);
-            float healthLength = getHealthLength(selectionRadius * 2f);
-
-            shapeRenderer.begin(ShapeType.Filled);
-            shapeRenderer.setColor(new Color(0f, 0f, 0f, 1f));
-            shapeRenderer.rect(startx - 2f, starty - 1f, 3f, selectionRadius * 2f + 1f);
-            shapeRenderer.end();
-
-            float[] color = getHealthColor();
-            shapeRenderer.begin(ShapeType.Line);
-            shapeRenderer.setColor(new Color(color[0], color[1], color[2], 1f));
-            shapeRenderer.line(startx, starty, startx, starty + healthLength - 1f);
-            shapeRenderer.end();
-
-        }
-        Gdx.gl.glDisable(GL20.GL_BLEND);
+    @Override
+    public void renderShapeFilledLayer0(ShapeRenderer sr){
     }
 
-    public void renderDebug() {
-        super.renderDebug();
+    @Override
+    public void renderShapeLineLayer1(ShapeRenderer sr){
+        if(selected){
+            // Selection box
+            sr.setColor(new Color(0f, 0f, 0f, .9f));
+            sr.circle(pos.x + spriteOffsetX, pos.y + spriteOffsetY, selectionRadius + 1);
+            sr.setColor(new Color(1f, 1f, 1f, .8f));
+            sr.circle(pos.x + spriteOffsetX, pos.y + spriteOffsetY, selectionRadius);
+            sr.setColor(new Color(1f, 1f, 1f, .5f));
+            sr.circle(pos.x + spriteOffsetX, pos.y + spriteOffsetY, selectionRadius - 1);
+        }
+    }
+
+    int startx, starty;
+    float healthLength;
+    @Override
+    public void renderShapeFilledLayer2(ShapeRenderer sr){
+        if(selected){
+           // Health bar
+            startx = Math.round(pos.x - selectionRadius + spriteOffsetX);
+            starty = Math.round(pos.y - selectionRadius + spriteOffsetY);
+            healthLength = getHealthLength(selectionRadius * 2f);
+
+            sr.setColor(new Color(0f, 0f, 0f, 1f));
+            sr.rect(startx - 2f, starty - 1f, 3f, selectionRadius * 2f + 1f);
+        }
+    }
+
+    @Override
+    public void renderShapeLineLayer3(ShapeRenderer sr){
+        if(selected) {
+            // Health outline
+            float[] color = getHealthColor();
+            sr.setColor(new Color(color[0], color[1], color[2], 1f));
+            sr.line(startx, starty, startx, starty + healthLength - 1f);
+        }
+    }
+
+
+    public void renderDebug(ShapeRenderer sr) {
+        super.renderDebug(sr);
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 

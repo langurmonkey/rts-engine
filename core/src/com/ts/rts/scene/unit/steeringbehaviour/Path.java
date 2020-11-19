@@ -124,7 +124,6 @@ public class Path {
     /**
      * This smooths the path for the given entity. It also resets the current waypoint.
      *
-     * @param unitBounds
      */
     public void smooth(PositionPhysicalEntity entity, IRTSMap map) {
         List<Vector2> smoothed = new ArrayList<>();

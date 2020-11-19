@@ -1,6 +1,7 @@
 package com.ts.rts.scene.map;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -91,7 +92,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
         if (objectsLayer != null)
             mapObjects = objectsLayer.getObjects();
 
-        mapBatch = new SpriteBatch(100, RTSGame.game.mapShader);
+        mapBatch = new SpriteBatch(1000, RTSGame.game.mapShader);
 
         // Initialize map renderer
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, mapBatch);
@@ -112,6 +113,13 @@ public abstract class RTSAbstractMap implements IRTSMap {
         if (useFogOfWar) {
             fogOfWar = new FogOfWar(firstLayer.getWidth(), firstLayer.getHeight(),
                 firstLayer.getTileWidth());
+        }
+    }
+
+    @Override
+    public void doneLoading(AssetManager assets){
+        if(this.useFogOfWar){
+            fogOfWar.doneLoading(assets);
         }
     }
 
@@ -176,14 +184,14 @@ public abstract class RTSAbstractMap implements IRTSMap {
     public void renderBase(Camera camera) {
         // Check camera and canvas
         mapRenderer.setView((OrthographicCamera) camera.getLibgdxCamera());
-        mapRenderer.render(new int[] { 0 });
+        mapRenderer.render(baseIndices);
     }
 
     @Override
     public void renderOverlays(Camera camera) {
         // Check camera and canvas
         mapRenderer.setView((OrthographicCamera) camera.getLibgdxCamera());
-        mapRenderer.render(new int[] { 1, 2 });
+        mapRenderer.render(overlayIndices);
     }
 
     @Override

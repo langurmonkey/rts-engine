@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  *
  * @author Toni Sagrista
  */
+@Deprecated
 public class TextureManager {
 
     private static ITextureManager manager;

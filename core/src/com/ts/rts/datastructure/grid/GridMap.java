@@ -138,9 +138,6 @@ public class GridMap<T extends IBoundsObject> implements IMap<T> {
     /**
      * Gets a square of cells around this position. The square has a width and height of cellRadius*2+1
      *
-     * @param pos
-     * @param cellRadius
-     * @return
      */
     public Set<IMapCell<T>> getCellsAround(float x, float y, int cellRadius) {
         float row = getRow(y);

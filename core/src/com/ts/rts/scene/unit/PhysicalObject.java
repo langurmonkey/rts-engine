@@ -1,9 +1,11 @@
 package com.ts.rts.scene.unit;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.ts.rts.RTSGame;
-import com.ts.rts.image.TextureManager;
 import com.ts.rts.scene.map.IRTSMap;
 
 /**
@@ -18,23 +20,17 @@ public class PhysicalObject extends PositionPhysicalEntity {
     public PhysicalObject(float x, float y, float offsetX, float offsetY, String textureName, IRTSMap map) {
         super(x, y);
         this.map = map;
-        this.shapeRenderer = RTSGame.game.cameraShapeRenderer;
         this.textureName = textureName;
         this.spriteOffsetX = offsetX;
         this.spriteOffsetY = offsetY;
-
-        initGraphics();
-        initHardRadius(height / 2f);
-
-        // Default soft radius
-        softRadius = new Circle(x, y, 10);
 
         // Default shadow
         shadowA = 15f;
         shadowB = 4f;
 
-        // Add to map, just once (these entities do not move)
-        map.updateEntity(this);
+        // Default soft radius
+        softRadius = new Circle(x, y, 10);
+
     }
 
     public PhysicalObject(float x, float y, String textureName, IRTSMap map) {
@@ -42,11 +38,18 @@ public class PhysicalObject extends PositionPhysicalEntity {
     }
 
     @Override
-    public void initGraphics() {
+    public void initAssets(AssetManager assets) {
         try {
-            sprite = new Sprite(TextureManager.getTexture("textures", textureName));
+            TextureAtlas ta = assets.get("data/img/textures/textures.pack");
+            sprite = new Sprite(ta.findRegion(textureName));
             width = sprite.getRegionWidth();
             height = sprite.getRegionHeight();
+
+            initHardRadius(height / 2f);
+
+            // Add to map, just once (these entities do not move)
+            // This needs to happen here because we need the width and height
+            map.updateEntity(this);
         } catch (Exception e) {
         }
     }
@@ -57,9 +60,20 @@ public class PhysicalObject extends PositionPhysicalEntity {
         updateVisible();
     }
 
-    @Override
-    public void renderSelection() {
-        // void
+    @Override public void renderShapeFilledLayer0(ShapeRenderer sr) {
+
+    }
+
+    @Override public void renderShapeLineLayer1(ShapeRenderer sr) {
+
+    }
+
+    @Override public void renderShapeFilledLayer2(ShapeRenderer sr) {
+
+    }
+
+    @Override public void renderShapeLineLayer3(ShapeRenderer sr) {
+
     }
 
 }
