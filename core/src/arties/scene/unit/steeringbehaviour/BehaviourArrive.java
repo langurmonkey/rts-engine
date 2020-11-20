@@ -1,10 +1,9 @@
 package arties.scene.unit.steeringbehaviour;
 
+import arties.datastructure.geom.Vector3;
+import arties.util.Vector3Pool;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import arties.datastructure.geom.Vector3;
-import arties.scene.unit.MovingEntity;
-import arties.util.Vector3Pool;
 
 /**
  * Steers the agent in such a way that it decelerates onto the target position.
@@ -18,10 +17,10 @@ public class BehaviourArrive extends AbstractSteeringBehaviour {
     protected Vector3 desiredVelocity;
     protected Vector3 pos;
 
-    public BehaviourArrive(MovingEntity unit, Vector3 targetPosition) {
+    public BehaviourArrive(IEntity unit, Vector3 targetPosition) {
         super(unit);
         this.targetPosition = targetPosition;
-        this.pos = unit.pos;
+        this.pos = unit.pos();
     }
 
     @Override
@@ -32,16 +31,16 @@ public class BehaviourArrive extends AbstractSteeringBehaviour {
     private Vector3 impl2() {
         desiredVelocity = Vector3Pool.getObject(targetPosition).sub(pos);
         float distance = desiredVelocity.len();
-        if (distance < unit.slowingDistance) {
+        if (distance < unit.slowingDistance()) {
             // Inside the slowing area
             // desired_velocity = normalize(desired_velocity) * max_velocity * (distance / slowingRadius)
-            desiredVelocity.nor().scl(unit.maxForce * distance / unit.slowingDistance);
+            desiredVelocity.nor().scl(unit.maxForce() * distance / unit.slowingDistance());
         } else {
             // Outside the slowing area.
             // desired_velocity = normalize(desired_velocity) * max_velocity
-            desiredVelocity.nor().scl(unit.maxForce);
+            desiredVelocity.nor().scl(unit.maxForce());
         }
-        return desiredVelocity.sub(unit.vel);
+        return desiredVelocity.sub(unit.vel());
     }
 
     @Override
@@ -61,7 +60,7 @@ public class BehaviourArrive extends AbstractSteeringBehaviour {
             // Slowing distance circle
             shapeRenderer.begin(ShapeType.Line);
             shapeRenderer.setColor(new Color(.3f, .3f, 1f, .7f));
-            shapeRenderer.circle(targetPosition.x, targetPosition.y, unit.slowingDistance);
+            shapeRenderer.circle(targetPosition.x, targetPosition.y, unit.slowingDistance());
             shapeRenderer.end();
 
             // Velocity line

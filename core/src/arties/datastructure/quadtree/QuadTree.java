@@ -8,10 +8,10 @@ package arties.datastructure.quadtree;
 import arties.datastructure.IMap;
 import arties.datastructure.IMapCell;
 import arties.datastructure.Pair;
+import arties.scene.unit.steeringbehaviour.IEntity;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import arties.scene.unit.IBoundsObject;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +23,7 @@ import java.util.Set;
  *
  * @author Toni Sagrista
  */
-public class QuadTree<T extends IBoundsObject> implements IMap<T> {
+public class QuadTree<T extends IEntity> implements IMap<T> {
 
     public QuadNode<T> root;
 

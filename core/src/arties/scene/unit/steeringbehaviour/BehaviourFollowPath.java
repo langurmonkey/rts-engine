@@ -1,11 +1,9 @@
 package arties.scene.unit.steeringbehaviour;
 
+import arties.datastructure.geom.Vector3;
+import arties.util.Vector3Pool;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import arties.datastructure.geom.Vector3;
-import arties.scene.unit.MovingEntity;
-import arties.scene.unit.group.UnitGroup;
-import arties.util.Vector3Pool;
 
 /**
  * This behaviour creates a force that leads the unit to the next waypoint in a path.
@@ -20,7 +18,7 @@ public class BehaviourFollowPath extends AbstractSteeringBehaviour {
     protected BehaviourSeek seek;
     protected BehaviourArrive arrive = null;
 
-    public BehaviourFollowPath(MovingEntity unit, Path path, UnitGroup group) {
+    public BehaviourFollowPath(IEntity unit, Path path, IGroup group) {
         super(unit);
         this.path = path;
         if (group != null) {
@@ -31,7 +29,7 @@ public class BehaviourFollowPath extends AbstractSteeringBehaviour {
 
     @Override
     public Vector3 calculate() {
-        if (unit.pos.dst2(path.currentWaypoint()) < waypointSeekDistSq) {
+        if (unit.pos().dst2(path.currentWaypoint()) < waypointSeekDistSq) {
             path.nextWaypoint();
         }
         if (!path.finished()) {

@@ -9,6 +9,7 @@ import arties.datastructure.astar.IAStar;
 import arties.datastructure.geom.Vector2;
 import arties.datastructure.mapgen.IMapGen;
 import arties.scene.cam.Camera;
+import arties.scene.unit.steeringbehaviour.IEntity;
 import arties.util.Vector2Pool;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -26,7 +27,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Logger;
-import arties.scene.unit.IBoundsObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +44,9 @@ public abstract class RTSAbstractMap implements IRTSMap {
 
     protected RTSGame game;
 
-    protected IMapGen<IBoundsObject> mapGen = null;
-    protected IMap<IBoundsObject> map;
-    protected IAStar<IBoundsObject> astar;
+    protected IMapGen<IEntity> mapGen = null;
+    protected IMap<IEntity> map;
+    protected IAStar<IEntity> astar;
     protected TiledMap tiledMap;
 
     protected TiledMapTileLayer firstLayer;
@@ -54,7 +54,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
     protected List<MapLayer> overlayLayers;
     protected int[] baseIndices, overlayIndices;
     protected MapObjects mapObjects = null;
-    protected List<IMapCell<IBoundsObject>> path = null;
+    protected List<IMapCell<IEntity>> path = null;
     protected MapRenderer mapRenderer;
     protected IMapRenderer rtsMapRenderer;
     protected FogOfWar fogOfWar;
@@ -157,7 +157,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
     }
 
     @Override
-    public List<IMapCell<IBoundsObject>> findPath(Float inix, Float iniy, Float endx, Float endy) {
+    public List<IMapCell<IEntity>> findPath(Float inix, Float iniy, Float endx, Float endy) {
         path = null;
         map.clearPath();
         astar.clear();
@@ -176,7 +176,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
     }
 
     @Override
-    public Set<IMapCell<IBoundsObject>> findLeafNodesWith(IBoundsObject entity) {
+    public Set<IMapCell<IEntity>> findLeafNodesWith(IEntity entity) {
         return map.findNodesWith(entity);
     }
 
@@ -208,17 +208,17 @@ public abstract class RTSAbstractMap implements IRTSMap {
     }
 
     @Override
-    public void addEntity(IBoundsObject entity) {
+    public void addEntity(IEntity entity) {
         map.add(entity);
     }
 
     @Override
-    public void removeEntity(IBoundsObject entity) {
+    public void removeEntity(IEntity entity) {
         map.remove(entity);
     }
 
     @Override
-    public void updateEntity(IBoundsObject entity) {
+    public void updateEntity(IEntity entity) {
         removeEntity(entity);
         addEntity(entity);
     }
@@ -234,20 +234,20 @@ public abstract class RTSAbstractMap implements IRTSMap {
     }
 
     @Override
-    public Set<IBoundsObject> getNearbyEntities(Vector2 pos) {
+    public Set<IEntity> getNearbyEntities(Vector2 pos) {
         return map.findNearbyObjects(pos);
     }
 
-    @Override public Set<IBoundsObject> getNearbyEntities(Vector3 pos) {
+    @Override public Set<IEntity> getNearbyEntities(Vector3 pos) {
         return map.findNearbyObjects(pos);
     }
 
     @Override
-    public Set<IMapCell<IBoundsObject>> getNearbyBlockedNodes(Vector2 pos) {
+    public Set<IMapCell<IEntity>> getNearbyBlockedNodes(Vector2 pos) {
         return map.findNearbyBlockedNodes(pos);
     }
 
-    @Override public Set<IMapCell<IBoundsObject>> getNearbyBlockedNodes(Vector3 pos) {
+    @Override public Set<IMapCell<IEntity>> getNearbyBlockedNodes(Vector3 pos) {
         return map.findNearbyBlockedNodes(pos);
     }
     /**
@@ -261,16 +261,16 @@ public abstract class RTSAbstractMap implements IRTSMap {
     }
 
     @Override
-    public boolean walkable(Vector2 ini, Vector2 end, IBoundsObject entity) {
+    public boolean walkable(Vector2 ini, Vector2 end, IEntity entity) {
         return walkable(ini.x, ini.y, end.x, end.y, entity);
     }
 
     @Override
-    public boolean walkable(Vector3 ini, Vector3 end, IBoundsObject entity) {
+    public boolean walkable(Vector3 ini, Vector3 end, IEntity entity) {
         return walkable(ini.x, ini.y, end.x, end.y, entity);
     }
 
-    public boolean walkable(float inix, float iniy, float endx, float endy, IBoundsObject entity) {
+    public boolean walkable(float inix, float iniy, float endx, float endy, IEntity entity) {
         float step = entity.bounds().width / 2f;
         Rectangle r = new Rectangle(0, 0, entity.bounds().width, entity.bounds().height);
         Vector2 current = Vector2Pool.getObject(inix, iniy);
@@ -305,17 +305,17 @@ public abstract class RTSAbstractMap implements IRTSMap {
     }
 
     @Override
-    public IMapCell<IBoundsObject> getCell(Vector2 point) {
+    public IMapCell<IEntity> getCell(Vector2 point) {
         return map.getCell(point);
     }
 
     @Override
-    public IMapCell<IBoundsObject> getCell(Vector3 point) {
+    public IMapCell<IEntity> getCell(Vector3 point) {
         return null;
     }
 
     @Override
-    public IMapCell<IBoundsObject> getCell(float x, float y) {
+    public IMapCell<IEntity> getCell(float x, float y) {
         return map.getCell(x, y);
     }
 

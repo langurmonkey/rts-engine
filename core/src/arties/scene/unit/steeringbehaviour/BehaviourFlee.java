@@ -1,7 +1,6 @@
 package arties.scene.unit.steeringbehaviour;
 
 import arties.datastructure.geom.Vector3;
-import arties.scene.unit.MovingEntity;
 import arties.util.Vector3Pool;
 
 /**
@@ -14,7 +13,7 @@ public class BehaviourFlee extends AbstractSteeringBehaviour {
 
     private final Vector3 targetPosition;
 
-    public BehaviourFlee(MovingEntity unit, Vector3 targetPosition) {
+    public BehaviourFlee(IEntity unit, Vector3 targetPosition) {
         super(unit);
         this.targetPosition = targetPosition;
     }
@@ -22,11 +21,11 @@ public class BehaviourFlee extends AbstractSteeringBehaviour {
     @Override
     public Vector3 calculate() {
         // Only flee if the target is within panic distance
-        if (unit.pos.dst2(targetPosition) > panicDistanceSq) {
+        if (unit.pos().dst2(targetPosition) > panicDistanceSq) {
             return Vector3Pool.getObject();
         } else {
-            Vector3 desiredVelocity = unit.pos.clone().sub(targetPosition).nor().scl(unit.maxSpeed);
-            return desiredVelocity.sub(unit.vel);
+            Vector3 desiredVelocity = unit.pos().clone().sub(targetPosition).nor().scl(unit.maxSpeed());
+            return desiredVelocity.sub(unit.vel());
         }
     }
 

@@ -1,16 +1,15 @@
 package arties.datastructure.mapgen;
 
 import arties.datastructure.IMap;
+import arties.scene.unit.steeringbehaviour.IEntity;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import arties.scene.unit.IBoundsObject;
 
 /**
  * A map generator interface which is intended to generate a new {@link IMap} from a given {@link TiledMap}.
  *
- * @param <T>
  * @author Toni Sagrista
  */
-public interface IMapGen<T extends IBoundsObject> {
+public interface IMapGen<T extends IEntity> {
 
     /**
      * Terrain type property name

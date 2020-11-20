@@ -1,13 +1,11 @@
 package arties.scene.unit.steeringbehaviour;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import arties.datastructure.IMapCell;
 import arties.datastructure.geom.Vector3;
 import arties.scene.map.IRTSMap;
-import arties.scene.unit.IBoundsObject;
-import arties.scene.unit.MovingEntity;
 import arties.util.Vector3Pool;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import java.util.Set;
 
@@ -23,19 +21,19 @@ public class BehaviourAvoidWalls extends AbstractSteeringBehaviour {
 
     private Vector3 force;
 
-    public BehaviourAvoidWalls(MovingEntity unit, IRTSMap map) {
+    public BehaviourAvoidWalls(IEntity unit) {
         super(unit);
-        this.map = map;
+        this.map = unit.map();
     }
 
     @Override
     public Vector3 calculate() {
-        Set<IMapCell<IBoundsObject>> blocked = map.getNearbyBlockedNodes(unit.pos);
+        Set<IMapCell<IEntity>> blocked = map.getNearbyBlockedNodes(unit.pos());
         force = Vector3Pool.getObject();
-        for (IMapCell<IBoundsObject> node : blocked) {
-            Vector3 entityUnit = unit.pos.clone().sub(node.x(), node.y());
+        for (IMapCell<IEntity> node : blocked) {
+            Vector3 entityUnit = unit.pos().clone().sub(node.x(), node.y());
             float length = entityUnit.len();
-            if (length < (unit.softRadius.radius + 8 + node.bounds().width / 2)) {
+            if (length < (unit.softRadius() + 8 + node.bounds().width / 2)) {
                 // Calculate force
                 entityUnit.nor().scl((1 / length) * 200);
                 force.add(entityUnit);
@@ -50,7 +48,7 @@ public class BehaviourAvoidWalls extends AbstractSteeringBehaviour {
         if (force != null) {
             shapeRenderer.begin(ShapeType.Line);
             shapeRenderer.setColor(new Color(1f, .5f, 0f, 1f));
-            shapeRenderer.line(unit.pos.x, unit.pos.y, unit.pos.x + force.x, unit.pos.y + force.y);
+            shapeRenderer.line(unit.pos().x, unit.pos().y, unit.pos().x + force.x, unit.pos().y + force.y);
             shapeRenderer.end();
 
         }

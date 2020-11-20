@@ -1,11 +1,10 @@
 package arties.scene.unit.steeringbehaviour;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import arties.datastructure.geom.Vector2;
 import arties.datastructure.geom.Vector3;
-import arties.scene.unit.MovingEntity;
 import arties.util.Vector3Pool;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 /**
  * Returns a force that directs the agent toward a target position.
@@ -16,15 +15,15 @@ public class BehaviourSeek extends AbstractSteeringBehaviour {
     private final Vector3 targetPosition;
     private Vector3 desiredVelocity;
 
-    public BehaviourSeek(MovingEntity unit, Vector3 targetPosition) {
+    public BehaviourSeek(IEntity unit, Vector3 targetPosition) {
         super(unit);
         this.targetPosition = targetPosition;
     }
 
     @Override
     public Vector3 calculate() {
-        desiredVelocity = targetPosition.clone().sub(unit.pos).nor().scl(unit.maxForce);
-        return desiredVelocity.sub(unit.vel);
+        desiredVelocity = targetPosition.clone().sub(unit.pos()).nor().scl(unit.maxForce());
+        return desiredVelocity.sub(unit.vel());
     }
 
     public ISteeringBehaviour updateTarget(Vector2 newTarget) {
@@ -50,7 +49,7 @@ public class BehaviourSeek extends AbstractSteeringBehaviour {
 
             shapeRenderer.begin(ShapeType.Line);
             shapeRenderer.setColor(new Color(0f, 0f, 1f, 1f));
-            shapeRenderer.line(unit.pos.x, unit.pos.y, unit.pos.x + desiredVelocity.x, unit.pos.y + desiredVelocity.y);
+            shapeRenderer.line(unit.pos().x, unit.pos().y, unit.pos().x + desiredVelocity.x, unit.pos().y + desiredVelocity.y);
             shapeRenderer.end();
 
         }

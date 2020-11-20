@@ -1,12 +1,10 @@
 package arties.scene.unit.steeringbehaviour;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import arties.datastructure.geom.Vector3;
 import arties.scene.map.IRTSMap;
-import arties.scene.unit.IBoundsObject;
-import arties.scene.unit.MovingEntity;
 import arties.util.Vector3Pool;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import java.util.Set;
 
@@ -25,22 +23,21 @@ public class BehaviourSeparation extends AbstractSteeringBehaviour {
      * Creates a separation behaviour based on the units in the map
      *
      * @param unit
-     * @param map
      */
-    public BehaviourSeparation(MovingEntity unit, IRTSMap map) {
+    public BehaviourSeparation(IEntity unit) {
         super(unit);
-        this.map = map;
+        this.map = unit.map();
     }
 
     @Override
     public Vector3 calculate() {
-        Set<IBoundsObject> entities = map.getNearbyEntities(unit.pos);
+        Set<IEntity> entities = map.getNearbyEntities(unit.pos());
         force = Vector3Pool.getObject();
-        for (IBoundsObject entity : entities) {
+        for (IEntity entity : entities) {
             if (!unit.equals(entity)) {
-                Vector3 entityUnit = unit.pos.clone().sub(entity.pos());
+                Vector3 entityUnit = unit.pos().clone().sub(entity.pos());
                 float length = entityUnit.len();
-                if (entity.softRadius() != null && length < (unit.softRadius.radius + entity.softRadius().radius)) {
+                if (length < (unit.softRadius() + entity.softRadius())) {
                     // Calculate force
                     entityUnit.nor().scl((1 / length) * 500);
                     force.add(entityUnit);
@@ -56,9 +53,8 @@ public class BehaviourSeparation extends AbstractSteeringBehaviour {
         if (force != null) {
             shapeRenderer.begin(ShapeType.Line);
             shapeRenderer.setColor(new Color(1f, .5f, 0f, 1f));
-            shapeRenderer.line(unit.pos.x, unit.pos.y, unit.pos.x + force.x, unit.pos.y + force.y);
+            shapeRenderer.line(unit.pos().x, unit.pos().y, unit.pos().x + force.x, unit.pos().y + force.y);
             shapeRenderer.end();
-
         }
     }
 

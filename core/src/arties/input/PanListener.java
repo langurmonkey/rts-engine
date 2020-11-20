@@ -3,15 +3,15 @@ package arties.input;
 import arties.RTSGame;
 import arties.datastructure.IMapCell;
 import arties.datastructure.geom.Vector2;
+import arties.scene.cam.Camera;
 import arties.scene.selection.Selection;
+import arties.scene.unit.steeringbehaviour.IEntity;
 import arties.util.Vector2Pool;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Rectangle;
-import arties.scene.cam.Camera;
-import arties.scene.unit.IBoundsObject;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -94,7 +94,7 @@ public class PanListener extends InputAdapter {
             }
         } else {
             camera.stop();
-            IMapCell<IBoundsObject> cell = RTSGame.game.getMap().getCell(screenX + camera.getCameraDisplacementX(), screenY + camera.getCameraDisplacementY());
+            IMapCell<IEntity> cell = RTSGame.game.getMap().getCell(screenX + camera.getCameraDisplacementX(), screenY + camera.getCameraDisplacementY());
             if (cell != null && cell.isBlocked()) {
                 Gdx.graphics.setCursor(Gdx.graphics.newCursor(m_forbidden, 0, 0));
             } else {

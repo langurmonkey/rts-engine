@@ -1,7 +1,7 @@
 package arties.datastructure.astar;
 
 import arties.datastructure.IMapCell;
-import arties.scene.unit.IBoundsObject;
+import arties.scene.unit.steeringbehaviour.IEntity;
 
 /**
  * A node in the A* pathfinding algorithm. Contains some metadata useful for nodes that can be part of a path.
@@ -9,7 +9,7 @@ import arties.scene.unit.IBoundsObject;
  * @param <T>
  * @author Toni Sagrista
  */
-public abstract class AStarNode<T extends IBoundsObject> {
+public abstract class AStarNode<T extends IEntity> {
 
     // Cost, depth and parent for pathfinding
     protected float g = 0f;

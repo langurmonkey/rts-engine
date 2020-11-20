@@ -44,6 +44,14 @@ public abstract class PositionEntity {
         this.pos = Vector3Pool.getObject(x, y, z);
     }
 
+    public Vector3 pos(){
+        return pos;
+    }
+
+    public IRTSMap map() {
+        return this.map;
+    }
+
     private static synchronized long getUniqueId() {
         return uniqueIdSeq++;
     }
@@ -51,4 +59,5 @@ public abstract class PositionEntity {
     public void dispose() {
         Vector3Pool.returnObject(pos);
     }
+
 }

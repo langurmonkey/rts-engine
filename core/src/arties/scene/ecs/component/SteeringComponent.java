@@ -1,8 +1,8 @@
 package arties.scene.ecs.component;
 
+import arties.datastructure.geom.Vector3;
 import arties.scene.unit.steeringbehaviour.SteeringBehaviours;
 import com.badlogic.ashley.core.Component;
-import arties.datastructure.geom.Vector3;
 
 public class SteeringComponent implements Component {
     /**

@@ -1,7 +1,7 @@
 package arties.datastructure.geom;
 
-import com.badlogic.gdx.utils.Pool.Poolable;
 import arties.util.Vector2Pool;
+import com.badlogic.gdx.utils.Pool.Poolable;
 
 /**
  * A poolable extension of libgdx 2D vector with several re-implemented methods.

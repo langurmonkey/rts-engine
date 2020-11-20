@@ -2,10 +2,10 @@ package arties.datastructure.grid;
 
 import arties.datastructure.IMap;
 import arties.datastructure.IMapCell;
+import arties.scene.unit.steeringbehaviour.IEntity;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import arties.scene.unit.IBoundsObject;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -17,7 +17,7 @@ import java.util.Set;
  * @param <T>
  * @author Toni Sagrista
  */
-public class GridMap<T extends IBoundsObject> implements IMap<T> {
+public class GridMap<T extends IEntity> implements IMap<T> {
 
     public GridCell<T>[][] cells;
     public int columns, rows;

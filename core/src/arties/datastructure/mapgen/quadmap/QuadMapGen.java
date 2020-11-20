@@ -1,23 +1,22 @@
 package arties.datastructure.mapgen.quadmap;
 
 import arties.datastructure.IMap;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.math.Rectangle;
 import arties.datastructure.mapgen.IMapGen;
 import arties.datastructure.quadtree.QuadNode;
 import arties.datastructure.quadtree.QuadTree;
 import arties.scene.map.MapProperties;
-import arties.scene.unit.IBoundsObject;
+import arties.scene.unit.steeringbehaviour.IEntity;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import com.badlogic.gdx.math.Rectangle;
 
 /**
  * Quadtree generator, which generates a {@link QuadTree} from a TiledMap.
  *
- * @param <T>
  * @author Toni Sagrista
  */
-public class QuadMapGen<T extends IBoundsObject> implements IMapGen<T> {
+public class QuadMapGen<T extends IEntity> implements IMapGen<T> {
     private TiledMap tm;
     private TiledMapTileLayer mainLayer;
 

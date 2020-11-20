@@ -1,12 +1,12 @@
 package arties.datastructure.grid;
 
 import arties.datastructure.IMapCell;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Rectangle;
 import arties.datastructure.astar.AStarNode;
 import arties.scene.map.MapProperties;
 import arties.scene.map.MapProperties.TerrainType;
-import arties.scene.unit.IBoundsObject;
+import arties.scene.unit.steeringbehaviour.IEntity;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +17,7 @@ import java.util.Set;
  * @param <T>
  * @author Toni Sagrista
  */
-public class GridCell<T extends IBoundsObject> extends AStarNode<T> implements IMapCell<T> {
+public class GridCell<T extends IEntity> extends AStarNode<T> implements IMapCell<T> {
 
     /**
      * The objects in this cell

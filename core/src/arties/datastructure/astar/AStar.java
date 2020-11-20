@@ -2,8 +2,8 @@ package arties.datastructure.astar;
 
 import arties.datastructure.IMap;
 import arties.datastructure.IMapCell;
+import arties.scene.unit.steeringbehaviour.IEntity;
 import com.badlogic.gdx.math.Vector2;
-import arties.scene.unit.IBoundsObject;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,7 +16,7 @@ import java.util.Set;
  * @param <T>
  * @author Toni Sagrista
  */
-public class AStar<T extends IBoundsObject> implements IAStar<T> {
+public class AStar<T extends IEntity> implements IAStar<T> {
 
     private final Set<IMapCell<T>> open = new HashSet<>();
     private final Set<IMapCell<T>> closed = new HashSet<>();

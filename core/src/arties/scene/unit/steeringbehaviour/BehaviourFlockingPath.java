@@ -1,12 +1,10 @@
 package arties.scene.unit.steeringbehaviour;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import arties.datastructure.geom.Vector3;
 import arties.scene.map.IRTSMap;
-import arties.scene.unit.MovingEntity;
-import arties.scene.unit.group.UnitGroup;
 import arties.util.Vector3Pool;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 /**
  * First experimental implementation of flocking for a group of units. Uses alignment, separation and cohesion
@@ -19,25 +17,25 @@ public class BehaviourFlockingPath extends AbstractSteeringBehaviour {
     protected float waypointSeekDistSq = 20 * 20;
     protected Path path;
     protected boolean finished;
-    protected UnitGroup group;
+    protected IGroup group;
     protected IRTSMap map;
 
     BehaviourAlignment alignment;
     BehaviourCohesion cohesion;
     BehaviourArriveGroup arrive;
 
-    public BehaviourFlockingPath(MovingEntity unit, Path path, UnitGroup group, IRTSMap map) {
+    public BehaviourFlockingPath(IEntity unit, Path path, IGroup group) {
         super(unit);
         this.path = path;
         this.group = group;
-        this.map = map;
+        this.map = unit.map();
         alignment = new BehaviourAlignment(unit, group, path.currentWaypoint());
         cohesion = new BehaviourCohesion(unit, group);
     }
 
     @Override
     public Vector3 calculate() {
-        if (group.pos.dst2(path.currentWaypoint()) < waypointSeekDistSq) {
+        if (group.pos().dst2(path.currentWaypoint()) < waypointSeekDistSq) {
             path.nextWaypoint();
         }
         if (!path.finished()) {

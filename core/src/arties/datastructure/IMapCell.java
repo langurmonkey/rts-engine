@@ -1,8 +1,8 @@
 package arties.datastructure;
 
-import com.badlogic.gdx.math.Rectangle;
 import arties.scene.map.MapProperties.TerrainType;
-import arties.scene.unit.IBoundsObject;
+import arties.scene.unit.steeringbehaviour.IEntity;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Set;
 
@@ -12,7 +12,7 @@ import java.util.Set;
  * @param <T>
  * @author Toni Sagrista
  */
-public interface IMapCell<T extends IBoundsObject> {
+public interface IMapCell<T extends IEntity> {
 
     /**
      * Gets all the objects contained in this cell

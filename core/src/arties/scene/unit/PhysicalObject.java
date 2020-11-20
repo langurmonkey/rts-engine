@@ -1,11 +1,11 @@
 package arties.scene.unit;
 
+import arties.datastructure.geom.Vector3;
 import arties.scene.map.IRTSMap;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Circle;
 
 /**
  * This represents a physical, non-abstract map object.
@@ -28,7 +28,7 @@ public class PhysicalObject extends PositionPhysicalEntity {
         shadowOffsetY = 0;
 
         // Default soft radius
-        softRadius = new Circle(x, y, 10);
+        softRadius = 10;
 
     }
 
@@ -75,4 +75,23 @@ public class PhysicalObject extends PositionPhysicalEntity {
 
     }
 
+    @Override
+    public Vector3 vel() {
+        return null;
+    }
+
+    @Override
+    public float slowingDistance() {
+        return 0;
+    }
+
+    @Override
+    public float maxSpeed() {
+        return 0;
+    }
+
+    @Override
+    public float maxForce() {
+        return 0;
+    }
 }

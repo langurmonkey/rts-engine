@@ -527,8 +527,8 @@ public class RTSGame implements ApplicationListener {
         }
         float longestSide = 0;
         for (Unit u : group) {
-            if ((u.softRadius.radius * 2 + 10) > longestSide) {
-                longestSide = u.softRadius.radius * 2 + 10;
+            if ((u.softRadius() * 2 + 10) > longestSide) {
+                longestSide = u.softRadius() * 2 + 10;
             }
         }
         float side2 = side * longestSide / 2;
@@ -540,7 +540,7 @@ public class RTSGame implements ApplicationListener {
             if (!map.overlapsWithBlocked(new Rectangle(x - u.hardRadius.width / 2, y - u.hardRadius.height / 2, u.hardRadius.width, u.hardRadius.height))) {
                 // Calculate path
                 Path path = new Path(map.findPath(u.pos.x, u.pos.y, targetPos.x, targetPos.y), u.pos.x, u.pos.y, targetPos.x, targetPos.y);
-                path.smooth(u, map);
+                path.smooth(u);
                 if (path.size() > 0)
                     u.steeringBehaviours.addFollowPath(path);
             }
@@ -565,7 +565,7 @@ public class RTSGame implements ApplicationListener {
      */
     public void moveUnit(Unit unit, int x, int y) {
         Path path = new Path(map.findPath(unit.pos.x, unit.pos.y, (float) x, (float) y), unit.pos.x, unit.pos.y, (float) x, (float) y);
-        path.smooth(unit, map);
+        path.smooth(unit);
         unit.steeringBehaviours.addFollowPath(path);
     }
 

@@ -1,9 +1,5 @@
 package arties.scene.selection;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Rectangle;
 import arties.RTSGame;
 import arties.datastructure.geom.Vector2;
 import arties.scene.unit.PositionPhysicalEntity;
@@ -11,6 +7,10 @@ import arties.scene.unit.Unit;
 import arties.scene.unit.group.UnitGroup;
 import arties.scene.unit.group.UnitGroupManager;
 import arties.util.Vector2Pool;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Set;
 

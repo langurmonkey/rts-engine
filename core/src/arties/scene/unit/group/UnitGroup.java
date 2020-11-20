@@ -2,6 +2,7 @@ package arties.scene.unit.group;
 
 import arties.scene.unit.PositionEntity;
 import arties.scene.unit.Unit;
+import arties.scene.unit.steeringbehaviour.IGroup;
 import arties.util.Vector3Pool;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -12,7 +13,7 @@ import java.util.*;
  *
  * @author Toni Sagrista
  */
-public class UnitGroup extends PositionEntity implements List<Unit> {
+public class UnitGroup extends PositionEntity implements IGroup, List<Unit> {
 
     private final List<Unit> group;
 

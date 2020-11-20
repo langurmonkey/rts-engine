@@ -2,6 +2,7 @@ package arties.scene.unit;
 
 import arties.RTSGame;
 import arties.datastructure.geom.Vector3;
+import arties.scene.unit.steeringbehaviour.IEntity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
@@ -11,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -19,7 +19,7 @@ import com.badlogic.gdx.math.Rectangle;
  *
  * @author Toni Sagrista
  */
-public abstract class PositionPhysicalEntity extends PositionEntity implements IBoundsObject, Comparable<PositionPhysicalEntity> {
+public abstract class PositionPhysicalEntity extends PositionEntity implements IEntity, Comparable<PositionPhysicalEntity> {
 
     /**
      * The default sprite
@@ -56,7 +56,7 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
     /**
      * The soft radius for flocking/steering
      */
-    public Circle softRadius;
+    public float softRadius;
 
     /**
      * Heading
@@ -113,24 +113,21 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
         imageBounds = new Rectangle(pos.x - w2 + spriteOffsetX, pos.y - h2 + spriteOffsetY, this.width, this.height);
     }
 
-    @Override
     public Rectangle bounds() {
         return hardRadius;
     }
 
     @Override
-    public Rectangle getBounds() {
-        return hardRadius;
+    public Vector3 pos() {
+        return pos;
     }
 
-    @Override
-    public Circle softRadius() {
+    public float softRadius() {
         return softRadius;
     }
 
-    @Override
-    public Vector3 pos() {
-        return pos;
+    public Vector3 heading() {
+        return heading;
     }
 
     public boolean isDead() {
@@ -156,7 +153,7 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
      * @return
      */
     public boolean isInSoftRadius(float posx, float posy) {
-        return softRadius.contains(posx, posy);
+        return pos.dst(posx, posy) <= softRadius;
     }
 
     /**
@@ -211,7 +208,7 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
             angle = heading.angle2();
         }
 
-        if(RTSGame.drawShadows) {
+        if (RTSGame.drawShadows) {
             spriteToDraw.flip(false, shadowFlipY);
             batch.setColor(0.2f, 0.2f, 0.2f, 0.3f);
             batch.draw(spriteToDraw, pos.x - spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, pos.y - spriteToDraw.getRegionHeight() / 2 + spriteOffsetY - spriteToDraw.getRegionHeight() + spriteOffsetY + shadowOffsetY, spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, spriteToDraw.getRegionHeight() / 2, spriteToDraw.getRegionWidth(), spriteToDraw.getRegionHeight(), scale, scale, angle);
@@ -247,7 +244,7 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
 
         // Soft radius
         sr.setColor(new Color(0f, .4f, 0f, .2f));
-        sr.circle(softRadius.x, softRadius.y, softRadius.radius);
+        sr.circle(pos.x, pos.y, softRadius);
 
         // Position
         sr.setColor(new Color(0f, 1f, 0f, 1f));

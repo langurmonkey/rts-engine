@@ -6,10 +6,7 @@
 package arties.ui;
 
 import arties.util.parse.Parser;
-import arties.util.validator.CallbackValidator;
-import arties.util.validator.FloatValidator;
 import arties.util.validator.IValidator;
-import arties.util.validator.IntValidator;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;

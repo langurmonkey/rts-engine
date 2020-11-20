@@ -1,8 +1,10 @@
 package arties.datastructure.grid.render;
 
+import arties.RTSGame;
 import arties.datastructure.IMap;
 import arties.datastructure.IMapRenderer;
 import arties.datastructure.grid.GridCell;
+import arties.datastructure.grid.GridMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,8 +14,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import arties.RTSGame;
-import arties.datastructure.grid.GridMap;
 
 /**
  * Renderer for grid maps.

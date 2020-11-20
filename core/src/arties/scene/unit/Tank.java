@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Circle;
 
 /**
  * Experimental implementation of a tank.
@@ -51,7 +50,7 @@ public class Tank extends Unit {
         vel = Vector3Pool.getObject(0f, 0f);
         heading = Vector3Pool.getObject(0, 1);
 
-        softRadius = new Circle(x, y, 15);
+        softRadius = 15;
         selectionRadius = 17;
 
         shadowFlipY = false;

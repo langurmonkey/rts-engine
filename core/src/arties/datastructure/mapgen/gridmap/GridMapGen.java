@@ -3,24 +3,23 @@ package arties.datastructure.mapgen.gridmap;
 import arties.datastructure.IMap;
 import arties.datastructure.grid.GridCell;
 import arties.datastructure.grid.GridMap;
+import arties.datastructure.mapgen.IMapGen;
+import arties.scene.map.MapProperties;
+import arties.scene.map.RTSAbstractMap;
+import arties.scene.unit.steeringbehaviour.IEntity;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import arties.datastructure.mapgen.IMapGen;
-import arties.scene.map.MapProperties;
-import arties.scene.map.RTSAbstractMap;
-import arties.scene.unit.IBoundsObject;
 
 import java.util.List;
 
 /**
  * Grid map generator, which generates a {@link GridMap} from a TiledMap.
  *
- * @param <T>
  * @author Toni Sagrista
  */
-public class GridMapGen<T extends IBoundsObject> implements IMapGen<T> {
+public class GridMapGen<T extends IEntity> implements IMapGen<T> {
 
     private TiledMap tm;
     private TiledMapTileLayer baseLayer;

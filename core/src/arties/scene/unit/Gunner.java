@@ -5,7 +5,6 @@ import arties.util.Vector3Pool;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Circle;
 
 /**
  * Experimental gunner implementation of {@link Unit}.
@@ -48,7 +47,7 @@ public class Gunner extends Unit {
         vel = Vector3Pool.getObject(0f, 0f);
         heading = Vector3Pool.getObject(0, -1);
 
-        softRadius = new Circle(pos.x, pos.y, 13);
+        softRadius = 13;
         selectionRadius = 18;
 
         shadowFlipY = true;

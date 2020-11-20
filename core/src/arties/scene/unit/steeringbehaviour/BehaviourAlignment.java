@@ -1,10 +1,8 @@
 package arties.scene.unit.steeringbehaviour;
 
+import arties.datastructure.geom.Vector3;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import arties.datastructure.geom.Vector3;
-import arties.scene.unit.MovingEntity;
-import arties.scene.unit.group.UnitGroup;
 
 /**
  * Tries to align the unit with the movement of the group, given a target.
@@ -14,11 +12,11 @@ import arties.scene.unit.group.UnitGroup;
 public class BehaviourAlignment extends AbstractSteeringBehaviour {
     protected static final float doneDistanceSq = 5 * 5;
 
-    private final UnitGroup group;
+    private final IGroup group;
     private final Vector3 targetPosition;
     private Vector3 desiredVelocity;
 
-    public BehaviourAlignment(MovingEntity unit, UnitGroup group, Vector3 targetPosition) {
+    public BehaviourAlignment(IEntity unit, IGroup group, Vector3 targetPosition) {
         super(unit);
         this.group = group;
         this.targetPosition = targetPosition;
@@ -26,13 +24,13 @@ public class BehaviourAlignment extends AbstractSteeringBehaviour {
 
     @Override
     public Vector3 calculate() {
-        desiredVelocity = targetPosition.clone().sub(group.pos);
+        desiredVelocity = targetPosition.clone().sub(group.pos());
         return desiredVelocity;
     }
 
     @Override
     public boolean isDone() {
-        return group.pos.dst2(targetPosition) < doneDistanceSq;
+        return group.pos().dst2(targetPosition) < doneDistanceSq;
     }
 
     public void updateTarget(Vector3 newTarget) {
@@ -44,7 +42,7 @@ public class BehaviourAlignment extends AbstractSteeringBehaviour {
         if (desiredVelocity != null) {
             shapeRenderer.begin(ShapeType.Line);
             shapeRenderer.setColor(new Color(1f, 0f, 1f, 1f));
-            shapeRenderer.line(group.pos.x, group.pos.y, group.pos.x + desiredVelocity.x, group.pos.y
+            shapeRenderer.line(group.pos().x, group.pos().y, group.pos().x + desiredVelocity.x, group.pos().y
                 + desiredVelocity.y);
             shapeRenderer.end();
         }

@@ -1,7 +1,7 @@
 package arties.scene.ecs.component;
 
-import com.badlogic.ashley.core.Component;
 import arties.datastructure.geom.Vector3;
+import com.badlogic.ashley.core.Component;
 
 /**
  * Contains attributes pertaining to entity movement

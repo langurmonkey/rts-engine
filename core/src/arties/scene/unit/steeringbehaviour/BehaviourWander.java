@@ -1,10 +1,9 @@
 package arties.scene.unit.steeringbehaviour;
 
+import arties.datastructure.geom.Vector3;
+import arties.util.Vector3Pool;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import arties.datastructure.geom.Vector3;
-import arties.scene.unit.Unit;
-import arties.util.Vector3Pool;
 
 import java.util.Random;
 
@@ -20,7 +19,7 @@ public class BehaviourWander extends AbstractSteeringBehaviour {
     float wanderAngle = 0f;
     Vector3 circleCenter, displacement;
 
-    public BehaviourWander(Unit unit) {
+    public BehaviourWander(IEntity unit) {
         super(unit);
         displacement = Vector3Pool.getObject(1, 0, 0).scl(wanderRadius);
     }
@@ -32,7 +31,7 @@ public class BehaviourWander extends AbstractSteeringBehaviour {
 
     private Vector3 impl2() {
         // Calculate circle center
-        circleCenter = unit.heading.clone().nor().scl(wanderDistance);
+        circleCenter = unit.heading().clone().nor().scl(wanderDistance);
 
         // Randomly change the vector direction
         // by making it change its current angle
@@ -57,23 +56,22 @@ public class BehaviourWander extends AbstractSteeringBehaviour {
             // Draw circle
             shapeRenderer.begin(ShapeType.Line);
             shapeRenderer.setColor(new Color(1f, 1f, 1f, 1f));
-            shapeRenderer.circle(unit.pos.x + circleCenter.x, unit.pos.y + circleCenter.y, wanderRadius);
+            shapeRenderer.circle(unit.pos().x + circleCenter.x, unit.pos().y + circleCenter.y, wanderRadius);
             shapeRenderer.end();
 
             // Draw displacement
             shapeRenderer.begin(ShapeType.Line);
             shapeRenderer.setColor(new Color(0f, 1f, 0f, 1f));
-            shapeRenderer.line(unit.pos.x + circleCenter.x, unit.pos.y + circleCenter.y, unit.pos.x + circleCenter.x
-                + displacement.x, unit.pos.y + circleCenter.y + displacement.y);
+            shapeRenderer.line(unit.pos().x + circleCenter.x, unit.pos().y + circleCenter.y, unit.pos().x + circleCenter.x
+                + displacement.x, unit.pos().y + circleCenter.y + displacement.y);
             shapeRenderer.end();
 
             // Draw steering direction
             shapeRenderer.begin(ShapeType.Line);
             shapeRenderer.setColor(new Color(1f, 0f, 0f, 1f));
-            shapeRenderer.line(unit.pos.x, unit.pos.y, unit.pos.x + circleCenter.x + displacement.x, unit.pos.y
+            shapeRenderer.line(unit.pos().x, unit.pos().y, unit.pos().x + circleCenter.x + displacement.x, unit.pos().y
                 + circleCenter.y + displacement.y);
             shapeRenderer.end();
-
         }
     }
 

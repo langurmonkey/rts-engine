@@ -1,8 +1,6 @@
 package arties.scene.unit.steeringbehaviour;
 
 import arties.datastructure.geom.Vector3;
-import arties.scene.unit.MovingEntity;
-import arties.scene.unit.group.UnitGroup;
 
 /**
  * This steering behaviour drives a group to a gentle stop on the target.
@@ -11,9 +9,9 @@ import arties.scene.unit.group.UnitGroup;
  */
 public class BehaviourArriveGroup extends BehaviourArrive {
 
-    public BehaviourArriveGroup(MovingEntity unit, Vector3 targetPosition, UnitGroup group) {
+    public BehaviourArriveGroup(IEntity unit, Vector3 targetPosition, IGroup group) {
         super(unit, targetPosition);
-        this.pos = group.pos;
+        this.pos = group.pos();
     }
 
 }

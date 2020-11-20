@@ -79,4 +79,21 @@ public abstract class MovingEntity extends PositionPhysicalEntity {
         updateCurrentMaxSpeed();
     }
 
+    public Vector3 vel() {
+        return vel;
+    }
+
+    public float slowingDistance() {
+        return slowingDistance;
+    }
+
+    public float maxSpeed() {
+        return maxSpeed;
+    }
+
+    public float maxForce() {
+        return maxForce;
+    }
+
+
 }

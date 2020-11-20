@@ -3,11 +3,11 @@ package arties.scene.map;
 import arties.datastructure.IMapCell;
 import arties.datastructure.geom.Vector2;
 import arties.scene.cam.Camera;
+import arties.scene.unit.steeringbehaviour.IEntity;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import arties.scene.unit.IBoundsObject;
 
 import java.util.List;
 import java.util.Set;
@@ -36,26 +36,26 @@ public interface IRTSMap {
 
     void updateFogOfWar(Vector3 position, int radius);
 
-    List<IMapCell<IBoundsObject>> findPath(Float inix, Float iniy, Float endx, Float endy);
+    List<IMapCell<IEntity>> findPath(Float inix, Float iniy, Float endx, Float endy);
 
-    void addEntity(IBoundsObject entity);
+    void addEntity(IEntity entity);
 
-    void removeEntity(IBoundsObject entity);
+    void removeEntity(IEntity entity);
 
-    void updateEntity(IBoundsObject entity);
+    void updateEntity(IEntity entity);
 
     void reorganize();
 
-    Set<IMapCell<IBoundsObject>> findLeafNodesWith(IBoundsObject entity);
+    Set<IMapCell<IEntity>> findLeafNodesWith(IEntity entity);
 
-    Set<IBoundsObject> getNearbyEntities(Vector2 pos);
-    Set<IBoundsObject> getNearbyEntities(Vector3 pos);
+    Set<IEntity> getNearbyEntities(Vector2 pos);
+    Set<IEntity> getNearbyEntities(Vector3 pos);
 
-    Set<IMapCell<IBoundsObject>> getNearbyBlockedNodes(Vector2 pos);
-    Set<IMapCell<IBoundsObject>> getNearbyBlockedNodes(Vector3 pos);
+    Set<IMapCell<IEntity>> getNearbyBlockedNodes(Vector2 pos);
+    Set<IMapCell<IEntity>> getNearbyBlockedNodes(Vector3 pos);
 
-    boolean walkable(Vector2 ini, Vector2 end, IBoundsObject entity);
-    boolean walkable(Vector3 ini, Vector3 end, IBoundsObject entity);
+    boolean walkable(Vector2 ini, Vector2 end, IEntity entity);
+    boolean walkable(Vector3 ini, Vector3 end, IEntity entity);
 
     /**
      * Checks if the given rectangle overlaps with a blocked node
@@ -68,10 +68,10 @@ public interface IRTSMap {
     MapProperties.TerrainType getTerrainType(Vector2 point);
     MapProperties.TerrainType getTerrainType(Vector3 point);
 
-    IMapCell<IBoundsObject> getCell(Vector2 point);
-    IMapCell<IBoundsObject> getCell(Vector3 point);
+    IMapCell<IEntity> getCell(Vector2 point);
+    IMapCell<IEntity> getCell(Vector3 point);
 
-    IMapCell<IBoundsObject> getCell(float x, float y);
+    IMapCell<IEntity> getCell(float x, float y);
 
     void dispose();
 

@@ -1,7 +1,9 @@
 package arties.datastructure.quadtree.render;
 
+import arties.RTSGame;
 import arties.datastructure.IMap;
 import arties.datastructure.IMapRenderer;
+import arties.datastructure.quadtree.QuadNode;
 import arties.datastructure.quadtree.QuadTree;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -12,8 +14,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import arties.RTSGame;
-import arties.datastructure.quadtree.QuadNode;
 
 /**
  * A renderer for a {@link QuadTree}. It renders the cell borders, the position of each node and the number of objects.

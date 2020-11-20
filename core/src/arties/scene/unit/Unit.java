@@ -3,15 +3,16 @@ package arties.scene.unit;
 import arties.datastructure.IMapCell;
 import arties.datastructure.geom.Vector3;
 import arties.scene.map.IRTSMap;
+import arties.scene.unit.group.UnitGroup;
 import arties.scene.unit.state.IState;
 import arties.scene.unit.state.StateManager;
+import arties.scene.unit.steeringbehaviour.IEntity;
 import arties.scene.unit.steeringbehaviour.SteeringBehaviours;
 import arties.util.Vector3Pool;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import arties.scene.unit.group.UnitGroup;
 
 /**
  * A moving entity.
@@ -48,7 +49,7 @@ public abstract class Unit extends MovingEntity {
     /**
      * The cell we're in
      **/
-    private IMapCell<IBoundsObject> cell;
+    private IMapCell<IEntity> cell;
 
     /**
      * Is it selected?
@@ -322,7 +323,6 @@ public abstract class Unit extends MovingEntity {
         // Update hard and soft radius and image bounds
         hardRadius.setX(x - hardRadius.width / 2);
         hardRadius.setY(y - hardRadius.height / 2);
-        softRadius.set(x, y, softRadius.radius);
         imageBounds.setX(x - imageBounds.width / 2 + spriteOffsetX);
         imageBounds.setY(y - imageBounds.height / 2 + spriteOffsetY);
     }

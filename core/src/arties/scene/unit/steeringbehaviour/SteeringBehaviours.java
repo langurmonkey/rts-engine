@@ -89,12 +89,12 @@ public class SteeringBehaviours {
 
     public void addWanderPath(IRTSMap map, int wanderRadius) {
         sbMap.remove(BehaviourClass.M_WANDERPATH);
-        sbMap.put(BehaviourClass.M_WANDERPATH, new BehaviourWanderPath(unit, map, wanderRadius));
+        sbMap.put(BehaviourClass.M_WANDERPATH, new BehaviourWanderPath(unit, wanderRadius));
     }
 
     public void addSeparation(IRTSMap map) {
         sbMap.remove(BehaviourClass.M_SEPARATION);
-        sbMap.put(BehaviourClass.M_SEPARATION, new BehaviourSeparation(unit, map));
+        sbMap.put(BehaviourClass.M_SEPARATION, new BehaviourSeparation(unit));
     }
 
     public void addPursuit(Unit evader) {
@@ -116,12 +116,12 @@ public class SteeringBehaviours {
 
     public void addAvoidWalls(IRTSMap map) {
         sbMap.remove(BehaviourClass.M_AVOIDWALLS);
-        sbMap.put(BehaviourClass.M_AVOIDWALLS, new BehaviourAvoidWalls(unit, map));
+        sbMap.put(BehaviourClass.M_AVOIDWALLS, new BehaviourAvoidWalls(unit));
     }
 
     public void addFlocking(Path path, UnitGroup group, IRTSMap map) {
         sbMap.remove(BehaviourClass.M_FLOCKING);
-        sbMap.put(BehaviourClass.M_FLOCKING, new BehaviourFlockingPath(unit, path, group, map));
+        sbMap.put(BehaviourClass.M_FLOCKING, new BehaviourFlockingPath(unit, path, group));
     }
 
     public void addCohesion(UnitGroup group) {

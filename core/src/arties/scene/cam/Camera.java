@@ -1,9 +1,9 @@
 package arties.scene.cam;
 
 import arties.datastructure.geom.Vector2;
+import arties.scene.unit.PositionPhysicalEntity;
 import arties.util.Vector2Pool;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import arties.scene.unit.PositionPhysicalEntity;
 
 /**
  * Handles the camera of the scene.

@@ -1,12 +1,10 @@
 package arties.scene.unit.steeringbehaviour;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import arties.datastructure.IMapCell;
 import arties.datastructure.geom.Vector3;
 import arties.scene.map.IRTSMap;
-import arties.scene.unit.IBoundsObject;
-import arties.scene.unit.MovingEntity;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import java.util.List;
 import java.util.Random;
@@ -28,11 +26,11 @@ public class BehaviourWanderPath extends AbstractSteeringBehaviour {
 
     private long timer;
 
-    public BehaviourWanderPath(MovingEntity unit, IRTSMap map, int wanderRadius) {
+    public BehaviourWanderPath(IEntity unit, int wanderRadius) {
         super(unit);
-        this.map = map;
+        this.map = unit.map();
         this.wanderRadius = wanderRadius;
-        this.referencePosition = unit.pos.clone();
+        this.referencePosition = unit.pos().clone();
         this.rand = new Random(System.currentTimeMillis());
         this.timer = 0l;
         this.timeToNextPath = -1;
@@ -46,13 +44,13 @@ public class BehaviourWanderPath extends AbstractSteeringBehaviour {
             // Update path
             float[] xy;
             xy = newXY();
-            List<IMapCell<IBoundsObject>> nodeList;
-            while ((nodeList = map.findPath(unit.pos.x, unit.pos.y, xy[0], xy[1])) == null) {
+            List<IMapCell<IEntity>> nodeList;
+            while ((nodeList = map.findPath(unit.pos().x, unit.pos().y, xy[0], xy[1])) == null) {
                 xy = newXY();
             }
 
-            Path path = new Path(nodeList, unit.pos, xy[0], xy[1]);
-            path.smooth(unit, map);
+            Path path = new Path(nodeList, unit.pos(), xy[0], xy[1]);
+            path.smooth(unit);
             // We have a path here!
             pathFollowing = new BehaviourFollowPath(unit, path, null);
 
@@ -60,8 +58,8 @@ public class BehaviourWanderPath extends AbstractSteeringBehaviour {
             timer = System.currentTimeMillis();
 
             // Time to next path is the time the unit would take to get there in a straight line at max speed
-            float dist = unit.pos.dst(xy[0], xy[1], 0);
-            timeToNextPath = (dist / unit.maxSpeed) * 1000;
+            float dist = unit.pos().dst(xy[0], xy[1], 0);
+            timeToNextPath = (dist / unit.maxSpeed()) * 1000;
         }
 
         return pathFollowing.calculate();

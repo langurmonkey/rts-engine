@@ -1,8 +1,6 @@
 package arties.scene.unit.steeringbehaviour;
 
 import arties.datastructure.geom.Vector3;
-import arties.scene.unit.MovingEntity;
-import arties.scene.unit.group.UnitGroup;
 import arties.util.Vector3Pool;
 
 /**
@@ -13,18 +11,18 @@ import arties.util.Vector3Pool;
  */
 public class BehaviourCohesion extends AbstractSteeringBehaviour {
 
-    private final UnitGroup group;
+    private final IGroup group;
     private final BehaviourSeek seek;
 
-    public BehaviourCohesion(MovingEntity unit, UnitGroup group) {
+    public BehaviourCohesion(IEntity unit, IGroup group) {
         super(unit);
         this.group = group;
-        this.seek = new BehaviourSeek(unit, Vector3Pool.getObject(group.pos));
+        this.seek = new BehaviourSeek(unit, Vector3Pool.getObject(group.pos()));
     }
 
     @Override
     public Vector3 calculate() {
-        return seek.updateTarget(group.pos.x, group.pos.y).calculate().scl(.1f);
+        return seek.updateTarget(group.pos().x, group.pos().y).calculate().scl(.1f);
     }
 
     @Override

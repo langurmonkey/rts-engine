@@ -1,9 +1,9 @@
 package arties.datastructure;
 
+import arties.scene.unit.steeringbehaviour.IEntity;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import arties.scene.unit.IBoundsObject;
 
 import java.util.Set;
 
@@ -13,7 +13,7 @@ import java.util.Set;
  * @param <T>
  * @author Toni Sagrista
  */
-public interface IMap<T extends IBoundsObject> {
+public interface IMap<T extends IEntity> {
 
     /**
      * Finds all the nodes containing the given object

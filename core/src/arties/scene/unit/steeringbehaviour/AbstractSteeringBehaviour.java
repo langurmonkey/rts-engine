@@ -1,8 +1,7 @@
 package arties.scene.unit.steeringbehaviour;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import arties.RTSGame;
-import arties.scene.unit.MovingEntity;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
  * An abstract steering behaviour. Most of the behaviours implemented have been extracted from the paper
@@ -12,11 +11,11 @@ import arties.scene.unit.MovingEntity;
  */
 public abstract class AbstractSteeringBehaviour implements ISteeringBehaviour {
 
-    protected MovingEntity unit;
+    protected IEntity unit;
     protected boolean done;
     protected ShapeRenderer shapeRenderer;
 
-    public AbstractSteeringBehaviour(MovingEntity unit) {
+    public AbstractSteeringBehaviour(IEntity unit) {
         super();
         this.unit = unit;
         done = false;

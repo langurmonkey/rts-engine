@@ -4,10 +4,10 @@ import arties.datastructure.IMapCell;
 import arties.datastructure.Pair;
 import arties.datastructure.astar.AStar;
 import arties.datastructure.astar.AStarNode;
+import arties.scene.map.MapProperties.TerrainType;
+import arties.scene.unit.steeringbehaviour.IEntity;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import arties.scene.map.MapProperties.TerrainType;
-import arties.scene.unit.IBoundsObject;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,7 +21,7 @@ import java.util.Set;
  * @param <T>
  * @author Toni Sagrista
  */
-public class QuadNode<T extends IBoundsObject> extends AStarNode<T> implements IMapCell<T> {
+public class QuadNode<T extends IEntity> extends AStarNode<T> implements IMapCell<T> {
 
     public Rectangle bounds;
 

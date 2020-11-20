@@ -3,8 +3,6 @@ package arties.scene.unit.steeringbehaviour;
 import arties.datastructure.IMapCell;
 import arties.datastructure.geom.Vector3;
 import arties.scene.map.IRTSMap;
-import arties.scene.unit.IBoundsObject;
-import arties.scene.unit.PositionPhysicalEntity;
 import arties.util.Vector3Pool;
 
 import java.util.ArrayList;
@@ -23,7 +21,7 @@ public class Path {
     private Iterator<Vector3> it;
     private Vector3 current;
 
-    public Path(List<IMapCell<IBoundsObject>> nodes, float x, float y, float finalX, float finalY) {
+    public Path(List<IMapCell<IEntity>> nodes, float x, float y, float finalX, float finalY) {
         this(nodes, Vector3Pool.getObject(x, y), finalX, finalY);
     }
 
@@ -32,14 +30,14 @@ public class Path {
      *
      * @param nodes
      */
-    public Path(List<IMapCell<IBoundsObject>> nodes, Vector3 pos, float finalX, float finalY) {
+    public Path(List<IMapCell<IEntity>> nodes, Vector3 pos, float finalX, float finalY) {
         waypoints = new LinkedList<>();
 
         if (nodes != null) {
             if (nodes.size() > 1) {
                 // At least two waypoints
                 for (int i = nodes.size() - 1; i >= 0; i--) {
-                    IMapCell<IBoundsObject> node = nodes.get(i);
+                    IMapCell<IEntity> node = nodes.get(i);
                     Vector3 point;
 
                     if (i == nodes.size() - 1) {
@@ -129,9 +127,11 @@ public class Path {
      * This smooths the path for the given entity. It also resets the current waypoint.
      *
      */
-    public void smooth(PositionPhysicalEntity entity, IRTSMap map) {
+    public void smooth(IEntity entity) {
         List<Vector3> smoothed = new ArrayList<>();
         smoothed.addAll(waypoints);
+
+        IRTSMap map = entity.map();
 
         int checkPoint = 0;
         int currentPoint = 1;
