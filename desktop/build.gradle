@@ -2,7 +2,7 @@ sourceCompatibility = 11
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = ["../android/assets"]
 
-project.ext.mainClassName = "com.ts.rts.RTSDesktop"
+project.ext.mainClassName = "arties.RTSDesktop"
 project.ext.assetsDir = new File("../android/assets")
 
 task run(dependsOn: classes, type: JavaExec) {
