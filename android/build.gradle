@@ -22,7 +22,7 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "tss.rts"
+        applicationId "arties"
         minSdkVersion 14
         targetSdkVersion 30
         versionCode 1

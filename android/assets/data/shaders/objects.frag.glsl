@@ -12,6 +12,5 @@ uniform vec2 u_camera_offset;
 
 void main() {
 	vec4 texColor = texture2D(u_texture, v_texCoords);
-	// Otherwise, just go with the color
 	gl_FragColor = v_color * texColor;
 }
