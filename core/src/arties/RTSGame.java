@@ -311,7 +311,7 @@ public class RTSGame implements ApplicationListener {
     public boolean isVisible(Vector3 point) {
         boolean vis = false;
         for (Unit u : player) {
-            vis = vis || u.pos.dst(point) < u.viewDistance * 2.5;
+            vis = vis || u.pos.dst(point) < u.viewDistance * 1.1f;
         }
         return vis;
     }

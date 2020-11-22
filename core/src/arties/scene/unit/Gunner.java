@@ -53,7 +53,7 @@ public class Gunner extends Unit {
         shadowFlipY = true;
         shadowOffsetY = 0;
 
-        viewDistance = 120;
+        viewDistance = 220;
     }
 
     @Override

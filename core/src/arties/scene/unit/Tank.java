@@ -56,7 +56,7 @@ public class Tank extends Unit {
         shadowFlipY = false;
         shadowOffsetY = 25;
 
-        viewDistance = 160;
+        viewDistance = 260;
 
         rotateImage = true;
 

@@ -256,6 +256,10 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
         sr.setColor(new Color(0f, 0f, 0f, 1f));
         sr.rect(imageBounds.x, imageBounds.y, imageBounds.width, imageBounds.height);
 
+        // View distance
+        sr.setColor(new Color(0f, 0.5f, 0.2f, 1f));
+        sr.circle(pos.x, pos.y, viewDistance);
+
         // Heading
         if (heading != null) {
             sr.setColor(new Color(1f, 0f, 0f, 1f));
