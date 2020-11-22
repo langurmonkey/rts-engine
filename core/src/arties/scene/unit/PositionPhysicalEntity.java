@@ -134,38 +134,6 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
         return hp <= 0f;
     }
 
-    /**
-     * Returns true if the current entity collides with the given point, false otherwise
-     *
-     * @param posx
-     * @param posy
-     * @return
-     */
-    public boolean isColliding(float posx, float posy) {
-        return hardRadius.contains(posx, posy);
-    }
-
-    /**
-     * Checks if the given point is in the soft radius of this unit
-     *
-     * @param posx
-     * @param posy
-     * @return
-     */
-    public boolean isInSoftRadius(float posx, float posy) {
-        return pos.dst(posx, posy) <= softRadius;
-    }
-
-    /**
-     * Checks collision with other entity
-     *
-     * @param other
-     * @return
-     */
-    public boolean isColliding(PositionPhysicalEntity other) {
-        return hardRadius.overlaps(other.hardRadius);
-    }
-
     public boolean isImageColliding(float posx, float posy) {
         return imageBounds.contains(posx, posy);
     }

@@ -16,7 +16,6 @@ import java.util.Set;
  */
 public class BehaviourSeparation extends AbstractSteeringBehaviour {
 
-    protected IRTSMap map;
     private Vector3 force = null;
 
     /**
@@ -26,12 +25,11 @@ public class BehaviourSeparation extends AbstractSteeringBehaviour {
      */
     public BehaviourSeparation(IEntity unit) {
         super(unit);
-        this.map = unit.map();
     }
 
     @Override
     public Vector3 calculate() {
-        Set<IEntity> entities = map.getNearbyEntities(unit.pos());
+        Set<IEntity> entities = unit.map().getNearbyEntities(unit.pos());
         force = Vector3Pool.getObject();
         for (IEntity entity : entities) {
             if (!unit.equals(entity)) {

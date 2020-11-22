@@ -1,7 +1,7 @@
 package arties.scene.ecs.system;
 
 import arties.scene.ecs.Mapper;
-import arties.scene.ecs.component.MovingComponent;
+import arties.scene.ecs.component.MovementComponent;
 import arties.scene.ecs.component.PositionComponent;
 import arties.scene.ecs.component.RenderableBaseComponent;
 import com.badlogic.ashley.core.Entity;
@@ -13,8 +13,9 @@ import static arties.scene.ecs.Mapper.position;
 
 public class BaseRenderSystem extends IteratingSystem {
     private SpriteBatch batch;
-    public BaseRenderSystem(Family family, SpriteBatch batch) {
-        super(family);
+
+    public BaseRenderSystem(Family family, int priority, SpriteBatch batch) {
+        super(family, priority);
         this.batch = batch;
     }
 
@@ -27,7 +28,7 @@ public class BaseRenderSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         PositionComponent pc = position.get(entity);
         RenderableBaseComponent rbc = Mapper.rbase.get(entity);
-        MovingComponent mc = Mapper.moving.get(entity);
+        MovementComponent mc = Mapper.movement.get(entity);
 
         float angle = 0f;
         if (mc != null && rbc.rotateImage) {

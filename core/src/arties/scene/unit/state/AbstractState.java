@@ -1,6 +1,6 @@
 package arties.scene.unit.state;
 
-import arties.scene.unit.Unit;
+import arties.scene.unit.steeringbehaviour.IEntity;
 
 /**
  * Abstract implementation common to all states.
@@ -9,14 +9,14 @@ import arties.scene.unit.Unit;
  */
 public abstract class AbstractState implements IState {
 
-    protected Unit unit;
+    protected IEntity unit;
 
-    public AbstractState(Unit unit) {
+    public AbstractState(IEntity unit) {
         this.unit = unit;
     }
 
     @Override
-    public Unit getUnit() {
+    public IEntity getEntity() {
         return unit;
     }
 

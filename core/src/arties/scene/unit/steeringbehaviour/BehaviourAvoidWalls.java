@@ -16,19 +16,17 @@ import java.util.Set;
  */
 public class BehaviourAvoidWalls extends AbstractSteeringBehaviour {
 
-    private final IRTSMap map;
     float effectRadius = 50f;
 
     private Vector3 force;
 
     public BehaviourAvoidWalls(IEntity unit) {
         super(unit);
-        this.map = unit.map();
     }
 
     @Override
     public Vector3 calculate() {
-        Set<IMapCell<IEntity>> blocked = map.getNearbyBlockedNodes(unit.pos());
+        Set<IMapCell<IEntity>> blocked = unit.map().getNearbyBlockedNodes(unit.pos());
         force = Vector3Pool.getObject();
         for (IMapCell<IEntity> node : blocked) {
             Vector3 entityUnit = unit.pos().clone().sub(node.x(), node.y());

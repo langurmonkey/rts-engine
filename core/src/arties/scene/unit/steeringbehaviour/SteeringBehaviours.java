@@ -19,10 +19,10 @@ public class SteeringBehaviours {
     }
 
 
-    private final Unit unit;
+    private final IEntity unit;
     private final Map<BehaviourClass, ISteeringBehaviour> sbMap;
 
-    public SteeringBehaviours(Unit unit) {
+    public SteeringBehaviours(IEntity unit) {
         super();
         this.sbMap = new HashMap<>();
         this.unit = unit;

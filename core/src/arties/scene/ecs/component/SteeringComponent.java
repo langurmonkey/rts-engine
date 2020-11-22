@@ -9,5 +9,5 @@ public class SteeringComponent implements Component {
      * Steering behaviours
      **/
     public SteeringBehaviours steeringBehaviours;
-    public Vector3 targetHeading;
+    public Vector3 targetHeading = new Vector3();
 }

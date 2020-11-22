@@ -8,4 +8,11 @@ public class HealthComponent implements Component {
      **/
     public float maxHp;
     public float hp;
+
+    public void setHp(float newHp) {
+        if (newHp > maxHp) {
+            newHp = maxHp;
+        }
+        hp = newHp;
+    }
 }

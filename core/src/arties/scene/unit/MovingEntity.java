@@ -41,7 +41,7 @@ public abstract class MovingEntity extends PositionPhysicalEntity {
      **/
     public float slowingDistance;
 
-    float lastUpdateX, lastUpdateY;
+    Vector3 lastPos;
 
     public abstract void updatePosition(float secs);
 

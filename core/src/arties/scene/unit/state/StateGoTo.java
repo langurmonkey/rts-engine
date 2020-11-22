@@ -2,6 +2,7 @@ package arties.scene.unit.state;
 
 import arties.datastructure.geom.Vector2;
 import arties.scene.unit.Unit;
+import arties.scene.unit.steeringbehaviour.IEntity;
 
 /**
  * In this state the unit must move to a given position.
@@ -13,7 +14,7 @@ public class StateGoTo extends AbstractState {
 
     private final Vector2 target;
 
-    public StateGoTo(Unit unit, Vector2 target) {
+    public StateGoTo(IEntity unit, Vector2 target) {
         super(unit);
         this.doneDistanceSq = 7 * 7;
         this.target = target;

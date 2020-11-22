@@ -2,6 +2,7 @@ package arties.scene.unit.state;
 
 import arties.scene.unit.PositionPhysicalEntity;
 import arties.scene.unit.Unit;
+import arties.scene.unit.steeringbehaviour.IEntity;
 
 /**
  * In this state the unit takes the necessary actions to attack a target, being it an entity or a position.
@@ -12,7 +13,7 @@ public class StateAttack extends AbstractState {
 
     private final PositionPhysicalEntity target;
 
-    public StateAttack(Unit unit, PositionPhysicalEntity target) {
+    public StateAttack(IEntity unit, PositionPhysicalEntity target) {
         super(unit);
         this.target = target;
     }

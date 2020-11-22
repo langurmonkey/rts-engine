@@ -47,11 +47,6 @@ public abstract class Unit extends MovingEntity {
     public UnitGroup group;
 
     /**
-     * The cell we're in
-     **/
-    private IMapCell<IEntity> cell;
-
-    /**
      * Is it selected?
      */
     protected boolean selected;
@@ -80,8 +75,7 @@ public abstract class Unit extends MovingEntity {
         this.map = map;
         this.steeringBehaviours = new SteeringBehaviours(this);
         this.stateManager = new StateManager(this);
-        lastUpdateX = Float.MAX_VALUE;
-        lastUpdateY = Float.MAX_VALUE;
+        this.lastPos = new Vector3(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
 
         steeringBehaviours.addSeparation(map);
         steeringBehaviours.addAvoidWalls(map);
@@ -129,7 +123,7 @@ public abstract class Unit extends MovingEntity {
     public void updatePosition(float deltaSecs) {
         /** PHYSICAL MOVEMENT IMPLEMENTATION **/
         // First, get terrain type
-        cell = map.getCell(pos.x, pos.y);
+        IMapCell<IEntity> cell = map.getCell(pos.x, pos.y);
 
         if (!turning) {
             Vector3 steeringForce = steeringBehaviours.calculate().truncate(maxForce);
@@ -179,7 +173,7 @@ public abstract class Unit extends MovingEntity {
         updateBounds(pos.x, pos.y);
 
         // Update entity in map if distance to last update is bigger than the unit's width
-        if (Math.sqrt(Math.pow(pos.x - lastUpdateX, 2) + Math.pow(pos.y - lastUpdateY, 2)) > width / 4f) {
+        if (Math.sqrt(Math.pow(pos.x - lastPos.x, 2) + Math.pow(pos.y - lastPos.y, 2)) > width / 4f) {
             map.updateEntity(this);
             touchLastUpdate();
             map.updateFogOfWar(pos, (int) (viewDistance));
@@ -298,8 +292,7 @@ public abstract class Unit extends MovingEntity {
     }
 
     private void touchLastUpdate() {
-        lastUpdateX = pos.x;
-        lastUpdateY = pos.y;
+        lastPos.set(pos);
     }
 
     /*

@@ -1,6 +1,6 @@
 package arties.scene.unit.state;
 
-import arties.scene.unit.Unit;
+import arties.scene.unit.steeringbehaviour.IEntity;
 
 /**
  * Represents a unit state.
@@ -13,7 +13,7 @@ public interface IState {
 
     void process();
 
-    Unit getUnit();
+    IEntity getEntity();
 
     /**
      * Cleans the unit of this state.

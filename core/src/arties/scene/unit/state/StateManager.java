@@ -3,6 +3,7 @@ package arties.scene.unit.state;
 import arties.datastructure.geom.Vector2;
 import arties.scene.unit.PositionPhysicalEntity;
 import arties.scene.unit.Unit;
+import arties.scene.unit.steeringbehaviour.IEntity;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -16,10 +17,11 @@ import java.util.LinkedList;
 public class StateManager {
 
     private final Deque<IState> states;
-    private Unit unit;
+    private IEntity unit;
 
-    public StateManager(Unit unit) {
-        states = new LinkedList<>();
+    public StateManager(IEntity unit) {
+        this.states = new LinkedList<>();
+        this.unit = unit;
     }
 
     public IState getCurrentState() {

@@ -1,17 +1,18 @@
 package arties.scene.ecs.component;
 
 import arties.datastructure.geom.Vector3;
+import arties.util.Vector3Pool;
 import com.badlogic.ashley.core.Component;
 
 /**
  * Contains attributes pertaining to entity movement
  */
-public class MovingComponent implements Component {
+public class MovementComponent implements Component {
     // Velocity [m/s]
-    public Vector3 vel = new Vector3();
+    public Vector3 vel = Vector3Pool.getObject(0f, 0f);
 
     // Heading vector
-    public Vector3 heading = new Vector3(0, 1, 0);
+    public Vector3 heading = Vector3Pool.getObject(0, 1);
 
     // Max speed [m/s]
     public float maxSpeed;
@@ -28,8 +29,13 @@ public class MovingComponent implements Component {
     // This tells us if we're moving
     public boolean moving;
 
+    // The soft radius for flocking/steering
+    public float softRadius;
+
     // The distance from the target at which the unit starts to slow, for the arrive behaviour
     public float slowingDistance;
 
-    float lastUpdateX, lastUpdateY;
+    public void updateMaxSpeed(HealthComponent hc){
+        maxSpeed *= Math.max(hc.hp / hc.maxHp, 0.2f);
+    }
 }

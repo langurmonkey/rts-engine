@@ -6,16 +6,20 @@ import arties.input.KeyboardListener;
 import arties.input.PanListener;
 import arties.input.SelectionListener;
 import arties.scene.cam.Camera;
+import arties.scene.ecs.TankHelper;
 import arties.scene.ecs.component.*;
 import arties.scene.ecs.system.BaseRenderSystem;
 import arties.scene.ecs.system.InitializeBaseRenderableSystem;
+import arties.scene.ecs.system.UnitUpdateSystem;
 import arties.scene.map.IRTSMap;
 import arties.scene.map.RTSGridMapTiledMap;
 import arties.scene.selection.Selection;
 import arties.scene.unit.*;
 import arties.scene.unit.group.UnitGroup;
 import arties.scene.unit.group.UnitGroupManager;
+import arties.scene.unit.state.StateManager;
 import arties.scene.unit.steeringbehaviour.Path;
+import arties.scene.unit.steeringbehaviour.SteeringBehaviours;
 import arties.ui.OwnLabel;
 import arties.util.Vector2Pool;
 import arties.util.Vector3Pool;
@@ -116,7 +120,7 @@ public class RTSGame implements ApplicationListener {
     /**
      * Systems
      */
-    private EntitySystem ibrs, brs;
+    private EntitySystem ibrs, brs, uus;
 
     /**
      * Is the game paused?
@@ -211,55 +215,25 @@ public class RTSGame implements ApplicationListener {
         UnitGroupManager.initialize();
 
         // Entities
-        Entity tank10 = new Entity();
-
-        // Id
-        IdComponent ic = engine.createComponent(IdComponent.class);
-        // Position
-        PositionComponent pc = engine.createComponent(PositionComponent.class);
-        pc.pos.set(330f, 210f);
-        pc.viewingDistance = 160;
-        // Vel
-        MovingComponent mc = engine.createComponent(MovingComponent.class);
-        mc.heading.set(1, 0, 0);
-        // Body
-        BodyComponent bc = engine.createComponent(BodyComponent.class);
-        // Renderable
-        RenderableBaseComponent rvc = engine.createComponent(RenderableBaseComponent.class);
-        rvc.textureName = "units/tank-32";
-        rvc.rotateImage = true;
-        // Shadow
-        RenderableShadowComponent rsc = engine.createComponent(RenderableShadowComponent.class);
-        rsc.shadowOffsetY = 25f;
-        // Map
-        MapComponent mpc = engine.createComponent(MapComponent.class);
-        mpc.map = map;
-        // Player
-        PlayerComponent prc = engine.createComponent(PlayerComponent.class);
-
-        // Add components
-        tank10.add(prc);
-        tank10.add(pc);
-        tank10.add(mc);
-        tank10.add(bc);
-        tank10.add(rvc);
-        tank10.add(rsc);
-        tank10.add(mpc);
+        Entity tank10 = TankHelper.createTank(engine, map, 330f, 210f, 100f);
+        Entity tank11 = TankHelper.createTank(engine, map, 340f, 220f, 30f);
 
         // Add to engine
         engine.addEntity(tank10);
+        engine.addEntity(tank11);
 
         positionFamily = Family.all(PositionComponent.class, MapComponent.class).get();
-        movementFamily = Family.all(PositionComponent.class, MovingComponent.class, MapComponent.class).get();
+        movementFamily = Family.all(PositionComponent.class, MovementComponent.class, MapComponent.class).get();
         renderableFamily = Family.all(RenderableBaseComponent.class).get();
 
         // Init systems
         ibrs = new InitializeBaseRenderableSystem(renderableFamily);
 
         // Update systems
+        uus = new UnitUpdateSystem(movementFamily, 1);
 
         // Render systems
-        brs = new BaseRenderSystem(renderableFamily, spriteBatch);
+        brs = new BaseRenderSystem(renderableFamily, 100, spriteBatch);
 
         // Add initalization systems to engine
         engine.addSystem(ibrs);
@@ -331,7 +305,7 @@ public class RTSGame implements ApplicationListener {
         engine.removeSystem(ibrs);
 
         // Add update systems
-        // TODO
+        engine.addSystem(uus);
 
         // Add render systems
         engine.addSystem(brs);
@@ -606,24 +580,6 @@ public class RTSGame implements ApplicationListener {
         Path path = new Path(map.findPath(unit.pos.x, unit.pos.y, (float) x, (float) y), unit.pos.x, unit.pos.y, (float) x, (float) y);
         path.smooth(unit);
         unit.steeringBehaviours.addFollowPath(path);
-    }
-
-    /**
-     * Gets the unit whose hard radius is colliding with the given position.
-     *
-     * @param x The x in map coordinates
-     * @param y The y in map coordinates
-     * @return
-     */
-    public PositionPhysicalEntity getCollidingUnit(int x, int y) {
-
-        for (PositionPhysicalEntity ppe : entities) {
-            if (ppe.isColliding(x, y)) {
-                return ppe;
-            }
-        }
-
-        return null;
     }
 
     /**

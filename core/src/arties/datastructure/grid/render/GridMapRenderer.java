@@ -105,24 +105,20 @@ public class GridMapRenderer implements IMapRenderer {
     public void drawCellsText(GridMap map) {
         fontBatch.setProjectionMatrix(RTSGame.game.orthoCamera.combined);
         fontBatch.begin();
-        // Set to 1 to render all
-        int mod = 30;
+        font9.setColor(1f, .3f, .3f, 1f);
         for (int i = 0; i < map.columns; i++) {
             for (int j = 0; j < map.rows; j++) {
-                if (i % mod == 0 || j % mod == 0) {
-                    GridCell cell = map.cells[i][j];
-                    if (cell.hasObjects()) {
-                        // Render number of objects
-                        font9.setColor(.3f, .3f, .3f, 1f);
-                        font9.draw(fontBatch, cell.objects.size() + "", cell.bounds.getX() + 2f, cell.bounds.getY() + 10f);
-                    }
-
+                GridCell cell = map.cells[i][j];
+                if (cell.hasObjects()) {
+                    // Render number of objects
+                    font9.setColor(.3f, .3f, .3f, 1f);
+                    font9.draw(fontBatch, Integer.toString(cell.objects.size()), cell.bounds.getX() + 2f, cell.bounds.getY() + 10f);
                     font9.setColor(1f, .3f, .3f, 1f);
-                    font9.draw(fontBatch, cell.z + "", cell.bounds.getX() + 2f, cell.bounds.getY() + 20f);
                 }
+                if (cell.z > 0)
+                    font9.draw(fontBatch, Integer.toString((int) cell.z), cell.bounds.getX() + 2f, cell.bounds.getY() + 20f);
             }
         }
-
         fontBatch.flush();
         fontBatch.end();
     }
