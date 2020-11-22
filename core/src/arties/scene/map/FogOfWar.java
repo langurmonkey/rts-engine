@@ -91,7 +91,7 @@ public class FogOfWar {
      * @param camera
      */
     public void renderWithSprites(Camera camera) {
-        float ts2 = tileSize /2f;
+        float ts2 = tileSize / 2f;
         batch.begin();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -111,7 +111,7 @@ public class FogOfWar {
      * Renders the fog of war with the shape renderer
      */
     public void renderWithShapeRenderer(Camera camera) {
-        float ts2 = tileSize /2f;
+        float ts2 = tileSize / 2f;
         Gdx.gl.glEnable(GL20.GL_BLEND);
         shapeRenderer.setProjectionMatrix(camera.getLibgdxCamera().combined);
         shapeRenderer.begin(ShapeType.Filled);

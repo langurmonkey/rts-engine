@@ -66,17 +66,23 @@ public class GridMapRenderer implements IMapRenderer {
     }
 
     public void drawCellsFilled(GridMap map) {
+        float tileSize = map.cellHeight;
+        float ts2 = tileSize / 2f;
         shapeRenderer.begin(ShapeType.Filled);
         for (int i = 0; i < map.columns; i++) {
             for (int j = 0; j < map.rows; j++) {
-                GridCell cell = map.cells[i][j];
-                if (cell.isBlocked() || cell.hasObjects()) {
-                    if (cell.isBlocked())
-                        shapeRenderer.setColor(colBlocked);
-                    else if (cell.hasObjects())
-                        shapeRenderer.setColor(colHasobjs);
+                float x = i * tileSize;
+                float y = j * tileSize;
+                if (RTSGame.getCamera().containsPoint(x + ts2, y + ts2, tileSize)) {
+                    GridCell cell = map.cells[i][j];
+                    if (cell.isBlocked() || cell.hasObjects()) {
+                        if (cell.isBlocked())
+                            shapeRenderer.setColor(colBlocked);
+                        else if (cell.hasObjects())
+                            shapeRenderer.setColor(colHasobjs);
 
-                    shapeRenderer.rect(cell.bounds.x, cell.bounds.y, cell.bounds.width, cell.bounds.height);
+                        shapeRenderer.rect(cell.bounds.x, cell.bounds.y, cell.bounds.width, cell.bounds.height);
+                    }
                 }
             }
         }
