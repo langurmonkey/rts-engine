@@ -8,10 +8,10 @@ import com.badlogic.ashley.core.Component;
  */
 public class MovingComponent implements Component {
     // Velocity [m/s]
-    public Vector3 vel;
+    public Vector3 vel = new Vector3();
 
     // Heading vector
-    public Vector3 heading;
+    public Vector3 heading = new Vector3(0, 1, 0);
 
     // Max speed [m/s]
     public float maxSpeed;

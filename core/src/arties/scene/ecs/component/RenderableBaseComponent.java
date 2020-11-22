@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 /**
  * Entities that render with a sprite
  */
-public class RenderableVehicleComponent implements Component {
+public class RenderableBaseComponent implements Component {
     /**
      * The name or id of the texture
      */
@@ -21,12 +21,12 @@ public class RenderableVehicleComponent implements Component {
     /**
      * The sprite scale, 1 by default
      **/
-    protected float scale = 1f;
+    public float scale = 1f;
 
     /**
      * Sprite offsets from the center, positive down and left
      */
-    protected float spriteOffsetX = 0f, spriteOffsetY = 0f;
+    public float spriteOffsetX = 0f, spriteOffsetY = 0f;
 
     /**
      * Bounds for selection - these match the bounds of the sprite

@@ -7,6 +7,8 @@ import arties.input.PanListener;
 import arties.input.SelectionListener;
 import arties.scene.cam.Camera;
 import arties.scene.ecs.component.*;
+import arties.scene.ecs.system.BaseRenderSystem;
+import arties.scene.ecs.system.InitializeBaseRenderableSystem;
 import arties.scene.map.IRTSMap;
 import arties.scene.map.RTSGridMapTiledMap;
 import arties.scene.selection.Selection;
@@ -17,10 +19,7 @@ import arties.scene.unit.steeringbehaviour.Path;
 import arties.ui.OwnLabel;
 import arties.util.Vector2Pool;
 import arties.util.Vector3Pool;
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -108,6 +107,16 @@ public class RTSGame implements ApplicationListener {
     private OwnLabel fps;
 
     private PanListener panListener;
+
+    /**
+     * Families
+     */
+    private Family renderableFamily, positionFamily, movementFamily;
+
+    /**
+     * Systems
+     */
+    private EntitySystem ibrs, brs;
 
     /**
      * Is the game paused?
@@ -208,35 +217,52 @@ public class RTSGame implements ApplicationListener {
         IdComponent ic = engine.createComponent(IdComponent.class);
         // Position
         PositionComponent pc = engine.createComponent(PositionComponent.class);
-        pc.pos.set(270f, 220f);
+        pc.pos.set(330f, 210f);
         pc.viewingDistance = 160;
         // Vel
-        MovingComponent vc = engine.createComponent(MovingComponent.class);
+        MovingComponent mc = engine.createComponent(MovingComponent.class);
+        mc.heading.set(1, 0, 0);
+        // Body
+        BodyComponent bc = engine.createComponent(BodyComponent.class);
         // Renderable
-        RenderableVehicleComponent rvc = engine.createComponent(RenderableVehicleComponent.class);
+        RenderableBaseComponent rvc = engine.createComponent(RenderableBaseComponent.class);
         rvc.textureName = "units/tank-32";
         rvc.rotateImage = true;
         // Shadow
         RenderableShadowComponent rsc = engine.createComponent(RenderableShadowComponent.class);
+        rsc.shadowOffsetY = 25f;
         // Map
-        MapComponent mc = engine.createComponent(MapComponent.class);
-        mc.map = map;
+        MapComponent mpc = engine.createComponent(MapComponent.class);
+        mpc.map = map;
         // Player
         PlayerComponent prc = engine.createComponent(PlayerComponent.class);
 
         // Add components
         tank10.add(prc);
         tank10.add(pc);
-        tank10.add(vc);
+        tank10.add(mc);
+        tank10.add(bc);
         tank10.add(rvc);
         tank10.add(rsc);
-        tank10.add(mc);
+        tank10.add(mpc);
 
         // Add to engine
         engine.addEntity(tank10);
 
-        Family positionFamily = Family.all(PositionComponent.class, MapComponent.class).get();
-        Family movementFamily = Family.all(PositionComponent.class, MovingComponent.class, MapComponent.class).get();
+        positionFamily = Family.all(PositionComponent.class, MapComponent.class).get();
+        movementFamily = Family.all(PositionComponent.class, MovingComponent.class, MapComponent.class).get();
+        renderableFamily = Family.all(RenderableBaseComponent.class).get();
+
+        // Init systems
+        ibrs = new InitializeBaseRenderableSystem(renderableFamily);
+
+        // Update systems
+
+        // Render systems
+        brs = new BaseRenderSystem(renderableFamily, spriteBatch);
+
+        // Add initalization systems to engine
+        engine.addSystem(ibrs);
 
 
         // Initialize units
@@ -298,6 +324,17 @@ public class RTSGame implements ApplicationListener {
         for (PositionPhysicalEntity entity : entities) {
             entity.initAssets(assets);
         }
+        // Update engine with initialization systems
+        engine.update(0);
+
+        // Remove initialization systems
+        engine.removeSystem(ibrs);
+
+        // Add update systems
+        // TODO
+
+        // Add render systems
+        engine.addSystem(brs);
     }
 
     public boolean isVisible(Vector2 point) {
@@ -362,6 +399,8 @@ public class RTSGame implements ApplicationListener {
                 updateScene(deltaSecs);
             }
             renderScene(deltaSecs);
+            // Update engine to update and render scene
+            //engine.update(deltaSecs);
         }
     }
 
