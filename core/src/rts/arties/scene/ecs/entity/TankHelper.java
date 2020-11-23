@@ -12,14 +12,15 @@ public class TankHelper {
 
     public static Entity create(Engine engine, IRTSMap map, float x, float y, float hp) {
 
-        Entity tank = new Entity();
-        DefaultEntity tankEntity = new DefaultEntity(tank);
+        Entity e = new Entity();
+        DefaultEntity de = new DefaultEntity(e);
 
         // Body
         BodyComponent bc = engine.createComponent(BodyComponent.class);
-        bc.me = tankEntity;
+        bc.me = de;
         bc.mass = 0.9f;
         bc.weight = 1f;
+        bc.softRadius = 15;
         // Health
         HealthComponent hc = engine.createComponent(HealthComponent.class);
         hc.maxHp = 100;
@@ -31,7 +32,6 @@ public class TankHelper {
         // Movement
         MovementComponent mc = engine.createComponent(MovementComponent.class);
         mc.heading.set(1, 0, 0);
-        mc.softRadius = 15;
         mc.slowingDistance = 70;
         mc.maxSpeed = 90f; // m/s
         mc.maxForce = 130f; // Kg*m/s^2
@@ -39,12 +39,12 @@ public class TankHelper {
         mc.updateMaxSpeed(hc);
         // Steering
         SteeringComponent sc = engine.createComponent(SteeringComponent.class);
-        sc.steeringBehaviours = new SteeringBehaviours(tankEntity);
+        sc.steeringBehaviours = new SteeringBehaviours(de);
         sc.steeringBehaviours.addSeparation(map);
         sc.steeringBehaviours.addAvoidWalls(map);
         // State
         StateComponent stc = engine.createComponent(StateComponent.class);
-        stc.stateManager = new StateManager(tankEntity);
+        stc.stateManager = new StateManager(de);
         // Group
         UnitGroupComponent ugc = engine.createComponent(UnitGroupComponent.class);
         // Renderable
@@ -62,18 +62,18 @@ public class TankHelper {
         plc.selectionRadius = 17;
 
         // Add components
-        tank.add(plc);
-        tank.add(pc);
-        tank.add(mc);
-        tank.add(bc);
-        tank.add(rbc);
-        tank.add(rsc);
-        tank.add(sc);
-        tank.add(stc);
-        tank.add(mpc);
-        tank.add(ugc);
-        tank.add(hc);
+        e.add(plc);
+        e.add(pc);
+        e.add(mc);
+        e.add(bc);
+        e.add(rbc);
+        e.add(rsc);
+        e.add(sc);
+        e.add(stc);
+        e.add(mpc);
+        e.add(ugc);
+        e.add(hc);
 
-        return tank;
+        return e;
     }
 }

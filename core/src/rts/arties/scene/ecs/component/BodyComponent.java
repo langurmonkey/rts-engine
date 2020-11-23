@@ -20,6 +20,8 @@ public class BodyComponent implements Component {
     public float width;
     public float height;
 
+    // The soft radius for flocking/steering
+    public float softRadius;
     // Hard radius
     public Rectangle hardRadius;
 

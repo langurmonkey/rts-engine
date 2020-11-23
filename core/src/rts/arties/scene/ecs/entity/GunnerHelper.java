@@ -12,14 +12,15 @@ public class GunnerHelper {
 
     public static Entity create(Engine engine, IRTSMap map, float x, float y, float hp) {
 
-        Entity gunner = new Entity();
-        DefaultEntity gunnerEntity = new DefaultEntity(gunner);
+        Entity e = new Entity();
+        DefaultEntity de = new DefaultEntity(e);
 
         // Body
         BodyComponent bc = engine.createComponent(BodyComponent.class);
-        bc.me = gunnerEntity;
+        bc.me = de;
         bc.mass = 0.1f;
         bc.weight = 0.3f;
+        bc.softRadius = 13;
         // Health
         HealthComponent hc = engine.createComponent(HealthComponent.class);
         hc.maxHp = 20;
@@ -31,7 +32,6 @@ public class GunnerHelper {
         // Movement
         MovementComponent mc = engine.createComponent(MovementComponent.class);
         mc.heading.set(1, 0, 0);
-        mc.softRadius = 13;
         mc.slowingDistance = 10;
         mc.maxSpeed = 40f; // m/s
         mc.maxForce = 40f; // Kg*m/s^2
@@ -39,12 +39,12 @@ public class GunnerHelper {
         mc.updateMaxSpeed(hc);
         // Steering
         SteeringComponent sc = engine.createComponent(SteeringComponent.class);
-        sc.steeringBehaviours = new SteeringBehaviours(gunnerEntity);
+        sc.steeringBehaviours = new SteeringBehaviours(de);
         sc.steeringBehaviours.addSeparation(map);
         sc.steeringBehaviours.addAvoidWalls(map);
         // State
         StateComponent stc = engine.createComponent(StateComponent.class);
-        stc.stateManager = new StateManager(gunnerEntity);
+        stc.stateManager = new StateManager(de);
         // Group
         UnitGroupComponent ugc = engine.createComponent(UnitGroupComponent.class);
         // Renderable
@@ -69,19 +69,19 @@ public class GunnerHelper {
         plc.selectionRadius = 18;
 
         // Add components
-        gunner.add(plc);
-        gunner.add(pc);
-        gunner.add(mc);
-        gunner.add(bc);
-        gunner.add(rbc);
-        gunner.add(rsc);
-        gunner.add(sc);
-        gunner.add(stc);
-        gunner.add(mpc);
-        gunner.add(ugc);
-        gunner.add(hc);
-        gunner.add(rwc);
+        e.add(plc);
+        e.add(pc);
+        e.add(mc);
+        e.add(bc);
+        e.add(rbc);
+        e.add(rsc);
+        e.add(sc);
+        e.add(stc);
+        e.add(mpc);
+        e.add(ugc);
+        e.add(hc);
+        e.add(rwc);
 
-        return gunner;
+        return e;
     }
 }

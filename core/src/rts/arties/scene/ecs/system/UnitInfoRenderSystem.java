@@ -63,6 +63,7 @@ public class UnitInfoRenderSystem extends EntitySystem {
 
     @Override
     public void update(float deltaTime) {
+        Gdx.gl.glEnable(GL20.GL_BLEND);
         // Render shape renderer layers
         // Layer 0 - filled
         sr.begin(ShapeType.Filled);

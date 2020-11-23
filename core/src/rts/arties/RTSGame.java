@@ -13,10 +13,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -30,28 +28,24 @@ import rts.arties.input.KeyboardListener;
 import rts.arties.input.PanListener;
 import rts.arties.input.SelectionListener;
 import rts.arties.scene.cam.Camera;
+import rts.arties.scene.ecs.EntityPositionComparator;
 import rts.arties.scene.ecs.Mapper;
 import rts.arties.scene.ecs.component.*;
 import rts.arties.scene.ecs.entity.GunnerHelper;
+import rts.arties.scene.ecs.entity.MapObjectHelper;
 import rts.arties.scene.ecs.entity.TankHelper;
 import rts.arties.scene.ecs.system.*;
 import rts.arties.scene.map.IRTSMap;
 import rts.arties.scene.map.RTSGridMapTiledMap;
 import rts.arties.scene.selection.Selection;
-import rts.arties.scene.unit.PhysicalObject;
-import rts.arties.scene.unit.PositionPhysicalEntity;
-import rts.arties.scene.unit.Unit;
 import rts.arties.scene.unit.group.UnitGroup;
 import rts.arties.scene.unit.group.UnitGroupManager;
 import rts.arties.scene.unit.steeringbehaviour.IEntity;
 import rts.arties.scene.unit.steeringbehaviour.Path;
 import rts.arties.ui.OwnLabel;
-import rts.arties.util.TextUtils;
 import rts.arties.util.Vector2Pool;
 import rts.arties.util.Vector3Pool;
-import rts.arties.util.parse.Parser;
 
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -62,14 +56,13 @@ import java.util.*;
  * @author Toni Sagrista
  */
 public class RTSGame implements ApplicationListener {
+    private static final Logger logger = new Logger(RTSGame.class.getSimpleName(), Logger.INFO);
 
     private static AssetManager assets;
 
     public static AssetManager assets() {
         return assets;
     }
-
-    private Logger logger;
 
     public OrthographicCamera orthoCamera;
 
@@ -85,10 +78,13 @@ public class RTSGame implements ApplicationListener {
     public static void setDebug(boolean debug) {
         debugInfo = debug;
         if (game != null && status == AppStatus.READY) {
-            if (debug)
-                game.engine.addSystem(game.drs);
-            else
-                game.engine.removeSystem(game.drs);
+            if (debug) {
+                game.engine.addSystem(game.ders);
+                game.engine.addSystem(game.dmrs);
+            }else {
+                game.engine.removeSystem(game.ders);
+                game.engine.removeSystem(game.dmrs);
+            }
         }
     }
 
@@ -103,8 +99,6 @@ public class RTSGame implements ApplicationListener {
     private Camera camera;
     private IRTSMap map;
     private Engine engine;
-    private final List<PositionPhysicalEntity> entities = new ArrayList<>();
-    public List<IEntity> player = new ArrayList<>();
     public Selection selection;
 
     private long startTime;
@@ -132,13 +126,14 @@ public class RTSGame implements ApplicationListener {
     /**
      * Families
      */
-    private Family renderableFamily, renderableWalkerFamily, positionFamily, movementFamily, playerFamily, debugFamily;
+    private Family renderableFamily, renderableWalkerFamily, positionFamily, movementFamily,
+            playerFamily, debugFamily, objectFamily, mapFamily;
+
 
     /**
      * Systems
      */
-    private EntitySystem ibrs, iwrs, brs, uirs, drs, uus;
-
+    private EntitySystem ibrs, iwrs, imos, ders, dmrs, uus, ous, brs, uirs, mbrs, mors;
     /**
      * Is the game paused?
      **/
@@ -167,7 +162,6 @@ public class RTSGame implements ApplicationListener {
 
     @Override
     public void create() {
-        logger = new Logger(this.getClass().getSimpleName(), Logger.INFO);
         game = this;
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -230,6 +224,13 @@ public class RTSGame implements ApplicationListener {
         // Initialize groups
         UnitGroupManager.initialize();
 
+        // Map entity
+        Entity mapEntity = engine.createEntity();
+        MapComponent mc = engine.createComponent(MapComponent.class);
+        mc.map = map;
+        mapEntity.add(mc);
+
+
         // Entities
         Entity tank10 = TankHelper.create(engine, map, 330f, 210f, 100f);
         Entity tank11 = TankHelper.create(engine, map, 340f, 220f, 30f);
@@ -237,107 +238,92 @@ public class RTSGame implements ApplicationListener {
         Entity gooner11 = GunnerHelper.create(engine, map, 270f, 120f, 30f);
 
         // Add to engine
+        engine.addEntity(mapEntity);
         engine.addEntity(tank10);
         engine.addEntity(tank11);
         engine.addEntity(gooner10);
         engine.addEntity(gooner11);
 
-        positionFamily = Family.all(PositionComponent.class, MapComponent.class).get();
-        movementFamily = Family.all(PositionComponent.class, MovementComponent.class, MapComponent.class).get();
-        renderableFamily = Family.all(RenderableBaseComponent.class).get();
-        renderableWalkerFamily = Family.all(RenderableBaseComponent.class, RenderableWalkerComponent.class).get();
-        playerFamily = Family.all(PlayerComponent.class, PositionComponent.class, RenderableBaseComponent.class).get();
-        debugFamily = Family.all(PositionComponent.class, MovementComponent.class, BodyComponent.class, RenderableBaseComponent.class).get();
-
-        // Init systems
-        ibrs = new InitializeBaseRenderableSystem(renderableFamily, 1, assets);
-        iwrs = new InitializeWalkerRenderableSystem(renderableWalkerFamily, 2, assets);
-
-        // Update systems
-        uus = new UnitUpdateSystem(movementFamily, 1);
-
-        // Render systems
-        brs = new BaseRenderSystem(renderableFamily, 100, spriteBatch);
-        uirs = new UnitInfoRenderSystem(playerFamily, 120, cameraShapeRenderer, spriteBatch);
-        drs = new DebugRenderSystem(debugFamily, 130, cameraShapeRenderer, spriteBatch);
-
-        // Add initalization systems to engine
-        engine.addSystem(ibrs);
-        engine.addSystem(iwrs);
-
+        // Map objects
         MapObjects mos = map.getMapObjects();
         if (mos != null) {
             Iterator<MapObject> it = mos.iterator();
             while (it.hasNext()) {
                 MapObject mo = it.next();
-
-                float x = mo.getProperties().get("x", Float.class);
-                float y = mo.getProperties().get("y", Float.class);
-                float ow = mo.getProperties().get("width", Float.class);
-
-                float shadowOffsetY = 0;
-                float weight = 1;
-                String textureName;
-                if (mo instanceof TiledMapTileMapObject) {
-                    TiledMapTileMapObject tmtmo = (TiledMapTileMapObject) mo;
-                    String fileName = Paths.get(tmtmo.getTextureRegion().getTexture().toString()).getFileName().toString();
-                    textureName = TextUtils.removeExtension(fileName);
-                    if (tmtmo.getTile().getProperties() != null) {
-                        try {
-                            shadowOffsetY = Parser.parseFloatException(tmtmo.getTile().getProperties().get("shadowOffsetY", "0", String.class));
-                        } catch (NumberFormatException nfe) {
-                            logger.debug("Could not parse 'shadowOffsetY' from tile: " + nfe.getLocalizedMessage());
-                        }
-                        try {
-                            weight = Parser.parseFloatException(tmtmo.getTile().getProperties().get("weight", "1", String.class));
-                        } catch (NumberFormatException nfe) {
-                            logger.debug("Could not parse 'shadowOffsetY' from tile: " + nfe.getLocalizedMessage());
-                        }
-                    }
-                } else {
-                    textureName = mo.getName();
-                }
-
-                // Trees with an offsetY of 20
-                PhysicalObject po = new PhysicalObject(x + ow / 2f, y, 0f, 25f, textureName, map);
-                po.shadowOffsetY = shadowOffsetY;
-                po.weight = weight;
-                entities.add(po);
+                Entity object = MapObjectHelper.create(engine, mo, map);
+                engine.addEntity(object);
             }
-
         }
+
+        // Families
+        positionFamily = Family.all(PositionComponent.class, MapComponent.class).get();
+        movementFamily = Family.all(PositionComponent.class, MovementComponent.class, MapComponent.class).get();
+        objectFamily = Family.all(PositionComponent.class, BodyComponent.class, RenderableBaseComponent.class, VisibilityComponent.class).exclude(PlayerComponent.class, MovementComponent.class).get();
+        renderableFamily = Family.all(RenderableBaseComponent.class).get();
+        renderableWalkerFamily = Family.all(RenderableBaseComponent.class, RenderableWalkerComponent.class).get();
+        playerFamily = Family.all(PlayerComponent.class, PositionComponent.class, RenderableBaseComponent.class).get();
+        debugFamily = Family.all(PositionComponent.class, MovementComponent.class, BodyComponent.class, RenderableBaseComponent.class).get();
+        mapFamily = Family.all(MapComponent.class).exclude(PositionComponent.class, MovementComponent.class, BodyComponent.class, RenderableBaseComponent.class).get();
+
+        // Init systems
+        ibrs = new InitializeBaseRenderableSystem(renderableFamily, 1, assets);
+        iwrs = new InitializeWalkerRenderableSystem(renderableWalkerFamily, 2, assets);
+        imos = new InitializeObjectsSystem(objectFamily, 3);
+
+        // Update systems
+        uus = new UnitUpdateSystem(movementFamily, 1);
+        ous = new ObjectUpdateSystem(objectFamily, 0.2f, 2);
+
+        // Render systems
+        mbrs = new MapBaseRenderSystem(mapFamily, 100, mapShader, playerFamily);
+        brs = new BaseRenderSystem(renderableFamily, new EntityPositionComparator(), 110, spriteBatch, objectsShader);
+        uirs = new UnitInfoRenderSystem(playerFamily, 120, cameraShapeRenderer, spriteBatch);
+        mors = new MapOverlaysRenderSystem(mapFamily, 130, cameraShapeRenderer, spriteBatch);
+        dmrs = new DebugMapRenderSystem(mapFamily, 140);
+        ders = new DebugEntityRenderSystem(debugFamily, 150, cameraShapeRenderer, spriteBatch);
+
+        // Add initalization systems to engine
+        engine.addSystem(ibrs);
+        engine.addSystem(iwrs);
+        engine.addSystem(imos);
 
         startTime = TimeUtils.nanoTime();
     }
 
     public void doneLoading() {
         map.doneLoading(assets);
-        for (PositionPhysicalEntity entity : entities) {
-            entity.initAssets(assets);
-        }
+
         // Runi initialization systems
         engine.update(0);
 
         // Remove initialization systems from engine
         engine.removeSystem(ibrs);
         engine.removeSystem(iwrs);
+        engine.removeSystem(imos);
 
 
         // Add update systems
         engine.addSystem(uus);
+        engine.addSystem(ous);
 
         // Add render systems
+        engine.addSystem(mbrs);
         engine.addSystem(brs);
         engine.addSystem(uirs);
+        engine.addSystem(mors);
 
-        if (debugInfo)
-            engine.addSystem(drs);
+        if (debugInfo) {
+            engine.addSystem(dmrs);
+            engine.addSystem(ders);
+        }
     }
 
     public boolean isVisible(Vector3 point) {
         boolean vis = false;
-        for (IEntity u : player) {
-            vis = vis || u.pos().dst(point) < u.viewingDistance() * 1.1f;
+        ImmutableArray<Entity> player = engine.getEntitiesFor(playerFamily);
+        for(Entity u : player) {
+            PositionComponent pc = Mapper.position.get(u);
+            vis = vis || pc.pos.dst(point) < pc.viewingDistance * 1.1f;
         }
         return vis;
     }
@@ -384,122 +370,33 @@ public class RTSGame implements ApplicationListener {
             }
         } else if (status == AppStatus.READY) {
             assets.update();
+
+            spriteBatch.setProjectionMatrix(orthoCamera.combined);
+            cameraShapeRenderer.setProjectionMatrix(orthoCamera.combined);
+
             if (!paused) {
-                updateScene(deltaSecs);
-            }
-            renderScene(deltaSecs);
-            // Update engine to update and render scene
-            engine.update(deltaSecs);
-        }
-    }
+                // Update camera position
+                camera.update(deltaSecs);
+                UnitGroupManager.getInstance().update();
+                stage.act(deltaSecs);
 
-    /**
-     * Updates the scne
-     *
-     * @param deltaSecs The delta time in seconds
-     */
-    public void updateScene(float deltaSecs) {
-        // Update camera position
-        camera.update(deltaSecs);
+                // Clear screen
+                Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                // Enable blending
+                Gdx.gl.glEnable(GL20.GL_BLEND);
+                Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        // And update all units
-        entities.stream().forEach(entity -> entity.update(deltaSecs));
+                // Update engine to update and render scene
+                engine.update(deltaSecs);
 
-        UnitGroupManager.getInstance().update();
+                // Draw current selection
+                selection.render();
 
-        stage.act(deltaSecs);
-    }
-
-    public void renderScene(float deltaSecs) {
-        Collections.sort(entities);
-        spriteBatch.setProjectionMatrix(orthoCamera.combined);
-        cameraShapeRenderer.setProjectionMatrix(orthoCamera.combined);
-
-        // Clear screen
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-        // Contains circular light positions and radius
-        ImmutableArray<Entity> playerEntities = engine.getEntitiesFor(playerFamily);
-        float[] lights = new float[playerEntities.size() * 3];
-        // Contains shadow positions and width and height
-        int i = 0;
-        for(Entity e : playerEntities){
-            PositionComponent pc = Mapper.position.get(e);
-            if(pc.viewingDistance > 0){
-                lights[i++] = pc.pos.x;
-                lights[i++] = pc.pos.y;
-                lights[i++] = pc.viewingDistance;
-
+                // Draw user interface
+                stage.draw();
             }
         }
-
-        mapShader.bind();
-        mapShader.setUniform3fv("u_lights", lights, 0, i);
-        mapShader.setUniformi("u_light_count", i / 3);
-        mapShader.setUniformf("u_camera_offset", camera.pos.x - Gdx.graphics.getWidth() / 2f, camera.pos.y - Gdx.graphics.getHeight() / 2f);
-        map.renderBase(camera);
-
-        objectsShader.bind();
-        objectsShader.setUniformf("u_camera_offset", camera.pos.x - Gdx.graphics.getWidth() / 2f, camera.pos.y - Gdx.graphics.getHeight() / 2f);
-
-        /** Entities **/
-        spriteBatch.begin();
-        for (PositionPhysicalEntity ppe : entities) {
-            ppe.render(spriteBatch, objectsShader);
-        }
-        spriteBatch.end();
-
-        map.renderOverlays(camera);
-        map.renderFogOfWar(camera, cameraShapeRenderer, spriteBatch);
-
-        UnitGroupManager.getInstance().render();
-
-        // Render debug info
-        if (debugInfo) {
-            map.renderDebug();
-
-            // Debug filled
-            cameraShapeRenderer.begin(ShapeType.Filled);
-            for (PositionPhysicalEntity ppe : entities) {
-                ppe.renderDebugFilled(cameraShapeRenderer);
-            }
-            cameraShapeRenderer.end();
-
-            // Debug line
-            cameraShapeRenderer.begin(ShapeType.Line);
-            for (PositionPhysicalEntity ppe : entities) {
-                ppe.renderDebugLine(cameraShapeRenderer);
-            }
-            cameraShapeRenderer.end();
-        }
-
-        // Render shape renderer layers
-        // Layer 0 - filled
-        cameraShapeRenderer.begin(ShapeType.Filled);
-        entities.forEach(ppe -> ppe.renderShapeFilledLayer0(cameraShapeRenderer));
-        cameraShapeRenderer.end();
-        // Layer 1 - line
-        cameraShapeRenderer.begin(ShapeType.Line);
-        entities.forEach(ppe -> ppe.renderShapeLineLayer1(cameraShapeRenderer));
-        cameraShapeRenderer.end();
-        // Layer 2 - filled
-        cameraShapeRenderer.begin(ShapeType.Filled);
-        entities.forEach(ppe -> ppe.renderShapeFilledLayer2(cameraShapeRenderer));
-        cameraShapeRenderer.end();
-        // Layer 3 - line
-        cameraShapeRenderer.begin(ShapeType.Line);
-        entities.forEach(ppe -> ppe.renderShapeLineLayer3(cameraShapeRenderer));
-        cameraShapeRenderer.end();
-
-        selection.render();
-
-        stage.draw();
-
-        Gdx.gl.glDisable(GL20.GL_BLEND);
-
     }
 
     @Override
@@ -620,12 +517,6 @@ public class RTSGame implements ApplicationListener {
      * @return
      */
     public IEntity getCollidingUnitImage(int x, int y) {
-        // Old units
-        for (PositionPhysicalEntity ppe : entities) {
-            if (ppe.isImageColliding(x, y) && ppe instanceof Unit) {
-                return ppe;
-            }
-        }
         // New units - ECS
         ImmutableArray<Entity> player = engine.getEntitiesFor(playerFamily);
         for (Entity e : player) {
@@ -644,13 +535,7 @@ public class RTSGame implements ApplicationListener {
      * @return
      */
     public Set<IEntity> getInsideUnits(Rectangle rect) {
-        // Old units
         Set<IEntity> list = new HashSet<>();
-        for (IEntity u : player) {
-            if (rect.overlaps(u.bounds()) && u instanceof Unit) {
-                list.add(u);
-            }
-        }
         // New units - ECS
         ImmutableArray<Entity> player = engine.getEntitiesFor(playerFamily);
         for (Entity e : player) {

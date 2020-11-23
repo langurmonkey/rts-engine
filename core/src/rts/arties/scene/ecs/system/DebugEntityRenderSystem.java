@@ -5,18 +5,15 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import rts.arties.scene.ecs.Mapper;
 import rts.arties.scene.ecs.component.*;
-import rts.arties.scene.unit.steeringbehaviour.SteeringBehaviours;
 import rts.arties.util.color.ColorUtils;
 
-public class DebugRenderSystem extends EntitySystem {
+public class DebugEntityRenderSystem extends EntitySystem {
     private Family family;
     private ImmutableArray<Entity> entities;
     private ShapeRenderer sr;
@@ -24,11 +21,11 @@ public class DebugRenderSystem extends EntitySystem {
 
     private Color hardRadiusColor, softRadiusColor, posColor, imageBoundsColor, viewDistColor, headingColor;
 
-    public DebugRenderSystem(Family family, ShapeRenderer sr, SpriteBatch sb) {
+    public DebugEntityRenderSystem(Family family, ShapeRenderer sr, SpriteBatch sb) {
         this(family, 0, sr, sb);
     }
 
-    public DebugRenderSystem(Family family, int priority, ShapeRenderer sr, SpriteBatch sb) {
+    public DebugEntityRenderSystem(Family family, int priority, ShapeRenderer sr, SpriteBatch sb) {
         super(priority);
 
         this.family = family;
@@ -82,7 +79,6 @@ public class DebugRenderSystem extends EntitySystem {
 
     private void renderDebugFilled(Entity e) {
         PositionComponent pc = Mapper.position.get(e);
-        MovementComponent mc = Mapper.movement.get(e);
         BodyComponent bc = Mapper.body.get(e);
         SteeringComponent sc = Mapper.steering.get(e);
 
@@ -92,7 +88,7 @@ public class DebugRenderSystem extends EntitySystem {
 
         // Soft radius
         sr.setColor(softRadiusColor);
-        sr.circle(pc.pos.x, pc.pos.y, mc.softRadius);
+        sr.circle(pc.pos.x, pc.pos.y, bc.softRadius);
 
         // Position
         sr.setColor(posColor);

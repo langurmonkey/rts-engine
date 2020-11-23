@@ -41,7 +41,7 @@ public class DefaultEntity implements IEntity {
 
     @Override
     public float softRadius() {
-        return Mapper.movement.get(entity).softRadius;
+        return Mapper.body.get(entity).softRadius;
     }
 
     @Override

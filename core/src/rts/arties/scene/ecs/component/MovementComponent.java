@@ -29,9 +29,6 @@ public class MovementComponent implements Component {
     // This tells us if we're moving
     public boolean moving;
 
-    // The soft radius for flocking/steering
-    public float softRadius;
-
     // The distance from the target at which the unit starts to slow, for the arrive behaviour
     public float slowingDistance;
 
