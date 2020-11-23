@@ -5,7 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class RenderableWalkerComponent implements Component {
-    float lastAngle;
-    Animation<TextureRegion> walkL;
-    Animation<TextureRegion> walkR;
+    public float lastAngle;
+    public String[] walkLeftTextures;
+    public Animation<TextureRegion> walkL;
+    public Animation<TextureRegion> walkR;
 }

@@ -19,8 +19,8 @@ import com.badlogic.gdx.math.Rectangle;
 public class InitializeBaseRenderableSystem extends IteratingSystem {
 
     private AssetManager assets;
-    public InitializeBaseRenderableSystem(Family family, AssetManager assets) {
-        super(family);
+    public InitializeBaseRenderableSystem(Family family, int priority, AssetManager assets) {
+        super(family, priority);
         this.assets = assets;
     }
 

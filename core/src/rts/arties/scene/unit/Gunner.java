@@ -26,10 +26,10 @@ public class Gunner extends Unit {
         mass = .1f;
 
         // m/s
-        maxSpeed = 60f;
+        maxSpeed = 40f;
 
         // Kg*m/s^2
-        maxForce = 150f;
+        maxForce = 40f;
 
         // rad/s
         maxTurnRate = (float) (10 * Math.PI);
@@ -54,6 +54,7 @@ public class Gunner extends Unit {
 
         shadowFlipY = true;
         shadowOffsetY = 0;
+        spriteOffsetY = 11f;
 
         viewingDistance = 220;
     }
@@ -87,8 +88,6 @@ public class Gunner extends Unit {
 
             width = sprite.getRegionWidth() * scale;
             height = sprite.getRegionHeight() * scale;
-
-            spriteOffsetY = 11f;
 
             initHardRadius(height / 2f);
 

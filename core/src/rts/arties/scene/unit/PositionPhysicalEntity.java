@@ -182,13 +182,14 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
             angle = heading.angle2();
         }
 
+        // Shadow
         spriteToDraw.flip(false, shadowFlipY);
         batch.setColor(0f, 0f, 0f, 0.2f);
         batch.draw(spriteToDraw, pos.x - spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, pos.y - spriteToDraw.getRegionHeight() / 2 + spriteOffsetY - spriteToDraw.getRegionHeight() + spriteOffsetY + shadowOffsetY, spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, spriteToDraw.getRegionHeight() / 2, spriteToDraw.getRegionWidth(), spriteToDraw.getRegionHeight(), scale, scale, angle);
-
         spriteToDraw.flip(false, shadowFlipY);
-        batch.setColor(1, 1, 1, 1);
 
+        // Sprite
+        batch.setColor(1, 1, 1, 1);
         batch.draw(spriteToDraw, pos.x - spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, pos.y - spriteToDraw.getRegionHeight() / 2 + spriteOffsetY, spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, spriteToDraw.getRegionHeight() / 2, spriteToDraw.getRegionWidth(), spriteToDraw.getRegionHeight(), scale, scale, angle);
     }
 

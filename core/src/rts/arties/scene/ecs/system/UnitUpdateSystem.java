@@ -35,6 +35,7 @@ public class UnitUpdateSystem extends IteratingSystem {
         }
     }
 
+
     private void updatePosition(float deltaTime, Entity entity) {
         PositionComponent pc = Mapper.position.get(entity);
         MovementComponent mc = Mapper.movement.get(entity);

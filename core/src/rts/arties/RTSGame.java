@@ -32,12 +32,15 @@ import rts.arties.input.SelectionListener;
 import rts.arties.scene.cam.Camera;
 import rts.arties.scene.ecs.Mapper;
 import rts.arties.scene.ecs.component.*;
+import rts.arties.scene.ecs.entity.GunnerHelper;
 import rts.arties.scene.ecs.entity.TankHelper;
 import rts.arties.scene.ecs.system.*;
 import rts.arties.scene.map.IRTSMap;
 import rts.arties.scene.map.RTSGridMapTiledMap;
 import rts.arties.scene.selection.Selection;
-import rts.arties.scene.unit.*;
+import rts.arties.scene.unit.PhysicalObject;
+import rts.arties.scene.unit.PositionPhysicalEntity;
+import rts.arties.scene.unit.Unit;
 import rts.arties.scene.unit.group.UnitGroup;
 import rts.arties.scene.unit.group.UnitGroupManager;
 import rts.arties.scene.unit.steeringbehaviour.IEntity;
@@ -129,12 +132,12 @@ public class RTSGame implements ApplicationListener {
     /**
      * Families
      */
-    private Family renderableFamily, positionFamily, movementFamily, playerFamily, debugFamily;
+    private Family renderableFamily, renderableWalkerFamily, positionFamily, movementFamily, playerFamily, debugFamily;
 
     /**
      * Systems
      */
-    private EntitySystem ibrs, brs, uirs, drs, uus;
+    private EntitySystem ibrs, iwrs, brs, uirs, drs, uus;
 
     /**
      * Is the game paused?
@@ -228,21 +231,27 @@ public class RTSGame implements ApplicationListener {
         UnitGroupManager.initialize();
 
         // Entities
-        Entity tank10 = TankHelper.createTank(engine, map, 330f, 210f, 100f);
-        Entity tank11 = TankHelper.createTank(engine, map, 340f, 220f, 30f);
+        Entity tank10 = TankHelper.create(engine, map, 330f, 210f, 100f);
+        Entity tank11 = TankHelper.create(engine, map, 340f, 220f, 30f);
+        Entity gooner10 = GunnerHelper.create(engine, map, 240f, 120f, 30f);
+        Entity gooner11 = GunnerHelper.create(engine, map, 270f, 120f, 30f);
 
         // Add to engine
         engine.addEntity(tank10);
         engine.addEntity(tank11);
+        engine.addEntity(gooner10);
+        engine.addEntity(gooner11);
 
         positionFamily = Family.all(PositionComponent.class, MapComponent.class).get();
         movementFamily = Family.all(PositionComponent.class, MovementComponent.class, MapComponent.class).get();
         renderableFamily = Family.all(RenderableBaseComponent.class).get();
+        renderableWalkerFamily = Family.all(RenderableBaseComponent.class, RenderableWalkerComponent.class).get();
         playerFamily = Family.all(PlayerComponent.class, PositionComponent.class, RenderableBaseComponent.class).get();
         debugFamily = Family.all(PositionComponent.class, MovementComponent.class, BodyComponent.class, RenderableBaseComponent.class).get();
 
         // Init systems
-        ibrs = new InitializeBaseRenderableSystem(renderableFamily, assets);
+        ibrs = new InitializeBaseRenderableSystem(renderableFamily, 1, assets);
+        iwrs = new InitializeWalkerRenderableSystem(renderableWalkerFamily, 2, assets);
 
         // Update systems
         uus = new UnitUpdateSystem(movementFamily, 1);
@@ -254,49 +263,7 @@ public class RTSGame implements ApplicationListener {
 
         // Add initalization systems to engine
         engine.addSystem(ibrs);
-
-        // Initialize units
-        Unit tank1 = new Tank(200f, 260f, map);
-        Unit tank2 = new Tank(240f, 260f, map);
-        Unit tank3 = new Tank(280f, 260f, map);
-        Unit tank4 = new Tank(200f, 220f, map);
-        Unit tank5 = new Tank(240f, 220f, map);
-        tank1.setHp(25f);
-        tank5.setHp(75f);
-        Unit tank6 = new Tank(280f, 220f, map);
-        tank6.setHp(50f);
-
-        Unit tank7 = new Tank(180f, 1500f, map);
-        tank7.setHp(10f);
-
-        Unit gooner1 = new Gunner(80f, 140f, map);
-        Unit gooner2 = new Gunner(90f, 145f, map);
-        Unit gooner3 = new Gunner(95f, 135f, map);
-        Unit gooner4 = new Gunner(80f, 125f, map);
-
-        entities.add(gooner1);
-        entities.add(gooner2);
-        entities.add(gooner3);
-        entities.add(gooner4);
-        entities.add(tank1);
-        entities.add(tank2);
-        entities.add(tank3);
-        entities.add(tank4);
-        entities.add(tank5);
-        entities.add(tank6);
-        entities.add(tank7);
-
-        player.add(gooner1);
-        player.add(gooner2);
-        player.add(gooner3);
-        player.add(gooner4);
-        player.add(tank1);
-        player.add(tank2);
-        player.add(tank3);
-        player.add(tank4);
-        player.add(tank5);
-        player.add(tank6);
-        player.add(tank7);
+        engine.addSystem(iwrs);
 
         MapObjects mos = map.getMapObjects();
         if (mos != null) {
@@ -348,11 +315,13 @@ public class RTSGame implements ApplicationListener {
         for (PositionPhysicalEntity entity : entities) {
             entity.initAssets(assets);
         }
-        // Update engine with initialization systems
+        // Runi initialization systems
         engine.update(0);
 
-        // Remove initialization systems
+        // Remove initialization systems from engine
         engine.removeSystem(ibrs);
+        engine.removeSystem(iwrs);
+
 
         // Add update systems
         engine.addSystem(uus);
@@ -363,14 +332,6 @@ public class RTSGame implements ApplicationListener {
 
         if (debugInfo)
             engine.addSystem(drs);
-    }
-
-    public boolean isVisible(Vector2 point) {
-        boolean vis = false;
-        for (IEntity u : player) {
-            vis = vis || u.pos().dst(point.x, point.y, 0) < u.viewingDistance() * 2.5;
-        }
-        return vis;
     }
 
     public boolean isVisible(Vector3 point) {
@@ -451,23 +412,27 @@ public class RTSGame implements ApplicationListener {
 
     public void renderScene(float deltaSecs) {
         Collections.sort(entities);
+        spriteBatch.setProjectionMatrix(orthoCamera.combined);
+        cameraShapeRenderer.setProjectionMatrix(orthoCamera.combined);
 
         // Clear screen
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        cameraShapeRenderer.setProjectionMatrix(orthoCamera.combined);
 
         // Contains circular light positions and radius
-        float[] lights = new float[entities.size() * 3];
+        ImmutableArray<Entity> playerEntities = engine.getEntitiesFor(playerFamily);
+        float[] lights = new float[playerEntities.size() * 3];
         // Contains shadow positions and width and height
         int i = 0;
-        for (PositionPhysicalEntity e : entities) {
-            if (e.viewingDistance > 0) {
-                lights[i++] = e.pos.x;
-                lights[i++] = e.pos.y;
-                lights[i++] = e.viewingDistance;
+        for(Entity e : playerEntities){
+            PositionComponent pc = Mapper.position.get(e);
+            if(pc.viewingDistance > 0){
+                lights[i++] = pc.pos.x;
+                lights[i++] = pc.pos.y;
+                lights[i++] = pc.viewingDistance;
+
             }
         }
 
@@ -477,7 +442,6 @@ public class RTSGame implements ApplicationListener {
         mapShader.setUniformf("u_camera_offset", camera.pos.x - Gdx.graphics.getWidth() / 2f, camera.pos.y - Gdx.graphics.getHeight() / 2f);
         map.renderBase(camera);
 
-        spriteBatch.setProjectionMatrix(camera.getLibgdxCamera().combined);
         objectsShader.bind();
         objectsShader.setUniformf("u_camera_offset", camera.pos.x - Gdx.graphics.getWidth() / 2f, camera.pos.y - Gdx.graphics.getHeight() / 2f);
 
@@ -492,6 +456,7 @@ public class RTSGame implements ApplicationListener {
         map.renderFogOfWar(camera, cameraShapeRenderer, spriteBatch);
 
         UnitGroupManager.getInstance().render();
+
         // Render debug info
         if (debugInfo) {
             map.renderDebug();
@@ -657,7 +622,7 @@ public class RTSGame implements ApplicationListener {
     public IEntity getCollidingUnitImage(int x, int y) {
         // Old units
         for (PositionPhysicalEntity ppe : entities) {
-            if (ppe.isImageColliding(x, y)) {
+            if (ppe.isImageColliding(x, y) && ppe instanceof Unit) {
                 return ppe;
             }
         }
@@ -682,7 +647,7 @@ public class RTSGame implements ApplicationListener {
         // Old units
         Set<IEntity> list = new HashSet<>();
         for (IEntity u : player) {
-            if (rect.overlaps(u.bounds())) {
+            if (rect.overlaps(u.bounds()) && u instanceof Unit) {
                 list.add(u);
             }
         }

@@ -124,16 +124,16 @@ public class Selection {
      * @param y The y in canvas coordinates
      */
     public void selectOrMove(float x, float y) {
-        IEntity ppeColliding = game.getCollidingUnitImage((int) x, (int) y);
-        if (ppeColliding != null) {
+        IEntity entity = game.getCollidingUnitImage((int) x, (int) y);
+        if (entity != null) {
             // Remove current selection
             clearSelection();
 
-            ppeColliding.toggleSelection();
+            entity.toggleSelection();
 
             selected = UnitGroupManager.getInstance().getSelectionUnitGroup();
 
-            selected.add(ppeColliding);
+            selected.add(entity);
             selected.sortByPosition();
         } else {
             if (selected != null && !selected.isEmpty()) {
