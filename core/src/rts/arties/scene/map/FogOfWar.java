@@ -1,5 +1,6 @@
 package rts.arties.scene.map;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import rts.arties.RTSGame;
 import rts.arties.datastructure.geom.Vector2;
 import rts.arties.scene.cam.Camera;
@@ -52,8 +53,8 @@ public class FogOfWar {
     }
 
     public void doneLoading(AssetManager assets) {
-        Texture tex = assets.get("data/tileset/tile-black.png");
-        black = new Sprite(tex);
+        TextureAtlas ta = assets.get("data/tex/base-textures.atlas");
+        black = new Sprite(ta.findRegion("tile-black"));
     }
 
     /**

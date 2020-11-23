@@ -59,15 +59,15 @@ public class Gunner extends Unit {
     @Override
     public void initAssets(AssetManager assets) {
         try {
-            TextureAtlas ta = assets.get("data/img/textures/textures.pack");
-            sprite = new Sprite(ta.findRegion("units/goon-blue-stand-left"));
+            TextureAtlas ta = assets.get("data/tex/base-textures.atlas");
+            sprite = new Sprite(ta.findRegion("goon-blue-stand-left"));
 
             TextureRegion[] walkLeftFrames = new TextureRegion[4];
 
-            walkLeftFrames[0] = ta.findRegion( "units/goon-blue-walk1-left");
-            walkLeftFrames[1] = ta.findRegion( "units/goon-blue-walk2-left");
-            walkLeftFrames[2] = ta.findRegion( "units/goon-blue-walk1-left");
-            walkLeftFrames[3] = ta.findRegion( "units/goon-blue-walk3-left");
+            walkLeftFrames[0] = ta.findRegion( "goon-blue-walk1-left");
+            walkLeftFrames[1] = ta.findRegion( "goon-blue-walk2-left");
+            walkLeftFrames[2] = ta.findRegion( "goon-blue-walk1-left");
+            walkLeftFrames[3] = ta.findRegion( "goon-blue-walk3-left");
 
             TextureRegion[] walkRightFrames = new TextureRegion[4];
 

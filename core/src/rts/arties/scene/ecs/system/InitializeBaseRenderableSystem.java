@@ -1,5 +1,6 @@
 package rts.arties.scene.ecs.system;
 
+import com.badlogic.gdx.assets.AssetManager;
 import rts.arties.RTSGame;
 import rts.arties.scene.ecs.Mapper;
 import rts.arties.scene.ecs.component.BodyComponent;
@@ -17,8 +18,10 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class InitializeBaseRenderableSystem extends IteratingSystem {
 
-    public InitializeBaseRenderableSystem(Family family) {
+    private AssetManager assets;
+    public InitializeBaseRenderableSystem(Family family, AssetManager assets) {
         super(family);
+        this.assets = assets;
     }
 
     @Override
@@ -27,7 +30,7 @@ public class InitializeBaseRenderableSystem extends IteratingSystem {
         BodyComponent bc = Mapper.body.get(entity);
         PositionComponent pc = Mapper.position.get(entity);
 
-        TextureAtlas ta = RTSGame.assets().get("data/img/textures/textures.pack");
+        TextureAtlas ta = assets.get("data/tex/base-textures.atlas");
         rbc.sprite = new Sprite(ta.findRegion(rbc.textureName));
         bc.width = rbc.sprite.getRegionWidth() * rbc.scale;
         bc.height = rbc.sprite.getRegionHeight() * rbc.scale;

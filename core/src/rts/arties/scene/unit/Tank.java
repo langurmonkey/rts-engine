@@ -65,8 +65,8 @@ public class Tank extends Unit {
     @Override
     public void initAssets(AssetManager assets) {
         try {
-            TextureAtlas ta = assets.get("data/img/textures/textures.pack");
-            sprite = new Sprite(ta.findRegion("units/tank-32"));
+            TextureAtlas ta = assets.get("data/tex/base-textures.atlas");
+            sprite = new Sprite(ta.findRegion("tank-32"));
             width = sprite.getRegionWidth() * scale;
             height = sprite.getRegionHeight() * scale;
 

@@ -1,114 +1,117 @@
 
-textures.png
+base-textures.png
+size: 1024,64
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-units/goon-blue-shoot1-left
+bush-green1
   rotate: false
-  xy: 1, 1
-  size: 32, 36
-  orig: 32, 36
-  offset: 0, 0
-  index: -1
-units/goon-blue-shoot2-left
-  rotate: false
-  xy: 35, 1
-  size: 32, 36
-  orig: 32, 36
-  offset: 0, 0
-  index: -1
-units/goon-blue-stand-left
-  rotate: false
-  xy: 69, 1
-  size: 32, 36
-  orig: 32, 36
-  offset: 0, 0
-  index: -1
-units/goon-blue-walk1-left
-  rotate: false
-  xy: 103, 1
-  size: 32, 36
-  orig: 32, 36
-  offset: 0, 0
-  index: -1
-units/goon-blue-walk2-left
-  rotate: false
-  xy: 137, 1
-  size: 32, 36
-  orig: 32, 36
-  offset: 0, 0
-  index: -1
-units/goon-blue-walk3-left
-  rotate: false
-  xy: 171, 1
-  size: 32, 36
-  orig: 32, 36
-  offset: 0, 0
-  index: -1
-units/tank-32
-  rotate: false
-  xy: 205, 5
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-
-textures2.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-trees/bush-green1
-  rotate: false
-  xy: 345, 31
+  xy: 584, 32
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
   index: -1
-trees/rock
+goon-blue-shoot1-left
   rotate: false
-  xy: 63, 1
+  xy: 414, 26
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: -1
+goon-blue-shoot2-left
+  rotate: false
+  xy: 482, 26
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: -1
+goon-blue-stand-left
+  rotate: false
+  xy: 346, 26
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: -1
+goon-blue-walk1-left
+  rotate: false
+  xy: 516, 26
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: -1
+goon-blue-walk2-left
+  rotate: false
+  xy: 380, 26
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: -1
+goon-blue-walk3-left
+  rotate: false
+  xy: 448, 26
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: -1
+rock
+  rotate: false
+  xy: 64, 2
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-trees/rock-snow
+rock-snow
   rotate: false
-  xy: 1, 1
+  xy: 126, 2
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-trees/tree-fir-leafless
+tank-32
   rotate: false
-  xy: 249, 1
+  xy: 550, 30
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile-black
+  rotate: false
+  xy: 616, 32
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+tree-fir-leafless
+  rotate: false
+  xy: 282, 2
   size: 30, 60
   orig: 30, 60
   offset: 0, 0
   index: -1
-trees/tree-fir1
+tree-fir1
   rotate: false
-  xy: 125, 1
+  xy: 188, 2
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-trees/tree-fir2
+tree-fir2
   rotate: false
-  xy: 313, 1
+  xy: 314, 2
   size: 30, 60
   orig: 30, 60
   offset: 0, 0
   index: -1
-trees/tree-fir2-snow
+tree-fir2-snow
   rotate: false
-  xy: 281, 1
+  xy: 250, 2
   size: 30, 60
   orig: 30, 60
   offset: 0, 0
   index: -1
-trees/tree-green1
+tree-green1
   rotate: false
-  xy: 187, 1
+  xy: 2, 2
   size: 60, 60
   orig: 60, 60
   offset: 0, 0

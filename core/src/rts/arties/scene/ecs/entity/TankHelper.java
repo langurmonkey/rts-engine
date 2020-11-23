@@ -46,7 +46,7 @@ public class TankHelper {
         stc.stateManager = new StateManager(tankEntity);
         // Renderable
         RenderableBaseComponent rvc = engine.createComponent(RenderableBaseComponent.class);
-        rvc.textureName = "units/tank-32";
+        rvc.textureName = "tank-32";
         rvc.rotateImage = true;
         // Shadow
         RenderableShadowComponent rsc = engine.createComponent(RenderableShadowComponent.class);

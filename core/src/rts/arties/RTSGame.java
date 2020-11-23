@@ -8,7 +8,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -16,6 +15,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -45,9 +45,12 @@ import rts.arties.scene.unit.group.UnitGroup;
 import rts.arties.scene.unit.group.UnitGroupManager;
 import rts.arties.scene.unit.steeringbehaviour.Path;
 import rts.arties.ui.OwnLabel;
+import rts.arties.util.TextUtils;
 import rts.arties.util.Vector2Pool;
 import rts.arties.util.Vector3Pool;
+import rts.arties.util.parse.Parser;
 
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -200,8 +203,7 @@ public class RTSGame implements ApplicationListener {
          * Initialize textures and scene entities
          */
         assets = new AssetManager();
-        assets.load("data/img/textures/textures.pack", TextureAtlas.class);
-        assets.load("data/tileset/tile-black.png", Texture.class);
+        assets.load("data/tex/base-textures.atlas", TextureAtlas.class);
         status = AppStatus.LOADING;
         logger.info("Loading assets...");
         Table loadingTable = new Table(skin);
@@ -228,7 +230,7 @@ public class RTSGame implements ApplicationListener {
         renderableFamily = Family.all(RenderableBaseComponent.class).get();
 
         // Init systems
-        ibrs = new InitializeBaseRenderableSystem(renderableFamily);
+        ibrs = new InitializeBaseRenderableSystem(renderableFamily, assets);
 
         // Update systems
         uus = new UnitUpdateSystem(movementFamily, 1);
@@ -238,7 +240,6 @@ public class RTSGame implements ApplicationListener {
 
         // Add initalization systems to engine
         engine.addSystem(ibrs);
-
 
         // Initialize units
         Unit tank1 = new Tank(200f, 260f, map);
@@ -279,13 +280,30 @@ public class RTSGame implements ApplicationListener {
             Iterator<MapObject> it = mos.iterator();
             while (it.hasNext()) {
                 MapObject mo = it.next();
-                String name = mo.getName();
+
                 float x = mo.getProperties().get("x", Float.class);
                 float y = mo.getProperties().get("y", Float.class);
                 float ow = mo.getProperties().get("width", Float.class);
 
+                float shadowOffsetY = 0;
+                String textureName;
+                if (mo instanceof TiledMapTileMapObject) {
+                    TiledMapTileMapObject tmtmo = (TiledMapTileMapObject) mo;
+                    String fileName = Paths.get(tmtmo.getTextureRegion().getTexture().toString()).getFileName().toString();
+                    textureName = TextUtils.removeExtension(fileName);
+                    if (tmtmo.getTile().getProperties() != null)
+                        try {
+                            shadowOffsetY = Parser.parseFloatException(tmtmo.getTile().getProperties().get("shadowOffsetY", "0", String.class));
+                        }catch(NumberFormatException nfe){
+                            logger.debug("Could not parse 'shadowOffsetY' from tile: " + nfe.getLocalizedMessage());
+                        }
+                } else {
+                    textureName = mo.getName();
+                }
+
                 // Trees with an offsetY of 20
-                PhysicalObject po = new PhysicalObject(x + ow / 2f, y, 0f, 25f, name, map);
+                PhysicalObject po = new PhysicalObject(x + ow / 2f, y, 0f, 25f, textureName, map);
+                po.shadowOffsetY = shadowOffsetY;
                 entities.add(po);
             }
 
@@ -375,7 +393,7 @@ public class RTSGame implements ApplicationListener {
             }
             renderScene(deltaSecs);
             // Update engine to update and render scene
-            //engine.update(deltaSecs);
+            engine.update(deltaSecs);
         }
     }
 

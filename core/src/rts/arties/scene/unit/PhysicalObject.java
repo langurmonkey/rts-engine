@@ -39,7 +39,7 @@ public class PhysicalObject extends PositionPhysicalEntity {
     @Override
     public void initAssets(AssetManager assets) {
         try {
-            TextureAtlas ta = assets.get("data/img/textures/textures.pack");
+            TextureAtlas ta = assets.get("data/tex/base-textures.atlas");
             sprite = new Sprite(ta.findRegion(textureName));
             width = sprite.getRegionWidth();
             height = sprite.getRegionHeight();

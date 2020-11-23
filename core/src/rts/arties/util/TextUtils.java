@@ -218,4 +218,13 @@ public class TextUtils {
         });
         return contained.get();
     }
+
+    public static String removeExtension(String fileName) {
+        if (fileName.indexOf(".") > 0) {
+            return fileName.substring(0, fileName.lastIndexOf("."));
+        } else {
+            return fileName;
+        }
+
+    }
 }
