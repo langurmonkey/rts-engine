@@ -1,8 +1,5 @@
 package rts.arties.scene.unit;
 
-import rts.arties.RTSGame;
-import rts.arties.scene.map.IRTSMap;
-import rts.arties.util.Vector3Pool;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader.ParticleEffectParameter;
@@ -11,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import rts.arties.RTSGame;
+import rts.arties.scene.map.IRTSMap;
+import rts.arties.util.Vector3Pool;
 
 /**
  * Experimental implementation of a tank.
@@ -58,7 +58,7 @@ public class Tank extends Unit {
         shadowFlipY = false;
         shadowOffsetY = 25;
 
-        viewDistance = 260;
+        viewingDistance = 260;
 
         rotateImage = true;
 

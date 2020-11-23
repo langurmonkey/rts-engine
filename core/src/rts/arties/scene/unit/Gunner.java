@@ -1,10 +1,10 @@
 package rts.arties.scene.unit;
 
-import rts.arties.scene.map.IRTSMap;
-import rts.arties.util.Vector3Pool;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import rts.arties.scene.map.IRTSMap;
+import rts.arties.util.Vector3Pool;
 
 /**
  * Experimental gunner implementation of {@link Unit}.
@@ -55,7 +55,7 @@ public class Gunner extends Unit {
         shadowFlipY = true;
         shadowOffsetY = 0;
 
-        viewDistance = 220;
+        viewingDistance = 220;
     }
 
     @Override

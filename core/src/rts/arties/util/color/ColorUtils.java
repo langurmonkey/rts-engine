@@ -5,8 +5,8 @@
 
 package rts.arties.util.color;
 
-import rts.arties.util.MathUtilsd;
 import com.badlogic.gdx.graphics.Color;
+import rts.arties.util.MathUtilsd;
 
 public class ColorUtils {
 
@@ -38,6 +38,9 @@ public class ColorUtils {
     public static Color ddMagentaC = getCol(ddMagenta);
     public static float[] ddBrown = new float[] { 101f / 255f, 56f / 255f, 25f / 255f, 1f };
     public static Color ddBrownC = getCol(ddBrown);
+    // Common colors
+    public static float[] black = new float[]{ 0f, 0f, 0f, 1f};
+    public static Color blackC = getCol(black);
 
     private static Color getCol(float[] c) {
         return new Color(c[0], c[1], c[2], c[3]);

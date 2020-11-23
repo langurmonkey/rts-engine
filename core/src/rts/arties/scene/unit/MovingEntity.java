@@ -1,12 +1,9 @@
 package rts.arties.scene.unit;
 
-import com.badlogic.gdx.math.Rectangle;
-import rts.arties.datastructure.geom.Vector3;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import rts.arties.scene.unit.group.UnitGroup;
-import rts.arties.scene.unit.steeringbehaviour.SteeringBehaviours;
+import com.badlogic.gdx.math.Rectangle;
+import rts.arties.datastructure.geom.Vector3;
 
 /**
  * An entity that moves.
@@ -61,15 +58,18 @@ public abstract class MovingEntity extends PositionPhysicalEntity {
     }
 
     @Override
-    public void renderDebug(ShapeRenderer sr) {
-        super.renderDebug(sr);
+    public void renderDebugLine(ShapeRenderer sr) {
+        super.renderDebugLine(sr);
 
-        sr.begin(ShapeType.Line);
         if (vel != null) {
             sr.setColor(new Color(0f, .6f, 0f, 1f));
             sr.line(pos.x, pos.y, pos.x + vel.x, pos.y + vel.y);
         }
-        sr.end();
+    }
+
+    @Override
+    public void renderDebugFilled(ShapeRenderer sr) {
+
     }
 
     protected void updateCurrentMaxSpeed() {

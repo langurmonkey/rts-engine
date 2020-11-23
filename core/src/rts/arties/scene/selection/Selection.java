@@ -1,17 +1,15 @@
 package rts.arties.scene.selection;
 
-import rts.arties.RTSGame;
-import rts.arties.datastructure.geom.Vector2;
-import rts.arties.scene.unit.PositionPhysicalEntity;
-import rts.arties.scene.unit.Unit;
-import rts.arties.scene.unit.group.UnitGroup;
-import rts.arties.scene.unit.group.UnitGroupManager;
-import rts.arties.scene.unit.steeringbehaviour.IEntity;
-import rts.arties.util.Vector2Pool;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import rts.arties.RTSGame;
+import rts.arties.datastructure.geom.Vector2;
+import rts.arties.scene.unit.group.UnitGroup;
+import rts.arties.scene.unit.group.UnitGroupManager;
+import rts.arties.scene.unit.steeringbehaviour.IEntity;
+import rts.arties.util.Vector2Pool;
 
 import java.util.Set;
 
@@ -96,15 +94,12 @@ public class Selection {
         r.setY(r.getY());
 
         selected = UnitGroupManager.getInstance().getSelectionUnitGroup();
-        Set<PositionPhysicalEntity> inside = game.getInsideUnits(r);
+        Set<IEntity> inside = game.getInsideUnits(r);
         if (!inside.isEmpty()) {
             clearSelection();
-            for (PositionPhysicalEntity u : inside) {
-                if (u instanceof Unit) {
-                    Unit unit = (Unit) u;
-                    selected.add(unit);
-                    unit.select();
-                }
+            for (IEntity u : inside) {
+                selected.add(u);
+                u.select();
             }
         }
         selected.sortByPosition();
@@ -129,17 +124,16 @@ public class Selection {
      * @param y The y in canvas coordinates
      */
     public void selectOrMove(float x, float y) {
-        PositionPhysicalEntity ppeColliding = game.getCollidingUnitImage((int) x, (int) y);
-        if (ppeColliding != null && ppeColliding instanceof Unit) {
-            Unit colliding = (Unit) ppeColliding;
+        IEntity ppeColliding = game.getCollidingUnitImage((int) x, (int) y);
+        if (ppeColliding != null) {
             // Remove current selection
             clearSelection();
 
-            colliding.toggleSelection();
+            ppeColliding.toggleSelection();
 
             selected = UnitGroupManager.getInstance().getSelectionUnitGroup();
 
-            selected.add(colliding);
+            selected.add(ppeColliding);
             selected.sortByPosition();
         } else {
             if (selected != null && !selected.isEmpty()) {

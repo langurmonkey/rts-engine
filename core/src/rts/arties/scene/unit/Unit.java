@@ -1,5 +1,7 @@
 package rts.arties.scene.unit;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import rts.arties.datastructure.IMapCell;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.scene.map.IRTSMap;
@@ -9,10 +11,6 @@ import rts.arties.scene.unit.state.StateManager;
 import rts.arties.scene.unit.steeringbehaviour.IEntity;
 import rts.arties.scene.unit.steeringbehaviour.SteeringBehaviours;
 import rts.arties.util.Vector3Pool;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
  * A moving entity.
@@ -98,7 +96,7 @@ public abstract class Unit extends MovingEntity {
         return steeringBehaviours;
     }
 
-    public boolean isSelected() {
+    public boolean selected() {
         return selected;
     }
 
@@ -191,7 +189,7 @@ public abstract class Unit extends MovingEntity {
         if (Math.sqrt(Math.pow(pos.x - lastPos.x, 2) + Math.pow(pos.y - lastPos.y, 2)) > width / 4f) {
             map.updateEntity(this);
             touchLastUpdate();
-            map.updateFogOfWar(pos, (int) (viewDistance));
+            map.updateFogOfWar(pos, (int) (viewingDistance));
         }
 
         // Update behaviour list
@@ -297,13 +295,21 @@ public abstract class Unit extends MovingEntity {
         }
     }
 
-    public void renderDebug(ShapeRenderer sr) {
-        super.renderDebug(sr);
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+    public void renderDebugLine(ShapeRenderer sr) {
+        super.renderDebugLine(sr);
+        renderBehavioursLine(sr);
+    }
 
-        steeringBehaviours.render();
-        Gdx.gl.glDisable(GL20.GL_BLEND);
+    public void renderDebugFilled(ShapeRenderer sr){
+        super.renderDebugFilled(sr);
+        renderBehavioursFilled(sr);
+    }
+
+    public void renderBehavioursLine(ShapeRenderer sr){
+        steeringBehaviours.renderLine(sr);
+    }
+    public void renderBehavioursFilled(ShapeRenderer sr){
+        steeringBehaviours.renderFilled(sr);
     }
 
     private void touchLastUpdate() {

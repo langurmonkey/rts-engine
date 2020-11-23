@@ -1,9 +1,9 @@
 package rts.arties.scene.unit.steeringbehaviour;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.util.Vector3Pool;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import java.util.Set;
 
@@ -45,13 +45,12 @@ public class BehaviourSeparation extends AbstractSteeringBehaviour {
         return force;
     }
 
+    private Color col = new Color(1f, .5f, 0f, 1f);
     @Override
-    public void renderBehaviour() {
+    public void renderLine(ShapeRenderer sr) {
         if (force != null) {
-            shapeRenderer.begin(ShapeType.Line);
-            shapeRenderer.setColor(new Color(1f, .5f, 0f, 1f));
-            shapeRenderer.line(unit.pos().x, unit.pos().y, unit.pos().x + force.x, unit.pos().y + force.y);
-            shapeRenderer.end();
+            sr.setColor(col);
+            sr.line(unit.pos().x, unit.pos().y, unit.pos().x + force.x, unit.pos().y + force.y);
         }
     }
 

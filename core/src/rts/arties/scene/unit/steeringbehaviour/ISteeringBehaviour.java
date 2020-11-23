@@ -1,5 +1,6 @@
 package rts.arties.scene.unit.steeringbehaviour;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import rts.arties.datastructure.geom.Vector3;
 
 /**
@@ -13,7 +14,8 @@ public interface ISteeringBehaviour {
 
     boolean isDone();
 
-    void render();
+    void renderLine(ShapeRenderer sr);
+    void renderFilled(ShapeRenderer sr);
 
     void dispose();
 }

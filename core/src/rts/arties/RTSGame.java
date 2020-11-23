@@ -1,6 +1,7 @@
 package rts.arties;
 
 import com.badlogic.ashley.core.*;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -29,14 +30,10 @@ import rts.arties.input.KeyboardListener;
 import rts.arties.input.PanListener;
 import rts.arties.input.SelectionListener;
 import rts.arties.scene.cam.Camera;
-import rts.arties.scene.ecs.component.MapComponent;
-import rts.arties.scene.ecs.component.MovementComponent;
-import rts.arties.scene.ecs.component.PositionComponent;
-import rts.arties.scene.ecs.component.RenderableBaseComponent;
+import rts.arties.scene.ecs.Mapper;
+import rts.arties.scene.ecs.component.*;
 import rts.arties.scene.ecs.entity.TankHelper;
-import rts.arties.scene.ecs.system.BaseRenderSystem;
-import rts.arties.scene.ecs.system.InitializeBaseRenderableSystem;
-import rts.arties.scene.ecs.system.UnitUpdateSystem;
+import rts.arties.scene.ecs.system.*;
 import rts.arties.scene.map.IRTSMap;
 import rts.arties.scene.map.RTSGridMapTiledMap;
 import rts.arties.scene.selection.Selection;
@@ -73,12 +70,24 @@ public class RTSGame implements ApplicationListener {
 
     public OrthographicCamera orthoCamera;
 
-    /**
-     * My variables
-     **/
-    public static boolean debugRender = false;
-    public static boolean debug = true;
-    public static boolean drawShadows = true;
+    // Debug mode
+    private static boolean debugInfo = false;
+    // System information like FPS, etc.
+    private static boolean systemInfo = true;
+
+    public static void toggleDebug() {
+        setDebug(!debugInfo);
+    }
+
+    public static void setDebug(boolean debug) {
+        debugInfo = debug;
+        if (game != null && status == AppStatus.READY) {
+            if (debug)
+                game.engine.addSystem(game.drs);
+            else
+                game.engine.removeSystem(game.drs);
+        }
+    }
 
     public enum AppStatus {
         BOOTING,
@@ -92,7 +101,7 @@ public class RTSGame implements ApplicationListener {
     private IRTSMap map;
     private Engine engine;
     private final List<PositionPhysicalEntity> entities = new ArrayList<>();
-    public List<Unit> player = new ArrayList<>();
+    public List<IEntity> player = new ArrayList<>();
     public Selection selection;
 
     private long startTime;
@@ -120,12 +129,12 @@ public class RTSGame implements ApplicationListener {
     /**
      * Families
      */
-    private Family renderableFamily, positionFamily, movementFamily;
+    private Family renderableFamily, positionFamily, movementFamily, playerFamily, debugFamily;
 
     /**
      * Systems
      */
-    private EntitySystem ibrs, brs, uus;
+    private EntitySystem ibrs, brs, uirs, drs, uus;
 
     /**
      * Is the game paused?
@@ -229,6 +238,8 @@ public class RTSGame implements ApplicationListener {
         positionFamily = Family.all(PositionComponent.class, MapComponent.class).get();
         movementFamily = Family.all(PositionComponent.class, MovementComponent.class, MapComponent.class).get();
         renderableFamily = Family.all(RenderableBaseComponent.class).get();
+        playerFamily = Family.all(PlayerComponent.class, PositionComponent.class, RenderableBaseComponent.class).get();
+        debugFamily = Family.all(PositionComponent.class, MovementComponent.class, BodyComponent.class, RenderableBaseComponent.class).get();
 
         // Init systems
         ibrs = new InitializeBaseRenderableSystem(renderableFamily, assets);
@@ -238,6 +249,8 @@ public class RTSGame implements ApplicationListener {
 
         // Render systems
         brs = new BaseRenderSystem(renderableFamily, 100, spriteBatch);
+        uirs = new UnitInfoRenderSystem(playerFamily, 120, cameraShapeRenderer, spriteBatch);
+        drs = new DebugRenderSystem(debugFamily, 130, cameraShapeRenderer, spriteBatch);
 
         // Add initalization systems to engine
         engine.addSystem(ibrs);
@@ -346,20 +359,24 @@ public class RTSGame implements ApplicationListener {
 
         // Add render systems
         engine.addSystem(brs);
+        engine.addSystem(uirs);
+
+        if (debugInfo)
+            engine.addSystem(drs);
     }
 
     public boolean isVisible(Vector2 point) {
         boolean vis = false;
-        for (Unit u : player) {
-            vis = vis || u.pos.dst(point.x, point.y, 0) < u.viewDistance * 2.5;
+        for (IEntity u : player) {
+            vis = vis || u.pos().dst(point.x, point.y, 0) < u.viewingDistance() * 2.5;
         }
         return vis;
     }
 
     public boolean isVisible(Vector3 point) {
         boolean vis = false;
-        for (Unit u : player) {
-            vis = vis || u.pos.dst(point) < u.viewDistance * 1.1f;
+        for (IEntity u : player) {
+            vis = vis || u.pos().dst(point) < u.viewingDistance() * 1.1f;
         }
         return vis;
     }
@@ -374,7 +391,7 @@ public class RTSGame implements ApplicationListener {
     @Override
     public void render() {
         float deltaSecs = Gdx.graphics.getDeltaTime();
-        if (debug) {
+        if (systemInfo) {
             // FPS
             final long nanoTime = TimeUtils.nanoTime();
             // Every 1 seconds
@@ -438,6 +455,8 @@ public class RTSGame implements ApplicationListener {
         // Clear screen
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         cameraShapeRenderer.setProjectionMatrix(orthoCamera.combined);
 
         // Contains circular light positions and radius
@@ -445,10 +464,10 @@ public class RTSGame implements ApplicationListener {
         // Contains shadow positions and width and height
         int i = 0;
         for (PositionPhysicalEntity e : entities) {
-            if (e.viewDistance > 0) {
+            if (e.viewingDistance > 0) {
                 lights[i++] = e.pos.x;
                 lights[i++] = e.pos.y;
-                lights[i++] = e.viewDistance;
+                lights[i++] = e.viewingDistance;
             }
         }
 
@@ -461,7 +480,6 @@ public class RTSGame implements ApplicationListener {
         spriteBatch.setProjectionMatrix(camera.getLibgdxCamera().combined);
         objectsShader.bind();
         objectsShader.setUniformf("u_camera_offset", camera.pos.x - Gdx.graphics.getWidth() / 2f, camera.pos.y - Gdx.graphics.getHeight() / 2f);
-        objectsShader.setUniformi("u_draw_shadows", (drawShadows ? 1 : -1));
 
         /** Entities **/
         spriteBatch.begin();
@@ -471,19 +489,28 @@ public class RTSGame implements ApplicationListener {
         spriteBatch.end();
 
         map.renderOverlays(camera);
-        map.renderFogOfWar(camera);
+        map.renderFogOfWar(camera, cameraShapeRenderer, spriteBatch);
 
         UnitGroupManager.getInstance().render();
         // Render debug info
-        if (debugRender) {
+        if (debugInfo) {
             map.renderDebug();
+
+            // Debug filled
+            cameraShapeRenderer.begin(ShapeType.Filled);
             for (PositionPhysicalEntity ppe : entities) {
-                ppe.renderDebug(cameraShapeRenderer);
+                ppe.renderDebugFilled(cameraShapeRenderer);
             }
+            cameraShapeRenderer.end();
+
+            // Debug line
+            cameraShapeRenderer.begin(ShapeType.Line);
+            for (PositionPhysicalEntity ppe : entities) {
+                ppe.renderDebugLine(cameraShapeRenderer);
+            }
+            cameraShapeRenderer.end();
         }
 
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         // Render shape renderer layers
         // Layer 0 - filled
         cameraShapeRenderer.begin(ShapeType.Filled);
@@ -501,11 +528,12 @@ public class RTSGame implements ApplicationListener {
         cameraShapeRenderer.begin(ShapeType.Line);
         entities.forEach(ppe -> ppe.renderShapeLineLayer3(cameraShapeRenderer));
         cameraShapeRenderer.end();
-        Gdx.gl.glDisable(GL20.GL_BLEND);
 
         selection.render();
 
         stage.draw();
+
+        Gdx.gl.glDisable(GL20.GL_BLEND);
 
     }
 
@@ -626,12 +654,19 @@ public class RTSGame implements ApplicationListener {
      * @param y The y in map coordinates
      * @return
      */
-    public PositionPhysicalEntity getCollidingUnitImage(int x, int y) {
-
+    public IEntity getCollidingUnitImage(int x, int y) {
+        // Old units
         for (PositionPhysicalEntity ppe : entities) {
             if (ppe.isImageColliding(x, y)) {
                 return ppe;
             }
+        }
+        // New units - ECS
+        ImmutableArray<Entity> player = engine.getEntitiesFor(playerFamily);
+        for (Entity e : player) {
+            RenderableBaseComponent rbc = Mapper.rbase.get(e);
+            if (rbc != null && rbc.imageBounds.contains(x, y))
+                return Mapper.body.get(e).me;
         }
 
         return null;
@@ -643,12 +678,20 @@ public class RTSGame implements ApplicationListener {
      * @param rect The rectangle in map coordinates
      * @return
      */
-    public Set<PositionPhysicalEntity> getInsideUnits(Rectangle rect) {
-        Set<PositionPhysicalEntity> list = new HashSet<>();
-        for (PositionPhysicalEntity u : player) {
-            if (rect.overlaps(u.imageBounds)) {
+    public Set<IEntity> getInsideUnits(Rectangle rect) {
+        // Old units
+        Set<IEntity> list = new HashSet<>();
+        for (IEntity u : player) {
+            if (rect.overlaps(u.bounds())) {
                 list.add(u);
             }
+        }
+        // New units - ECS
+        ImmutableArray<Entity> player = engine.getEntitiesFor(playerFamily);
+        for (Entity e : player) {
+            RenderableBaseComponent rbc = Mapper.rbase.get(e);
+            if (rbc != null && rect.overlaps(rbc.imageBounds))
+                list.add(Mapper.body.get(e).me);
         }
         return list;
     }

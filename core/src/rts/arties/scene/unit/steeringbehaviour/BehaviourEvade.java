@@ -34,9 +34,5 @@ public class BehaviourEvade extends AbstractSteeringBehaviour {
             .calculate();
     }
 
-    @Override
-    public void renderBehaviour() {
-
-    }
 
 }

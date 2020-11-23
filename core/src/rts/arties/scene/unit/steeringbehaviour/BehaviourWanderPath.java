@@ -1,10 +1,10 @@
 package rts.arties.scene.unit.steeringbehaviour;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import rts.arties.datastructure.IMapCell;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.scene.map.IRTSMap;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import rts.arties.util.color.ColorUtils;
 
 import java.util.List;
 import java.util.Random;
@@ -101,15 +101,13 @@ public class BehaviourWanderPath extends AbstractSteeringBehaviour {
     }
 
     @Override
-    public void renderBehaviour() {
+    public void renderLine(ShapeRenderer sr) {
         if (pathFollowing != null)
-            pathFollowing.renderBehaviour();
+            pathFollowing.renderLine(sr);
 
         // Draw wander radius
-        shapeRenderer.begin(ShapeType.Line);
-        shapeRenderer.setColor(new Color(1f, 1f, 0f, 1f));
-        shapeRenderer.circle(referencePosition.x, referencePosition.y, wanderRadius);
-        shapeRenderer.end();
+        sr.setColor(ColorUtils.gYellowC);
+        sr.circle(referencePosition.x, referencePosition.y, wanderRadius);
 
     }
 

@@ -1,9 +1,9 @@
 package rts.arties.input;
 
-import rts.arties.RTSGame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import rts.arties.RTSGame;
 
 /**
  * Keyboard listener.
@@ -21,7 +21,7 @@ public class KeyboardListener extends InputAdapter {
     @Override
     public boolean keyUp(int keycode) {
         if (keycode == Keys.T) {
-            RTSGame.debugRender = !RTSGame.debugRender;
+            RTSGame.toggleDebug();
         } else if (keycode == Keys.ESCAPE) {
             Gdx.app.exit();
         }

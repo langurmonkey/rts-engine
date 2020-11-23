@@ -28,8 +28,6 @@ public class FogOfWar {
     private final int width;
     private final int height;
 
-    private final ShapeRenderer shapeRenderer;
-    private final SpriteBatch batch;
     private Vector2 aux;
 
     private Sprite black;
@@ -47,8 +45,6 @@ public class FogOfWar {
         this.height = height;
         this.fog = new byte[width][height];
         this.tileSize = tileSize;
-        this.shapeRenderer = RTSGame.game.cameraShapeRenderer;
-        this.batch = RTSGame.game.getSpriteBatch();
         this.aux = new Vector2();
     }
 
@@ -82,8 +78,9 @@ public class FogOfWar {
     /**
      * Renders the fog of war
      */
-    public void render(Camera camera) {
-        renderWithShapeRenderer(camera);
+    public void render(Camera camera, ShapeRenderer sr, SpriteBatch sb) {
+        renderWithShapeRenderer(camera, sr);
+        //renderWithSprites(camera, sb);
     }
 
     /**
@@ -91,32 +88,30 @@ public class FogOfWar {
      *
      * @param camera
      */
-    public void renderWithSprites(Camera camera) {
+    public void renderWithSprites(Camera camera, SpriteBatch sb) {
         float ts2 = tileSize / 2f;
-        batch.begin();
+        sb.begin();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 float x = i * tileSize;
                 float y = j * tileSize;
                 if (camera.containsPoint(x + ts2, y + ts2, tileSize)) {
                     if (fog[i][j] == F_HIDDEN) {
-                        batch.draw(black, x, y);
+                        sb.draw(black, x, y);
                     }
                 }
             }
         }
-        batch.end();
+        sb.end();
     }
 
     /**
      * Renders the fog of war with the shape renderer
      */
-    public void renderWithShapeRenderer(Camera camera) {
+    public void renderWithShapeRenderer(Camera camera, ShapeRenderer sb) {
         float ts2 = tileSize / 2f;
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        shapeRenderer.setProjectionMatrix(camera.getLibgdxCamera().combined);
-        shapeRenderer.begin(ShapeType.Filled);
-        shapeRenderer.setColor(0f, 0f, 0f, 1f);
+        sb.begin(ShapeType.Filled);
+        sb.setColor(0f, 0f, 0f, 1f);
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -124,13 +119,12 @@ public class FogOfWar {
                 float y = j * tileSize;
                 if (camera.containsPoint(x + ts2, y + ts2, tileSize)) {
                     if (fog[i][j] == F_HIDDEN) {
-                        shapeRenderer.rect(i * tileSize, j * tileSize, tileSize, tileSize);
+                        sb.rect(i * tileSize, j * tileSize, tileSize, tileSize);
                     }
                 }
             }
         }
-        shapeRenderer.end();
-        Gdx.gl.glDisable(GL20.GL_BLEND);
+        sb.end();
     }
 
     public boolean checkSurroundings(int x, int y, byte value) {

@@ -1,5 +1,6 @@
 package rts.arties.scene.unit.steeringbehaviour;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.util.Vector3Pool;
 
@@ -26,8 +27,13 @@ public class BehaviourCohesion extends AbstractSteeringBehaviour {
     }
 
     @Override
-    public void renderBehaviour() {
-        seek.renderBehaviour();
+    public void renderLine(ShapeRenderer sr) {
+        seek.renderLine(sr);
+    }
+
+    @Override
+    public void renderFilled(ShapeRenderer sr) {
+        seek.renderFilled(sr);
     }
 
 }

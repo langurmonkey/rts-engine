@@ -1,9 +1,10 @@
 package rts.arties.scene.unit.steeringbehaviour;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.util.Vector3Pool;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import rts.arties.util.color.ColorUtils;
 
 /**
  * Steers the agent in such a way that it decelerates onto the target position.
@@ -48,27 +49,21 @@ public class BehaviourArrive extends AbstractSteeringBehaviour {
         return pos.dst2(targetPosition) < doneDistanceSq;
     }
 
+    private Color slowDistCol =new Color(.3f, .3f, 1f, .7f);
     @Override
-    public void renderBehaviour() {
+    public void renderLine(ShapeRenderer sr) {
         if (desiredVelocity != null) {
             // Target position circle
-            shapeRenderer.begin(ShapeType.Line);
-            shapeRenderer.setColor(new Color(0f, 1f, 0f, 1f));
-            shapeRenderer.circle(targetPosition.x, targetPosition.y, 3);
-            shapeRenderer.end();
+            sr.setColor(ColorUtils.gGreenC);
+            sr.circle(targetPosition.x, targetPosition.y, 3);
 
             // Slowing distance circle
-            shapeRenderer.begin(ShapeType.Line);
-            shapeRenderer.setColor(new Color(.3f, .3f, 1f, .7f));
-            shapeRenderer.circle(targetPosition.x, targetPosition.y, unit.slowingDistance());
-            shapeRenderer.end();
+            sr.setColor(slowDistCol);
+            sr.circle(targetPosition.x, targetPosition.y, unit.slowingDistance());
 
             // Velocity line
-            shapeRenderer.begin(ShapeType.Line);
-            shapeRenderer.setColor(new Color(0f, 0f, 1f, 1f));
-            shapeRenderer.line(pos.x, pos.y, pos.x + desiredVelocity.x, pos.y + desiredVelocity.y);
-            shapeRenderer.end();
-
+            sr.setColor(ColorUtils.gBlueC);
+            sr.line(pos.x, pos.y, pos.x + desiredVelocity.x, pos.y + desiredVelocity.y);
         }
     }
 

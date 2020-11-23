@@ -1,10 +1,10 @@
 package rts.arties.scene.unit.steeringbehaviour;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.scene.map.IRTSMap;
 import rts.arties.util.Vector3Pool;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 /**
  * First experimental implementation of flocking for a group of units. Uses alignment, separation and cohesion
@@ -57,19 +57,28 @@ public class BehaviourFlockingPath extends AbstractSteeringBehaviour {
         return arrive != null && arrive.isDone();
     }
 
+    private Color col = new Color(0f, .6f, 0f, .7f);
+
     @Override
-    public void renderBehaviour() {
+    public void renderFilled(ShapeRenderer sr) {
         for (int j = 1; j < path.size(); j++) {
             Vector3 waypoint = path.get(j);
-            shapeRenderer.begin(ShapeType.Filled);
-            shapeRenderer.setColor(new Color(0f, .6f, 0f, .7f));
-            shapeRenderer.circle(waypoint.x, waypoint.y, 5f);
-            shapeRenderer.end();
+            sr.setColor(col);
+            sr.circle(waypoint.x, waypoint.y, 5f);
         }
         if (arrive != null)
-            arrive.renderBehaviour();
-        cohesion.renderBehaviour();
-        alignment.renderBehaviour();
+            arrive.renderFilled(sr);
+        cohesion.renderFilled(sr);
+        alignment.renderFilled(sr);
+    }
+
+    @Override
+    public void renderLine(ShapeRenderer sr) {
+        if (arrive != null)
+            arrive.renderLine(sr);
+        cohesion.renderLine(sr);
+        alignment.renderLine(sr);
+
     }
 
     @Override

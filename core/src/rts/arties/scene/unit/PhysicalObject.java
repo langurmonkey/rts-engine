@@ -1,12 +1,12 @@
 package rts.arties.scene.unit;
 
-import com.badlogic.gdx.math.Rectangle;
-import rts.arties.datastructure.geom.Vector3;
-import rts.arties.scene.map.IRTSMap;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import rts.arties.datastructure.geom.Vector3;
+import rts.arties.scene.map.IRTSMap;
 import rts.arties.scene.unit.group.UnitGroup;
 import rts.arties.scene.unit.steeringbehaviour.SteeringBehaviours;
 
@@ -110,6 +110,15 @@ public class PhysicalObject extends PositionPhysicalEntity {
     @Override
     public UnitGroup group() {
         return null;
+    }
+
+    @Override
+    public boolean selected() {
+        return false;
+    }
+
+    @Override
+    public void toggleSelection() {
     }
 
     @Override

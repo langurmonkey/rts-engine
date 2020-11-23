@@ -28,7 +28,7 @@ public abstract class PositionEntity {
     /**
      * The viewing distance in pixels, for the fog of war
      */
-    public int viewDistance = 0;
+    public int viewingDistance = 0;
 
     public PositionEntity() {
         this.uniqueId = getUniqueId();
@@ -58,6 +58,10 @@ public abstract class PositionEntity {
 
     public void dispose() {
         Vector3Pool.returnObject(pos);
+    }
+
+    public float viewingDistance(){
+        return viewingDistance;
     }
 
 }

@@ -1,9 +1,9 @@
 package rts.arties.scene.unit.steeringbehaviour;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.util.Vector3Pool;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import rts.arties.util.color.ColorUtils;
 
 import java.util.Random;
 
@@ -51,27 +51,21 @@ public class BehaviourWander extends AbstractSteeringBehaviour {
     }
 
     @Override
-    public void renderBehaviour() {
+    public void renderLine(ShapeRenderer sr) {
         if (circleCenter != null && displacement != null) {
             // Draw circle
-            shapeRenderer.begin(ShapeType.Line);
-            shapeRenderer.setColor(new Color(1f, 1f, 1f, 1f));
-            shapeRenderer.circle(unit.pos().x + circleCenter.x, unit.pos().y + circleCenter.y, wanderRadius);
-            shapeRenderer.end();
+            sr.setColor(ColorUtils.gWhiteC);
+            sr.circle(unit.pos().x + circleCenter.x, unit.pos().y + circleCenter.y, wanderRadius);
 
             // Draw displacement
-            shapeRenderer.begin(ShapeType.Line);
-            shapeRenderer.setColor(new Color(0f, 1f, 0f, 1f));
-            shapeRenderer.line(unit.pos().x + circleCenter.x, unit.pos().y + circleCenter.y, unit.pos().x + circleCenter.x
+            sr.setColor(ColorUtils.gGreenC);
+            sr.line(unit.pos().x + circleCenter.x, unit.pos().y + circleCenter.y, unit.pos().x + circleCenter.x
                 + displacement.x, unit.pos().y + circleCenter.y + displacement.y);
-            shapeRenderer.end();
 
             // Draw steering direction
-            shapeRenderer.begin(ShapeType.Line);
-            shapeRenderer.setColor(new Color(1f, 0f, 0f, 1f));
-            shapeRenderer.line(unit.pos().x, unit.pos().y, unit.pos().x + circleCenter.x + displacement.x, unit.pos().y
+            sr.setColor(ColorUtils.gRedC);
+            sr.line(unit.pos().x, unit.pos().y, unit.pos().x + circleCenter.x + displacement.x, unit.pos().y
                 + circleCenter.y + displacement.y);
-            shapeRenderer.end();
         }
     }
 

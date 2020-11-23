@@ -1,6 +1,5 @@
 package rts.arties.scene.unit.steeringbehaviour;
 
-import rts.arties.RTSGame;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
@@ -13,13 +12,11 @@ public abstract class AbstractSteeringBehaviour implements ISteeringBehaviour {
 
     protected IEntity unit;
     protected boolean done;
-    protected ShapeRenderer shapeRenderer;
 
     public AbstractSteeringBehaviour(IEntity unit) {
         super();
         this.unit = unit;
         done = false;
-        shapeRenderer = RTSGame.game.cameraShapeRenderer;
     }
 
     /**
@@ -30,13 +27,11 @@ public abstract class AbstractSteeringBehaviour implements ISteeringBehaviour {
     }
 
     @Override
-    public void render() {
-        shapeRenderer.setProjectionMatrix(RTSGame.getGdxCamera().combined);
-        renderBehaviour();
+    public void renderLine(ShapeRenderer sr) {
     }
 
-    public void renderBehaviour() {
-        // Empty because some behaviours do not have render
+    @Override
+    public void renderFilled(ShapeRenderer sr) {
     }
 
     @Override

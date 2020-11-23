@@ -1,8 +1,9 @@
 package rts.arties.scene.unit.steeringbehaviour;
 
-import rts.arties.datastructure.geom.Vector3;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import rts.arties.datastructure.geom.Vector3;
+import rts.arties.util.color.ColorUtils;
 
 /**
  * Tries to align the unit with the movement of the group, given a target.
@@ -38,13 +39,11 @@ public class BehaviourAlignment extends AbstractSteeringBehaviour {
     }
 
     @Override
-    public void renderBehaviour() {
+    public void renderLine(ShapeRenderer sr) {
         if (desiredVelocity != null) {
-            shapeRenderer.begin(ShapeType.Line);
-            shapeRenderer.setColor(new Color(1f, 0f, 1f, 1f));
-            shapeRenderer.line(group.pos().x, group.pos().y, group.pos().x + desiredVelocity.x, group.pos().y
+            sr.setColor(new Color(ColorUtils.ddMagentaC));
+            sr.line(group.pos().x, group.pos().y, group.pos().x + desiredVelocity.x, group.pos().y
                 + desiredVelocity.y);
-            shapeRenderer.end();
         }
     }
 

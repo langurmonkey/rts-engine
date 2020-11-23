@@ -1,9 +1,9 @@
 package rts.arties.scene.unit.steeringbehaviour;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.util.Vector3Pool;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 /**
  * This behaviour creates a force that leads the unit to the next waypoint in a path.
@@ -50,19 +50,27 @@ public class BehaviourFollowPath extends AbstractSteeringBehaviour {
         return arrive != null && arrive.isDone();
     }
 
+    private Color col = new Color(0f, .6f, 0f, .7f);
+
     @Override
-    public void renderBehaviour() {
+    public void renderFilled(ShapeRenderer sr) {
         for (int j = 1; j < path.size(); j++) {
             Vector3 waypoint = path.get(j);
-            shapeRenderer.begin(ShapeType.Filled);
-            shapeRenderer.setColor(new Color(0f, .6f, 0f, .7f));
-            shapeRenderer.circle(waypoint.x, waypoint.y, 5f);
-            shapeRenderer.end();
+            sr.setColor(col);
+            sr.circle(waypoint.x, waypoint.y, 5f);
         }
         if (arrive != null)
-            arrive.renderBehaviour();
+            arrive.renderFilled(sr);
         else if (seek != null)
-            seek.renderBehaviour();
+            seek.renderFilled(sr);
+    }
+
+    @Override
+    public void renderLine(ShapeRenderer sr) {
+        if (arrive != null)
+            arrive.renderLine(sr);
+        else if (seek != null)
+            seek.renderLine(sr);
     }
 
     @Override

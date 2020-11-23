@@ -45,10 +45,12 @@ public class TankHelper {
         // State
         StateComponent stc = engine.createComponent(StateComponent.class);
         stc.stateManager = new StateManager(tankEntity);
+        // Group
+        UnitGroupComponent ugc = engine.createComponent(UnitGroupComponent.class);
         // Renderable
-        RenderableBaseComponent rvc = engine.createComponent(RenderableBaseComponent.class);
-        rvc.textureName = "tank-32";
-        rvc.rotateImage = true;
+        RenderableBaseComponent rbc = engine.createComponent(RenderableBaseComponent.class);
+        rbc.textureName = "tank-32";
+        rbc.rotateImage = true;
         // Shadow
         RenderableShadowComponent rsc = engine.createComponent(RenderableShadowComponent.class);
         rsc.shadowOffsetY = 25f;
@@ -56,18 +58,21 @@ public class TankHelper {
         MapComponent mpc = engine.createComponent(MapComponent.class);
         mpc.map = map;
         // Player
-        PlayerComponent prc = engine.createComponent(PlayerComponent.class);
+        PlayerComponent plc = engine.createComponent(PlayerComponent.class);
+        plc.selectionRadius = 17;
 
         // Add components
-        tank.add(prc);
+        tank.add(plc);
         tank.add(pc);
         tank.add(mc);
         tank.add(bc);
-        tank.add(rvc);
+        tank.add(rbc);
         tank.add(rsc);
         tank.add(sc);
         tank.add(stc);
         tank.add(mpc);
+        tank.add(ugc);
+        tank.add(hc);
 
         return tank;
     }

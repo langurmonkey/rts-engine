@@ -1,21 +1,11 @@
 package rts.arties.scene.map;
 
-import rts.arties.RTSGame;
-import rts.arties.datastructure.IMap;
-import rts.arties.datastructure.IMapCell;
-import rts.arties.datastructure.IMapRenderer;
-import rts.arties.datastructure.astar.AStar;
-import rts.arties.datastructure.astar.IAStar;
-import rts.arties.datastructure.geom.Vector2;
-import rts.arties.datastructure.mapgen.IMapGen;
-import rts.arties.scene.cam.Camera;
-import rts.arties.scene.unit.steeringbehaviour.IEntity;
-import rts.arties.util.Vector2Pool;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObjects;
@@ -27,6 +17,17 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Logger;
+import rts.arties.RTSGame;
+import rts.arties.datastructure.IMap;
+import rts.arties.datastructure.IMapCell;
+import rts.arties.datastructure.IMapRenderer;
+import rts.arties.datastructure.astar.AStar;
+import rts.arties.datastructure.astar.IAStar;
+import rts.arties.datastructure.geom.Vector2;
+import rts.arties.datastructure.mapgen.IMapGen;
+import rts.arties.scene.cam.Camera;
+import rts.arties.scene.unit.steeringbehaviour.IEntity;
+import rts.arties.util.Vector2Pool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,14 +112,13 @@ public abstract class RTSAbstractMap implements IRTSMap {
         // Fog of war
         this.useFogOfWar = useFogOfWar;
         if (useFogOfWar) {
-            fogOfWar = new FogOfWar(firstLayer.getWidth(), firstLayer.getHeight(),
-                firstLayer.getTileWidth());
+            fogOfWar = new FogOfWar(firstLayer.getWidth(), firstLayer.getHeight(), firstLayer.getTileWidth());
         }
     }
 
     @Override
-    public void doneLoading(AssetManager assets){
-        if(this.useFogOfWar){
+    public void doneLoading(AssetManager assets) {
+        if (this.useFogOfWar) {
             fogOfWar.doneLoading(assets);
         }
     }
@@ -136,10 +136,10 @@ public abstract class RTSAbstractMap implements IRTSMap {
         return res;
     }
 
-    public static int[] getLayerIndices(MapLayers mapLayers, List<MapLayer> layers){
+    public static int[] getLayerIndices(MapLayers mapLayers, List<MapLayer> layers) {
         int[] res = new int[layers.size()];
         int i = 0;
-        for(MapLayer layer : layers){
+        for (MapLayer layer : layers) {
             res[i] = mapLayers.getIndex(layer);
             i++;
         }
@@ -195,9 +195,9 @@ public abstract class RTSAbstractMap implements IRTSMap {
     }
 
     @Override
-    public void renderFogOfWar(Camera camera) {
+    public void renderFogOfWar(Camera camera, ShapeRenderer sr, SpriteBatch sb) {
         if (fogOfWar != null) {
-            fogOfWar.render(camera);
+            fogOfWar.render(camera, sr, sb);
         }
     }
 
@@ -238,7 +238,8 @@ public abstract class RTSAbstractMap implements IRTSMap {
         return map.findNearbyObjects(pos);
     }
 
-    @Override public Set<IEntity> getNearbyEntities(Vector3 pos) {
+    @Override
+    public Set<IEntity> getNearbyEntities(Vector3 pos) {
         return map.findNearbyObjects(pos);
     }
 
@@ -247,9 +248,11 @@ public abstract class RTSAbstractMap implements IRTSMap {
         return map.findNearbyBlockedNodes(pos);
     }
 
-    @Override public Set<IMapCell<IEntity>> getNearbyBlockedNodes(Vector3 pos) {
+    @Override
+    public Set<IMapCell<IEntity>> getNearbyBlockedNodes(Vector3 pos) {
         return map.findNearbyBlockedNodes(pos);
     }
+
     /**
      * Checks if the given rectangle overlaps with a blocked node
      *

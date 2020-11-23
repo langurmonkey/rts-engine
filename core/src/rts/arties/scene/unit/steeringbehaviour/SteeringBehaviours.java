@@ -1,5 +1,8 @@
 package rts.arties.scene.unit.steeringbehaviour;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.scene.map.IRTSMap;
 import rts.arties.scene.unit.Unit;
@@ -40,11 +43,21 @@ public class SteeringBehaviours {
         return sum;
     }
 
-    public void render() {
+    public void renderLine(ShapeRenderer sr) {
+        Gdx.gl.glEnable(GL20.GL_BLEND);
         Set<BehaviourClass> classes = sbMap.keySet();
         for (BehaviourClass clazz : classes) {
             ISteeringBehaviour sb = sbMap.get(clazz);
-            sb.render();
+            sb.renderLine(sr);
+        }
+    }
+
+    public void renderFilled(ShapeRenderer sr) {
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Set<BehaviourClass> classes = sbMap.keySet();
+        for (BehaviourClass clazz : classes) {
+            ISteeringBehaviour sb = sbMap.get(clazz);
+            sb.renderFilled(sr);
         }
     }
 

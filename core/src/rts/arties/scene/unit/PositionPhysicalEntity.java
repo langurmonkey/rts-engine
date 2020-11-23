@@ -1,18 +1,15 @@
 package rts.arties.scene.unit;
 
-import rts.arties.RTSGame;
-import rts.arties.datastructure.geom.Vector3;
-import rts.arties.scene.unit.steeringbehaviour.IEntity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import rts.arties.RTSGame;
+import rts.arties.datastructure.geom.Vector3;
+import rts.arties.scene.unit.steeringbehaviour.IEntity;
 
 /**
  * Represents an entity which is physical and has a position.
@@ -139,7 +136,6 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
         return weight;
     }
 
-
     public boolean isDead() {
         return hp <= 0f;
     }
@@ -186,14 +182,13 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
             angle = heading.angle2();
         }
 
-        if (RTSGame.drawShadows) {
-            spriteToDraw.flip(false, shadowFlipY);
-            batch.setColor(0f, 0f, 0f, 0.2f);
-            batch.draw(spriteToDraw, pos.x - spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, pos.y - spriteToDraw.getRegionHeight() / 2 + spriteOffsetY - spriteToDraw.getRegionHeight() + spriteOffsetY + shadowOffsetY, spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, spriteToDraw.getRegionHeight() / 2, spriteToDraw.getRegionWidth(), spriteToDraw.getRegionHeight(), scale, scale, angle);
+        spriteToDraw.flip(false, shadowFlipY);
+        batch.setColor(0f, 0f, 0f, 0.2f);
+        batch.draw(spriteToDraw, pos.x - spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, pos.y - spriteToDraw.getRegionHeight() / 2 + spriteOffsetY - spriteToDraw.getRegionHeight() + spriteOffsetY + shadowOffsetY, spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, spriteToDraw.getRegionHeight() / 2, spriteToDraw.getRegionWidth(), spriteToDraw.getRegionHeight(), scale, scale, angle);
 
-            spriteToDraw.flip(false, shadowFlipY);
-            batch.setColor(1, 1, 1, 1);
-        }
+        spriteToDraw.flip(false, shadowFlipY);
+        batch.setColor(1, 1, 1, 1);
+
         batch.draw(spriteToDraw, pos.x - spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, pos.y - spriteToDraw.getRegionHeight() / 2 + spriteOffsetY, spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, spriteToDraw.getRegionHeight() / 2, spriteToDraw.getRegionWidth(), spriteToDraw.getRegionHeight(), scale, scale, angle);
     }
 
@@ -210,12 +205,7 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
         return Float.compare(pos.y, o.pos.y) / -1;
     }
 
-    public void renderDebug(ShapeRenderer sr) {
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-        sr.begin(ShapeType.Filled);
-
+    public void renderDebugFilled(ShapeRenderer sr) {
         // Hard radius
         sr.setColor(new Color(0f, 0f, .4f, .4f));
         sr.rect(hardRadius.x, hardRadius.y, hardRadius.width, hardRadius.height);
@@ -227,25 +217,21 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
         // Position
         sr.setColor(new Color(0f, 1f, 0f, 1f));
         sr.circle(pos.x, pos.y, 1);
-        sr.end();
-
-        sr.begin(ShapeType.Line);
+    }
+    public void renderDebugLine(ShapeRenderer sr) {
         // Image bounds
         sr.setColor(new Color(0f, 0f, 0f, 1f));
         sr.rect(imageBounds.x, imageBounds.y, imageBounds.width, imageBounds.height);
 
         // View distance
         sr.setColor(new Color(0f, 0.5f, 0.2f, 1f));
-        sr.circle(pos.x, pos.y, viewDistance);
+        sr.circle(pos.x, pos.y, viewingDistance);
 
         // Heading
         if (heading != null) {
             sr.setColor(new Color(1f, 0f, 0f, 1f));
             sr.line(pos.x, pos.y, heading.x * 40 + pos.x, heading.y * 40 + pos.y);
         }
-
-        sr.end();
-        Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
     public void setHp(float newHp) {

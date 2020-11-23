@@ -1,12 +1,13 @@
 package rts.arties.scene.unit;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.math.Rectangle;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.scene.ecs.Mapper;
+import rts.arties.scene.ecs.component.PlayerComponent;
 import rts.arties.scene.map.IRTSMap;
 import rts.arties.scene.unit.group.UnitGroup;
 import rts.arties.scene.unit.steeringbehaviour.IEntity;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.math.Rectangle;
 import rts.arties.scene.unit.steeringbehaviour.SteeringBehaviours;
 
 public class DefaultEntity implements IEntity {
@@ -31,6 +32,11 @@ public class DefaultEntity implements IEntity {
     @Override
     public Vector3 heading() {
         return Mapper.movement.get(entity).heading;
+    }
+
+    @Override
+    public float viewingDistance() {
+        return Mapper.position.get(entity).viewingDistance;
     }
 
     @Override
@@ -81,6 +87,17 @@ public class DefaultEntity implements IEntity {
     @Override
     public UnitGroup group() {
         return Mapper.group.get(entity).group;
+    }
+
+    @Override
+    public boolean selected() {
+        return Mapper.player.get(entity).selected;
+    }
+
+    @Override
+    public void toggleSelection() {
+        PlayerComponent pc = Mapper.player.get(entity);
+        pc.selected = !pc.selected;
     }
 
     @Override

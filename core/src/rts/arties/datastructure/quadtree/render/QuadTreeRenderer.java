@@ -62,11 +62,10 @@ public class QuadTreeRenderer implements IMapRenderer {
     }
 
     public void drawNodeActually(QuadNode node) {
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         drawNodeShapes(node);
         Gdx.gl.glDisable(GL20.GL_BLEND);
         drawNodeText(node);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
     }
 
     public void drawNodeShapes(QuadNode node) {

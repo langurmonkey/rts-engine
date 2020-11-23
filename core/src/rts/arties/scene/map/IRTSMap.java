@@ -1,5 +1,7 @@
 package rts.arties.scene.map;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import rts.arties.datastructure.IMapCell;
 import rts.arties.datastructure.geom.Vector2;
 import rts.arties.scene.cam.Camera;
@@ -28,7 +30,7 @@ public interface IRTSMap {
 
     void renderDebug();
 
-    void renderFogOfWar(Camera camera);
+    void renderFogOfWar(Camera camera, ShapeRenderer sr, SpriteBatch sb);
 
     int getWidth();
 
