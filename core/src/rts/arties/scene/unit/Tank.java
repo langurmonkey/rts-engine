@@ -47,6 +47,8 @@ public class Tank extends Unit {
         maxHp = 100;
         hp = maxHp;
 
+        weight = 1f;
+
         vel = Vector3Pool.getObject(0f, 0f);
         heading = Vector3Pool.getObject(0, 1);
 

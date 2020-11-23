@@ -14,6 +14,9 @@ public class BodyComponent implements Component {
     //Mass [kg]
     public float mass;
 
+    // Weight for map cells
+    public float weight;
+
     public float width;
     public float height;
 

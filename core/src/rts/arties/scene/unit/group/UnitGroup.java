@@ -1,10 +1,10 @@
 package rts.arties.scene.unit.group;
 
-import rts.arties.scene.unit.PositionEntity;
-import rts.arties.scene.unit.Unit;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import rts.arties.datastructure.geom.Vector3;
+import rts.arties.scene.unit.steeringbehaviour.IEntity;
 import rts.arties.scene.unit.steeringbehaviour.IGroup;
 import rts.arties.util.Vector3Pool;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.util.*;
 
@@ -13,11 +13,12 @@ import java.util.*;
  *
  * @author Toni Sagrista
  */
-public class UnitGroup extends PositionEntity implements IGroup, List<Unit> {
+public class UnitGroup implements IGroup, List<IEntity> {
 
-    private final List<Unit> group;
-
+    private final List<IEntity> group;
     private static final UnitComparatorByPosition comp = new UnitComparatorByPosition();
+
+    private Vector3 pos;
 
     public UnitGroup() {
         super();
@@ -25,10 +26,15 @@ public class UnitGroup extends PositionEntity implements IGroup, List<Unit> {
         this.pos = Vector3Pool.getObject();
     }
 
+    @Override
+    public Vector3 pos() {
+        return pos;
+    }
+
     public void update() {
         pos.setZero();
-        for (Unit unit : group) {
-            pos.add(unit.pos);
+        for (IEntity unit : group) {
+            pos.add(unit.pos());
         }
         pos.scl(1f / group.size());
     }
@@ -40,8 +46,8 @@ public class UnitGroup extends PositionEntity implements IGroup, List<Unit> {
             renderer.circle(pos.x, pos.y, 3);
             // Render lines to all units
             renderer.setColor(0f, 1f, .3f, 1f);
-            for (Unit unit : group) {
-                renderer.line(pos.x, pos.y, unit.pos.x, unit.pos.y);
+            for (IEntity unit : group) {
+                renderer.line(pos.x, pos.y, unit.pos().x, unit.pos().y);
             }
         }
     }
@@ -51,8 +57,8 @@ public class UnitGroup extends PositionEntity implements IGroup, List<Unit> {
     }
 
     @Override
-    public boolean add(Unit e) {
-        e.group = this;
+    public boolean add(IEntity e) {
+        e.group(this);
         return group.add(e);
     }
 
@@ -72,7 +78,7 @@ public class UnitGroup extends PositionEntity implements IGroup, List<Unit> {
     }
 
     @Override
-    public Iterator<Unit> iterator() {
+    public Iterator<IEntity> iterator() {
         return group.iterator();
     }
 
@@ -88,11 +94,11 @@ public class UnitGroup extends PositionEntity implements IGroup, List<Unit> {
 
     @Override
     public boolean remove(Object o) {
-        return remove((Unit) o);
+        return remove((IEntity) o);
     }
 
-    public boolean remove(Unit u) {
-        u.group = null;
+    public boolean remove(IEntity u) {
+        u.group(null);
         return group.remove(u);
     }
 
@@ -102,9 +108,9 @@ public class UnitGroup extends PositionEntity implements IGroup, List<Unit> {
     }
 
     @Override
-    public boolean addAll(Collection<? extends Unit> c) {
-        for (Unit u : c) {
-            u.group = this;
+    public boolean addAll(Collection<? extends IEntity> c) {
+        for (IEntity u : c) {
+            u.group(this);
         }
         return group.addAll(c);
     }
@@ -112,7 +118,7 @@ public class UnitGroup extends PositionEntity implements IGroup, List<Unit> {
     @Override
     public boolean removeAll(Collection<?> c) {
         for (Object o : c) {
-            ((Unit) o).group = null;
+            ((IEntity) o).group(null);
         }
         return group.removeAll(c);
     }
@@ -124,42 +130,42 @@ public class UnitGroup extends PositionEntity implements IGroup, List<Unit> {
 
     @Override
     public void clear() {
-        for (Unit u : group) {
-            u.group = null;
+        for (IEntity u : group) {
+            u.group(null);
         }
         group.clear();
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends Unit> c) {
-        for (Unit u : c) {
-            u.group = this;
+    public boolean addAll(int index, Collection<? extends IEntity> c) {
+        for (IEntity u : c) {
+            u.group(this);
         }
         return group.addAll(index, c);
     }
 
     @Override
-    public Unit get(int index) {
+    public IEntity get(int index) {
         return group.get(index);
     }
 
     @Override
-    public Unit set(int index, Unit element) {
-        element.group = this;
+    public IEntity set(int index, IEntity element) {
+        element.group(this);
         return group.set(index, element);
     }
 
     @Override
-    public void add(int index, Unit element) {
-        element.group = this;
+    public void add(int index, IEntity element) {
+        element.group(this);
         group.add(index, element);
 
     }
 
     @Override
-    public Unit remove(int index) {
+    public IEntity remove(int index) {
         assert index >= 0 && index < group.size() : "Index out of bounds: " + index;
-        group.get(index).group = null;
+        group.get(index).group(null);
         return group.remove(index);
 
     }
@@ -175,27 +181,32 @@ public class UnitGroup extends PositionEntity implements IGroup, List<Unit> {
     }
 
     @Override
-    public ListIterator<Unit> listIterator() {
+    public ListIterator<IEntity> listIterator() {
         return group.listIterator();
     }
 
     @Override
-    public ListIterator<Unit> listIterator(int index) {
+    public ListIterator<IEntity> listIterator(int index) {
         return group.listIterator(index);
     }
 
     @Override
-    public List<Unit> subList(int fromIndex, int toIndex) {
+    public List<IEntity> subList(int fromIndex, int toIndex) {
         return group.subList(fromIndex, toIndex);
     }
 
-    private static class UnitComparatorByPosition implements Comparator<Unit> {
+    @Override
+    public Spliterator<IEntity> spliterator() {
+        return null;
+    }
+
+    private static class UnitComparatorByPosition implements Comparator<IEntity> {
 
         @Override
-        public int compare(Unit o1, Unit o2) {
-            int comp = Float.compare(o1.pos.y, o2.pos.y);
+        public int compare(IEntity o1, IEntity o2) {
+            int comp = Float.compare(o1.pos().y, o2.pos().y);
             if (comp == 0) {
-                comp = Float.compare(o1.pos.x, o2.pos.x);
+                comp = Float.compare(o1.pos().x, o2.pos().x);
             }
             return comp;
         }

@@ -33,6 +33,8 @@ public class GridCell<T extends IEntity> extends AStarNode<T> implements IMapCel
     public float y;
     public float z;
     public int col, row;
+    // Each entity has a different weight, this sums up the weight of all entities in the cell
+    public float weight = 0;
 
     private final GridMap<T> map;
 
@@ -64,6 +66,13 @@ public class GridCell<T extends IEntity> extends AStarNode<T> implements IMapCel
     @Override
     public void add(T o) {
         objects.add(o);
+        recomputeWeight();
+    }
+
+    private void recomputeWeight(){
+        weight = 0;
+        for(IEntity e : objects)
+            weight += e.weight();
     }
 
     @Override
@@ -170,12 +179,12 @@ public class GridCell<T extends IEntity> extends AStarNode<T> implements IMapCel
 
     @Override
     public boolean isBlocked() {
-        return MapProperties.isMapBlocked(type) || objects.size() > 2;
+        return MapProperties.isMapBlocked(type) || weight >= 2.5f;
     }
 
     @Override
     public boolean isEmpty() {
-        return !isBlocked() && objects.isEmpty();
+        return !isBlocked() && weight == 0;
     }
 
     @Override
@@ -190,7 +199,9 @@ public class GridCell<T extends IEntity> extends AStarNode<T> implements IMapCel
 
     @Override
     public boolean removeObject(T o) {
-        return objects.remove(o);
+        boolean ret =  objects.remove(o);
+        recomputeWeight();
+        return ret;
     }
 
     @Override

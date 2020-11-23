@@ -1,11 +1,14 @@
 package rts.arties.scene.unit;
 
+import com.badlogic.gdx.math.Rectangle;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.scene.map.IRTSMap;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import rts.arties.scene.unit.group.UnitGroup;
+import rts.arties.scene.unit.steeringbehaviour.SteeringBehaviours;
 
 /**
  * This represents a physical, non-abstract map object.
@@ -81,6 +84,11 @@ public class PhysicalObject extends PositionPhysicalEntity {
     }
 
     @Override
+    public Rectangle hardRadius() {
+        return hardRadius;
+    }
+
+    @Override
     public float slowingDistance() {
         return 0;
     }
@@ -93,5 +101,27 @@ public class PhysicalObject extends PositionPhysicalEntity {
     @Override
     public float maxForce() {
         return 0;
+    }
+
+    @Override
+    public void group(UnitGroup group) {
+    }
+
+    @Override
+    public UnitGroup group() {
+        return null;
+    }
+
+    @Override
+    public void select() {
+    }
+
+    @Override
+    public void unselect() {
+    }
+
+    @Override
+    public SteeringBehaviours steeringBehaviours() {
+        return null;
     }
 }

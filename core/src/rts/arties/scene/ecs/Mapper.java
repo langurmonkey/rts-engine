@@ -16,4 +16,5 @@ public class Mapper {
     public static final ComponentMapper<RenderableWalkerComponent> rwalker = ComponentMapper.getFor(RenderableWalkerComponent.class);
     public static final ComponentMapper<SteeringComponent> steering = ComponentMapper.getFor(SteeringComponent.class);
     public static final ComponentMapper<StateComponent> state = ComponentMapper.getFor(StateComponent.class);
+    public static final ComponentMapper<UnitGroupComponent> group = ComponentMapper.getFor(UnitGroupComponent.class);
 }

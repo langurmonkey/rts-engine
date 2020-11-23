@@ -83,6 +83,21 @@ public abstract class Unit extends MovingEntity {
 
     public abstract String getName();
 
+    @Override
+    public void group(UnitGroup group) {
+        this.group = group;
+    }
+
+    @Override
+    public UnitGroup group() {
+        return group;
+    }
+
+    @Override
+    public SteeringBehaviours steeringBehaviours() {
+        return steeringBehaviours;
+    }
+
     public boolean isSelected() {
         return selected;
     }

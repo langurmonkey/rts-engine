@@ -6,6 +6,7 @@ import rts.arties.scene.unit.PositionPhysicalEntity;
 import rts.arties.scene.unit.Unit;
 import rts.arties.scene.unit.group.UnitGroup;
 import rts.arties.scene.unit.group.UnitGroupManager;
+import rts.arties.scene.unit.steeringbehaviour.IEntity;
 import rts.arties.util.Vector2Pool;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -114,7 +115,7 @@ public class Selection {
      */
     public void clearSelection() {
         if (selected != null) {
-            for (Unit u : selected) {
+            for (IEntity u : selected) {
                 u.unselect();
             }
             selected.clear();

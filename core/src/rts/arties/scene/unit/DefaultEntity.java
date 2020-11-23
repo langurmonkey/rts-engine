@@ -3,9 +3,11 @@ package rts.arties.scene.unit;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.scene.ecs.Mapper;
 import rts.arties.scene.map.IRTSMap;
+import rts.arties.scene.unit.group.UnitGroup;
 import rts.arties.scene.unit.steeringbehaviour.IEntity;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Rectangle;
+import rts.arties.scene.unit.steeringbehaviour.SteeringBehaviours;
 
 public class DefaultEntity implements IEntity {
 
@@ -37,6 +39,16 @@ public class DefaultEntity implements IEntity {
     }
 
     @Override
+    public Rectangle hardRadius() {
+        return Mapper.body.get(entity).hardRadius;
+    }
+
+    @Override
+    public float weight() {
+        return Mapper.body.get(entity).weight;
+    }
+
+    @Override
     public float slowingDistance() {
         return Mapper.movement.get(entity).slowingDistance;
     }
@@ -59,5 +71,30 @@ public class DefaultEntity implements IEntity {
     @Override
     public Rectangle bounds() {
         return Mapper.rbase.get(entity).imageBounds;
+    }
+
+    @Override
+    public void group(UnitGroup group) {
+        Mapper.group.get(entity).group = group;
+    }
+
+    @Override
+    public UnitGroup group() {
+        return Mapper.group.get(entity).group;
+    }
+
+    @Override
+    public void select() {
+        Mapper.player.get(entity).selected = true;
+    }
+
+    @Override
+    public void unselect() {
+        Mapper.player.get(entity).selected = false;
+    }
+
+    @Override
+    public SteeringBehaviours steeringBehaviours() {
+        return Mapper.steering.get(entity).steeringBehaviours;
     }
 }

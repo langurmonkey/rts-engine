@@ -43,6 +43,7 @@ import rts.arties.scene.selection.Selection;
 import rts.arties.scene.unit.*;
 import rts.arties.scene.unit.group.UnitGroup;
 import rts.arties.scene.unit.group.UnitGroupManager;
+import rts.arties.scene.unit.steeringbehaviour.IEntity;
 import rts.arties.scene.unit.steeringbehaviour.Path;
 import rts.arties.ui.OwnLabel;
 import rts.arties.util.TextUtils;
@@ -255,9 +256,15 @@ public class RTSGame implements ApplicationListener {
         Unit tank7 = new Tank(180f, 1500f, map);
         tank7.setHp(10f);
 
-        Unit gooner = new Gunner(80f, 140f, map);
+        Unit gooner1 = new Gunner(80f, 140f, map);
+        Unit gooner2 = new Gunner(90f, 145f, map);
+        Unit gooner3 = new Gunner(95f, 135f, map);
+        Unit gooner4 = new Gunner(80f, 125f, map);
 
-        entities.add(gooner);
+        entities.add(gooner1);
+        entities.add(gooner2);
+        entities.add(gooner3);
+        entities.add(gooner4);
         entities.add(tank1);
         entities.add(tank2);
         entities.add(tank3);
@@ -266,7 +273,10 @@ public class RTSGame implements ApplicationListener {
         entities.add(tank6);
         entities.add(tank7);
 
-        player.add(gooner);
+        player.add(gooner1);
+        player.add(gooner2);
+        player.add(gooner3);
+        player.add(gooner4);
         player.add(tank1);
         player.add(tank2);
         player.add(tank3);
@@ -286,17 +296,24 @@ public class RTSGame implements ApplicationListener {
                 float ow = mo.getProperties().get("width", Float.class);
 
                 float shadowOffsetY = 0;
+                float weight = 1;
                 String textureName;
                 if (mo instanceof TiledMapTileMapObject) {
                     TiledMapTileMapObject tmtmo = (TiledMapTileMapObject) mo;
                     String fileName = Paths.get(tmtmo.getTextureRegion().getTexture().toString()).getFileName().toString();
                     textureName = TextUtils.removeExtension(fileName);
-                    if (tmtmo.getTile().getProperties() != null)
+                    if (tmtmo.getTile().getProperties() != null) {
                         try {
                             shadowOffsetY = Parser.parseFloatException(tmtmo.getTile().getProperties().get("shadowOffsetY", "0", String.class));
-                        }catch(NumberFormatException nfe){
+                        } catch (NumberFormatException nfe) {
                             logger.debug("Could not parse 'shadowOffsetY' from tile: " + nfe.getLocalizedMessage());
                         }
+                        try {
+                            weight = Parser.parseFloatException(tmtmo.getTile().getProperties().get("weight", "1", String.class));
+                        } catch (NumberFormatException nfe) {
+                            logger.debug("Could not parse 'shadowOffsetY' from tile: " + nfe.getLocalizedMessage());
+                        }
+                    }
                 } else {
                     textureName = mo.getName();
                 }
@@ -304,6 +321,7 @@ public class RTSGame implements ApplicationListener {
                 // Trees with an offsetY of 20
                 PhysicalObject po = new PhysicalObject(x + ow / 2f, y, 0f, 25f, textureName, map);
                 po.shadowOffsetY = shadowOffsetY;
+                po.weight = weight;
                 entities.add(po);
             }
 
@@ -558,7 +576,7 @@ public class RTSGame implements ApplicationListener {
         for (; group.size() > side * side; side++) {
         }
         float longestSide = 0;
-        for (Unit u : group) {
+        for (IEntity u : group) {
             if ((u.softRadius() * 2 + 10) > longestSide) {
                 longestSide = u.softRadius() * 2 + 10;
             }
@@ -566,15 +584,15 @@ public class RTSGame implements ApplicationListener {
         float side2 = side * longestSide / 2;
         int col = 0, row = 0;
 
-        Collections.sort(group);
-        for (Unit u : group) {
+        group.sortByPosition();
+        for (IEntity u : group) {
             Vector2 targetPos = Vector2Pool.getObject(x - side2 + longestSide * col + longestSide / 2, y - side2 + longestSide * row + longestSide / 2);
-            if (!map.overlapsWithBlocked(new Rectangle(x - u.hardRadius.width / 2, y - u.hardRadius.height / 2, u.hardRadius.width, u.hardRadius.height))) {
+            if (!map.overlapsWithBlocked(new Rectangle(x - u.hardRadius().width / 2, y - u.hardRadius().height / 2, u.hardRadius().width, u.hardRadius().height))) {
                 // Calculate path
-                Path path = new Path(map.findPath(u.pos.x, u.pos.y, targetPos.x, targetPos.y), u.pos.x, u.pos.y, targetPos.x, targetPos.y);
+                Path path = new Path(map.findPath(u.pos().x, u.pos().y, targetPos.x, targetPos.y), u.pos().x, u.pos().y, targetPos.x, targetPos.y);
                 path.smooth(u);
                 if (path.size() > 0)
-                    u.steeringBehaviours.addFollowPath(path);
+                    u.steeringBehaviours().addFollowPath(path);
             }
             Vector2Pool.returnObject(targetPos);
 
@@ -595,10 +613,10 @@ public class RTSGame implements ApplicationListener {
      * @param x
      * @param y
      */
-    public void moveUnit(Unit unit, int x, int y) {
-        Path path = new Path(map.findPath(unit.pos.x, unit.pos.y, (float) x, (float) y), unit.pos.x, unit.pos.y, (float) x, (float) y);
+    public void moveUnit(IEntity unit, int x, int y) {
+        Path path = new Path(map.findPath(unit.pos().x, unit.pos().y, (float) x, (float) y), unit.pos().x, unit.pos().y, (float) x, (float) y);
         path.smooth(unit);
-        unit.steeringBehaviours.addFollowPath(path);
+        unit.steeringBehaviours().addFollowPath(path);
     }
 
     /**

@@ -3,6 +3,8 @@ package rts.arties.scene.ecs.component;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
+import rts.arties.scene.unit.group.UnitGroup;
+import rts.arties.scene.unit.steeringbehaviour.IEntity;
 
 import java.util.Comparator;
 
@@ -30,5 +32,5 @@ public class UnitGroupComponent implements Component {
         }
     }
 
-    public List<Entity> group;
+    public UnitGroup group;
 }

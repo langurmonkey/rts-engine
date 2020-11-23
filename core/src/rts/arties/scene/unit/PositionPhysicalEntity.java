@@ -30,6 +30,10 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
      * Mass [kg]
      **/
     public float mass;
+    /**
+     * Weight for the map cells
+     */
+    public float weight = 1;
 
     /**
      * SIZE
@@ -130,6 +134,12 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
         return heading;
     }
 
+    @Override
+    public float weight() {
+        return weight;
+    }
+
+
     public boolean isDead() {
         return hp <= 0f;
     }
@@ -178,7 +188,7 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
 
         if (RTSGame.drawShadows) {
             spriteToDraw.flip(false, shadowFlipY);
-            batch.setColor(0.2f, 0.2f, 0.2f, 0.3f);
+            batch.setColor(0f, 0f, 0f, 0.2f);
             batch.draw(spriteToDraw, pos.x - spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, pos.y - spriteToDraw.getRegionHeight() / 2 + spriteOffsetY - spriteToDraw.getRegionHeight() + spriteOffsetY + shadowOffsetY, spriteToDraw.getRegionWidth() / 2 + spriteOffsetX, spriteToDraw.getRegionHeight() / 2, spriteToDraw.getRegionWidth(), spriteToDraw.getRegionHeight(), scale, scale, angle);
 
             spriteToDraw.flip(false, shadowFlipY);

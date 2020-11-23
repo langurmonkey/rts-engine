@@ -1,9 +1,12 @@
 package rts.arties.scene.unit;
 
+import com.badlogic.gdx.math.Rectangle;
 import rts.arties.datastructure.geom.Vector3;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import rts.arties.scene.unit.group.UnitGroup;
+import rts.arties.scene.unit.steeringbehaviour.SteeringBehaviours;
 
 /**
  * An entity that moves.
@@ -94,6 +97,12 @@ public abstract class MovingEntity extends PositionPhysicalEntity {
     public float maxForce() {
         return maxForce;
     }
+
+    @Override
+    public Rectangle hardRadius() {
+        return hardRadius;
+    }
+
 
 
 }

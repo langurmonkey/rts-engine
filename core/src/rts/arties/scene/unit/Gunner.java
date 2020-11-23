@@ -44,6 +44,8 @@ public class Gunner extends Unit {
         maxHp = 20;
         hp = maxHp;
 
+        weight = 0.3f;
+
         vel = Vector3Pool.getObject(0f, 0f);
         heading = Vector3Pool.getObject(0, -1);
 

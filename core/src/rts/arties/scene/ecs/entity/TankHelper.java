@@ -19,6 +19,7 @@ public class TankHelper {
         BodyComponent bc = engine.createComponent(BodyComponent.class);
         bc.me = tankEntity;
         bc.mass = 0.9f;
+        bc.weight = 1f;
         // Health
         HealthComponent hc = engine.createComponent(HealthComponent.class);
         hc.maxHp = 100;
