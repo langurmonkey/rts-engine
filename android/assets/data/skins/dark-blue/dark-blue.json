@@ -333,7 +333,7 @@
       "downFontColor": "theme"
     }
   },
-  "arties.ui.OwnTextIconButton$TextIconButtonStyle": {
+  "rts.arties.ui.OwnTextIconButton$TextIconButtonStyle": {
     "eye": {
       "imageUp": "iconic-eye"
     },
@@ -1139,7 +1139,7 @@
       "background": "default-round"
     }
   },
-  "arties.ui.Separator$SeparatorStyle": {
+  "rts.arties.ui.Separator$SeparatorStyle": {
     "default": {
       "background": "separator-context",
       "thickness": 3

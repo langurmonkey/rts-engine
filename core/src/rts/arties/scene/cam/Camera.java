@@ -1,0 +1,236 @@
+package rts.arties.scene.cam;
+
+import rts.arties.datastructure.geom.Vector2;
+import rts.arties.scene.unit.PositionPhysicalEntity;
+import rts.arties.util.Vector2Pool;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+
+/**
+ * Handles the camera of the scene.
+ *
+ * @author Toni Sagrista
+ */
+public class Camera {
+    /**
+     * Camera velocity in pixels/second
+     */
+    private static final int MAX_CAM_VEL = 1900;
+    private static final int MAX_CAM_ACCEL = 5300;
+
+    /**
+     * The current map width
+     */
+    public float mapWidth;
+
+    /**
+     * The current map height
+     */
+    public float mapHeight;
+
+    /**
+     * The canvas (screen) width
+     */
+    public float canvasWidth;
+
+    /**
+     * The canvas (screen) height
+     */
+    public float canvasHeight;
+
+    /**
+     * The position of the camera, from the bottom-left corner of the canvas square. It points to the middle of the viewport
+     */
+    public Vector2 pos;
+
+    /**
+     * Current velocity of the camera
+     */
+    public Vector2 vel;
+
+    /**
+     * Camera acceleration
+     */
+    public Vector2 accel;
+
+    private final com.badlogic.gdx.graphics.Camera libgdxCamera;
+
+    public static Camera camera;
+
+    public static Camera getInstance() {
+        assert camera != null : "Camera not initialized";
+        return camera;
+    }
+
+    public static Camera initialize(OrthographicCamera ortocamera, float camX, float camY, float mapWidth,
+        float mapHeight, float canvasWidth, float canvasHeight) {
+        camera = new Camera(ortocamera, camX, camY, mapWidth, mapHeight, canvasWidth, canvasHeight);
+        return camera;
+    }
+
+    public Camera(OrthographicCamera camera, float camX, float camY, float mapWidth, float mapHeight,
+        float canvasWidth, float canvasHeight) {
+        super();
+        this.libgdxCamera = camera;
+        pos = Vector2Pool.getObject(camX, camY);
+
+        vel = Vector2Pool.getObject();
+
+        accel = Vector2Pool.getObject();
+
+        this.mapHeight = mapHeight;
+        this.mapWidth = mapWidth;
+
+        this.canvasHeight = canvasHeight;
+        this.canvasWidth = canvasWidth;
+
+    }
+
+    public void lookAt(Vector2 pos) {
+        this.pos.set(pos);
+    }
+
+    public void lookAt(float x, float y) {
+        pos.set(x, y);
+    }
+
+    public void update(float secs) {
+
+        // dv = da*dt
+        vel.add(accel.clone().multiply(secs));
+
+        // dx = dv*dt
+        pos.add(vel.clone().multiply(secs).truncate(MAX_CAM_VEL));
+
+        /**
+         * canvasWidth/2 <= x <= mapWidth - canvasWidth/2
+         * canvasHeight/2 <= y <= mapHeight - canvasHeight/2
+         */
+
+        // Boundary check, do not allow canvas to go outside map
+        if (pos.x > mapWidth - canvasWidth / 2) {
+            pos.x = mapWidth - canvasWidth / 2;
+            stopHorizontal();
+        }
+        if (pos.x < canvasWidth / 2) {
+            pos.x = canvasWidth / 2;
+            stopHorizontal();
+        }
+        if (pos.y > mapHeight - canvasHeight / 2) {
+            pos.y = mapHeight - canvasHeight / 2;
+            stopVertical();
+        }
+        if (pos.y < canvasHeight / 2) {
+            pos.y = canvasHeight / 2;
+            stopVertical();
+        }
+
+        // Update libgdx camera
+        libgdxCamera.position.set(pos.x, pos.y, 0);
+        // Tell the camera to update its matrices
+        libgdxCamera.update();
+    }
+
+    public void setAccel(Vector2 accel) {
+        this.accel.add(accel);
+        this.accel.truncate(MAX_CAM_ACCEL);
+    }
+
+    public void stop() {
+        this.vel.zero();
+        this.accel.zero();
+    }
+
+    /**
+     * Triggers movement of this camera to the right
+     */
+    public void right() {
+        vel.x = MAX_CAM_VEL;
+    }
+
+    public void right(float value) {
+        vel.x = value;
+    }
+
+    public void left() {
+        vel.x = -MAX_CAM_VEL;
+    }
+
+    public void left(float value) {
+        vel.x = -value;
+    }
+
+    /**
+     * Stops the horizontal movement of this camera
+     */
+    public void stopHorizontal() {
+        vel.x = 0;
+        accel.x = 0;
+    }
+
+    public void up() {
+        vel.y = MAX_CAM_VEL;
+    }
+
+    public void up(float value) {
+        vel.y = value;
+    }
+
+    public void down() {
+        vel.y = -MAX_CAM_VEL;
+    }
+
+    public void down(float value) {
+        vel.y = -value;
+    }
+
+    public void stopVertical() {
+        vel.y = 0;
+        accel.y = 0;
+    }
+
+    public com.badlogic.gdx.graphics.Camera getLibgdxCamera() {
+        return libgdxCamera;
+    }
+
+    /**
+     * Checks if the current camera position contains the given entity
+     *
+     * @param e
+     * @return
+     */
+    public boolean contains(PositionPhysicalEntity e) {
+        float w2 = canvasWidth / 2f + 60;
+        float h2 = canvasHeight / 2f + 60;
+        return e.pos.x >= pos.x - w2 && e.pos.x <= pos.x + w2 && e.pos.y >= pos.y - h2 && e.pos.y <= pos.y + h2;
+    }
+
+    /**
+     * Check if the current viewport contains this point
+     * @param x
+     * @param y
+     * @return
+     */
+    public boolean containsPoint(float x, float y, float size){
+        float w2 = canvasWidth / 2f + size;
+        float h2 = canvasHeight / 2f + size;
+        return x >= pos.x - w2 && x <= pos.x + w2 && y >= pos.y - h2 && y <= pos.y + h2;
+    }
+
+    @Override
+    public String toString() {
+        return "Camera " + pos;
+    }
+
+    public float getCameraDisplacementX() {
+        return pos.x - canvasWidth / 2f;
+    }
+
+    public float getCameraDisplacementY() {
+        return pos.y - canvasHeight / 2f;
+    }
+
+    public void resize(int width, int height) {
+        this.canvasWidth = width;
+        this.canvasHeight = height;
+    }
+}
