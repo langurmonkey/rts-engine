@@ -155,10 +155,6 @@ public abstract class PositionPhysicalEntity extends PositionEntity implements I
 
     public abstract void update(float deltaSecs);
 
-    protected void updateVisible() {
-        visible = RTSGame.game.isVisible(pos);
-    }
-
     /**
      * Renders the sprite
      */

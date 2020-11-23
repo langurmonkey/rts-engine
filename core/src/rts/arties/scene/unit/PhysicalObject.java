@@ -59,7 +59,6 @@ public class PhysicalObject extends PositionPhysicalEntity {
     @Override
     public void update(float deltaSecs) {
         // void
-        updateVisible();
     }
 
     @Override public void renderShapeFilledLayer0(ShapeRenderer sr) {
