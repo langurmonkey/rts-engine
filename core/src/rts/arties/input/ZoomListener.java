@@ -20,14 +20,14 @@ public class ZoomListener extends InputAdapter {
 
     @Override
     public boolean scrolled(float amountX, float amountY) {
-        float newZoom = camera.zoom + amountY * 0.1f;
         // Let's get the mouse location in world coordinates
-        camera.screenToWorld(newZoom, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), aux);
+        camera.screenToWorld(camera.zoom, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), aux);
+        aux.sub(camera.pos);
 
-        // Vector from camera centre to mouse location
-        aux.sub(camera.pos).scl(0);
-
-        camera.zoom(amountY * 0.1f, aux.x,  aux.y);
+        float amount = camera.zoom;
+        camera.zoom(amountY * 0.05f);
+        amount /= camera.zoom;
+        camera.pos.sub(aux).add(aux.scl(amount));
         return super.scrolled(amountX, amountY);
     }
 

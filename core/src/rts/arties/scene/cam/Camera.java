@@ -137,12 +137,8 @@ public class Camera {
         orthoCamera.update();
     }
 
-    public void zoom(float zoomAddition, float dx, float dy) {
-        float newZoom = MathUtils.clamp(zoom + zoomAddition, MIN_ZOOM, MAX_ZOOM);
-        if (newZoom != zoom) {
-            zoom = newZoom;
-            pos.add(dx, dy);
-        }
+    public void zoom(float zoomAddition) {
+        zoom = MathUtils.clamp(zoom + zoomAddition, MIN_ZOOM, MAX_ZOOM);
     }
 
     /**
