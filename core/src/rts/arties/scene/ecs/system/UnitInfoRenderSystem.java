@@ -66,9 +66,9 @@ public class UnitInfoRenderSystem extends EntitySystem {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         // Render shape renderer layers
         // Layer 0 - filled
-        sr.begin(ShapeType.Filled);
-        entities.forEach(e -> renderShapeFilledLayer0(e));
-        sr.end();
+        //sr.begin(ShapeType.Filled);
+        //entities.forEach(e -> renderShapeFilledLayer0(e));
+        //sr.end();
         // Layer 1 - line
         sr.begin(ShapeType.Line);
         entities.forEach(e -> renderShapeLineLayer1(e));
@@ -78,9 +78,9 @@ public class UnitInfoRenderSystem extends EntitySystem {
         entities.forEach(e -> renderShapeFilledLayer2(e));
         sr.end();
         // Layer 3 - line
-        sr.begin(ShapeType.Line);
-        entities.forEach(e -> renderShapeLineLayer3(e));
-        sr.end();
+        //sr.begin(ShapeType.Line);
+        //entities.forEach(e -> renderShapeLineLayer3(e));
+        //sr.end();
     }
 
     /**
@@ -146,21 +146,17 @@ public class UnitInfoRenderSystem extends EntitySystem {
             plc.healthBarStartY = Math.round(pc.pos.y - plc.selectionRadius + rbs.spriteOffsetY);
             plc.healthBarLength = getHealthLength(plc.selectionRadius * 2f, hc);
 
+            // Health bar outline
             sr.setColor(ColorUtils.blackC);
-            sr.rect(plc.healthBarStartX - 2f, plc.healthBarStartY - 1f, 3f, plc.selectionRadius * 2f + 1f);
+            sr.rect(plc.healthBarStartX - 3f, plc.healthBarStartY - 1f, 5f, plc.selectionRadius * 2f + 1f);
+
+            // Health bar
+            float[] color = getHealthColor(hc);
+            sr.setColor(new Color(color[0], color[1], color[2], 1f));
+            sr.rect(plc.healthBarStartX - 2f, plc.healthBarStartY, 3f, plc.healthBarLength - 1f);
         }
     }
 
     private void renderShapeLineLayer3(Entity e) {
-        PlayerComponent plc = Mapper.player.get(e);
-        RenderableBaseComponent rbs = Mapper.rbase.get(e);
-        // We may not have a health component
-        HealthComponent hc = Mapper.health.get(e);
-        if (plc.selected && hc != null) {
-            // Health outline
-            float[] color = getHealthColor(hc);
-            sr.setColor(new Color(color[0], color[1], color[2], 1f));
-            sr.line(plc.healthBarStartX, plc.healthBarStartY, plc.healthBarStartX, plc.healthBarStartY + plc.healthBarLength - 1f);
-        }
     }
 }

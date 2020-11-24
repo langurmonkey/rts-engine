@@ -272,7 +272,7 @@ public class RTSGame implements ApplicationListener {
 
         // Update systems
         uus = new UnitUpdateSystem(movementFamily, 1);
-        ous = new ObjectUpdateSystem(objectFamily, 0.2f, 2);
+        ous = new ObjectUpdateSystem(objectFamily, 1.0f, 2);
 
         // Render systems
         mbrs = new MapBaseRenderSystem(mapFamily, 100, mapShader, playerFamily);

@@ -54,6 +54,7 @@ public class TankHelper {
         // Shadow
         RenderableShadowComponent rsc = engine.createComponent(RenderableShadowComponent.class);
         rsc.shadowOffsetY = 25f;
+        rsc.shadowFlipY = false;
         // Map
         MapComponent mpc = engine.createComponent(MapComponent.class);
         mpc.map = map;

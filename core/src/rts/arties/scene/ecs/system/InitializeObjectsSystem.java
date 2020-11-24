@@ -17,6 +17,5 @@ public class InitializeObjectsSystem extends IteratingSystem {
         MapComponent mpc = Mapper.map.get(entity);
         BodyComponent bc = Mapper.body.get(entity);
         mpc.map.updateEntity(bc.me);
-
     }
 }
