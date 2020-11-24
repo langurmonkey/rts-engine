@@ -46,9 +46,9 @@ public class UnitInfoRenderSystem extends EntitySystem {
         color3 = ColorUtils.gRed;
 
         // Additional colors
-        sbColor0 = new Color(0f, 0f, 0f, .9f);
-        sbColor1 = new Color(1f, 1f, 1f, .8f);
-        sbColor2 = new Color(1f, 1f, 1f, .5f);
+        sbColor0 = new Color(0f, 1f, 0f, 1f);
+        sbColor1 = new Color(1f, 1f, 1f, .6f);
+        sbColor2 = new Color(1f, 1f, 1f, .3f);
     }
 
     @Override
@@ -126,11 +126,7 @@ public class UnitInfoRenderSystem extends EntitySystem {
         if (plc.selected) {
             // Selection box
             sr.setColor(sbColor0);
-            sr.circle(pc.pos.x + rbs.spriteOffsetX, pc.pos.y + rbs.spriteOffsetY, plc.selectionRadius + 1);
-            sr.setColor(sbColor1);
-            sr.circle(pc.pos.x + rbs.spriteOffsetX, pc.pos.y + rbs.spriteOffsetY, plc.selectionRadius);
-            sr.setColor(sbColor2);
-            sr.circle(pc.pos.x + rbs.spriteOffsetX, pc.pos.y + rbs.spriteOffsetY, plc.selectionRadius - 1);
+            sr.circle(pc.pos.x + rbs.spriteOffsetX, pc.pos.y + rbs.spriteOffsetY, plc.selectionRadius + 1f);
         }
     }
 
@@ -142,12 +138,12 @@ public class UnitInfoRenderSystem extends EntitySystem {
         HealthComponent hc = Mapper.health.get(e);
         if (plc.selected && hc != null) {
             // Health bar
-            plc.healthBarStartX = Math.round(pc.pos.x - plc.selectionRadius + rbs.spriteOffsetX);
-            plc.healthBarStartY = Math.round(pc.pos.y - plc.selectionRadius + rbs.spriteOffsetY);
+            plc.healthBarStartX = pc.pos.x - plc.selectionRadius + rbs.spriteOffsetX;
+            plc.healthBarStartY = pc.pos.y - plc.selectionRadius + rbs.spriteOffsetY;
             plc.healthBarLength = getHealthLength(plc.selectionRadius * 2f, hc);
 
             // Health bar outline
-            sr.setColor(ColorUtils.blackC);
+            sr.setColor(ColorUtils.gWhiteC);
             sr.rect(plc.healthBarStartX - 3f, plc.healthBarStartY - 1f, 5f, plc.selectionRadius * 2f + 1f);
 
             // Health bar

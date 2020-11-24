@@ -27,6 +27,7 @@ import rts.arties.datastructure.geom.Vector3;
 import rts.arties.input.KeyboardListener;
 import rts.arties.input.PanListener;
 import rts.arties.input.SelectionListener;
+import rts.arties.input.ZoomListener;
 import rts.arties.scene.cam.Camera;
 import rts.arties.scene.ecs.EntityPositionComparator;
 import rts.arties.scene.ecs.Mapper;
@@ -64,8 +65,6 @@ public class RTSGame implements ApplicationListener {
         return assets;
     }
 
-    public OrthographicCamera orthoCamera;
-
     // Debug mode
     private static boolean debugInfo = false;
     // System information like FPS, etc.
@@ -100,13 +99,14 @@ public class RTSGame implements ApplicationListener {
     private IRTSMap map;
     private Engine engine;
     public Selection selection;
+    private float zoom = 1;
 
     private long startTime;
 
     /**
      * Sprite batch
      */
-    private SpriteBatch spriteBatch;
+    public SpriteBatch spriteBatch;
     /**
      * This is the global shape renderer used to render objects in the camera reference system
      */
@@ -121,7 +121,9 @@ public class RTSGame implements ApplicationListener {
     private Stage stage;
     private OwnLabel fps;
 
+    private KeyboardListener keyboardListener;
     private PanListener panListener;
+    private ZoomListener zoomListener;
 
     /**
      * Families
@@ -173,9 +175,6 @@ public class RTSGame implements ApplicationListener {
         Vector2Pool.initialize(100);
         Vector3Pool.initialize(5000);
 
-        orthoCamera = new OrthographicCamera(w, h);
-        orthoCamera.setToOrtho(false, w, h);
-        orthoCamera.zoom = 1f;
         initShaders();
         spriteBatch = new SpriteBatch(5000, objectsShader);
 
@@ -190,18 +189,22 @@ public class RTSGame implements ApplicationListener {
         stage = new Stage();
         multiplexer.addProcessor(stage);
 
+        // Initialize camera
+        camera = Camera.initialize(w / 2, h / 2, map.getWidth(), map.getHeight(), w, h);
+
         // Manage selection
         selection = new Selection(this);
-        SelectionListener selectionListener = new SelectionListener(selection);
+        SelectionListener selectionListener = new SelectionListener(camera, selection);
         multiplexer.addProcessor(selectionListener);
 
-        // Manage camera pan
-        camera = Camera.initialize(orthoCamera, w / 2, h / 2, map.getWidth(), map.getHeight(), w, h);
+        // Manage camera pan/zoom
         panListener = new PanListener(camera, selection);
+        zoomListener = new ZoomListener(camera);
         multiplexer.addProcessor(panListener);
+        multiplexer.addProcessor(zoomListener);
 
         // Keyboard input
-        KeyboardListener keyboardListener = new KeyboardListener();
+        keyboardListener = new KeyboardListener();
         multiplexer.addProcessor(keyboardListener);
 
         Gdx.input.setInputProcessor(multiplexer);
@@ -230,19 +233,68 @@ public class RTSGame implements ApplicationListener {
         mc.map = map;
         mapEntity.add(mc);
 
-
-        // Entities
-        Entity tank10 = TankHelper.create(engine, map, 330f, 210f, 100f);
-        Entity tank11 = TankHelper.create(engine, map, 340f, 220f, 30f);
-        Entity gooner10 = GunnerHelper.create(engine, map, 240f, 120f, 30f);
-        Entity gooner11 = GunnerHelper.create(engine, map, 270f, 120f, 30f);
-
-        // Add to engine
+        // Add entities to engine
         engine.addEntity(mapEntity);
-        engine.addEntity(tank10);
-        engine.addEntity(tank11);
-        engine.addEntity(gooner10);
-        engine.addEntity(gooner11);
+        engine.addEntity(TankHelper.create(engine, map, 300f, 220f, 100f));
+        engine.addEntity(TankHelper.create(engine, map, 250f, 220f, 100f));
+        engine.addEntity(TankHelper.create(engine, map, 200f, 220f, 100f));
+        engine.addEntity(TankHelper.create(engine, map, 150f, 220f, 100f));
+        engine.addEntity(TankHelper.create(engine, map, 100f, 220f, 100f));
+        engine.addEntity(TankHelper.create(engine, map, 50f, 220f, 20f));
+        engine.addEntity(GunnerHelper.create(engine, map, 280f, 120f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 250f, 120f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 220f, 120f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 190f, 120f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 160f, 120f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 130f, 120f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 100f, 120f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 70f, 120f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 40f, 120f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 280f, 100f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 250f, 100f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 220f, 100f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 190f, 100f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 160f, 100f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 130f, 100f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 100f, 100f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 70f, 100f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 40f, 100f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 280f, 400f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 250f, 400f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 220f, 400f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 190f, 400f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 160f, 400f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 130f, 400f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 100f, 400f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 70f, 400f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 40f, 400f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 280f, 450f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 250f, 450f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 220f, 450f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 190f, 450f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 160f, 450f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 130f, 450f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 100f, 450f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 70f, 450f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 40f, 450f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 280f, 500f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 250f, 500f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 220f, 500f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 190f, 500f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 160f, 500f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 130f, 500f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 100f, 500f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 70f, 500f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 40f, 500f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 280f, 550f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 250f, 550f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 220f, 550f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 190f, 550f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 160f, 550f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 130f, 550f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 100f, 550f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 70f, 550f, 30f));
+        engine.addEntity(GunnerHelper.create(engine, map, 40f, 550f, 30f));
 
         // Map objects
         MapObjects mos = map.getMapObjects();
@@ -272,10 +324,10 @@ public class RTSGame implements ApplicationListener {
 
         // Update systems
         uus = new UnitUpdateSystem(movementFamily, 1);
-        ous = new ObjectUpdateSystem(objectFamily, 1.0f, 2);
+        ous = new ObjectUpdateSystem(objectFamily, 0.5f, 2);
 
         // Render systems
-        mbrs = new MapBaseRenderSystem(mapFamily, 100, mapShader, playerFamily);
+        mbrs = new MapBaseRenderSystem(mapFamily, 100, camera, mapShader, playerFamily);
         brs = new BaseRenderSystem(renderableFamily, new EntityPositionComparator(), 110, spriteBatch, objectsShader);
         uirs = new UnitInfoRenderSystem(playerFamily, 120, cameraShapeRenderer, spriteBatch);
         mors = new MapOverlaysRenderSystem(mapFamily, 130, cameraShapeRenderer, spriteBatch);
@@ -371,8 +423,8 @@ public class RTSGame implements ApplicationListener {
         } else if (status == AppStatus.READY) {
             assets.update();
 
-            spriteBatch.setProjectionMatrix(orthoCamera.combined);
-            cameraShapeRenderer.setProjectionMatrix(orthoCamera.combined);
+            spriteBatch.setProjectionMatrix(camera.combined());
+            cameraShapeRenderer.setProjectionMatrix(camera.combined());
 
             if (!paused) {
                 // Update camera position
@@ -386,6 +438,8 @@ public class RTSGame implements ApplicationListener {
                 // Enable blending
                 Gdx.gl.glEnable(GL20.GL_BLEND);
                 Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+                // Lines to scale with zoom
+                Gdx.gl.glLineWidth(1f / camera.zoom);
 
                 // Update engine to update and render scene
                 engine.update(deltaSecs);
@@ -410,10 +464,9 @@ public class RTSGame implements ApplicationListener {
         mapShader.bind();
         mapShader.setUniformf("u_viewport_size", width, height);
 
-        orthoCamera.setToOrtho(false, width, height);
         camera.resize(width, height);
 
-        screenShapeRenderer.setProjectionMatrix(orthoCamera.combined);
+        screenShapeRenderer.setProjectionMatrix(camera.combined());
 
         panListener.resize(width, height);
     }
@@ -429,6 +482,10 @@ public class RTSGame implements ApplicationListener {
         logger.info("Resume called");
 
         paused = false;
+    }
+
+    public Camera camera() {
+        return camera;
     }
 
     public IRTSMap getMap() {
@@ -548,10 +605,6 @@ public class RTSGame implements ApplicationListener {
 
     public static Camera getCamera() {
         return game.camera;
-    }
-
-    public static OrthographicCamera getGdxCamera() {
-        return game.orthoCamera;
     }
 
 }

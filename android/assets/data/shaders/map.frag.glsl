@@ -8,7 +8,7 @@ precision mediump float;
 
 #define SMOOTH_DOWN 0.6
 #define SMOOTH_UP 1.0
-#define MAX_LIGHTS 100
+#define MAX_LIGHTS 200
 
 varying LOWP vec4 v_color;
 varying vec4 v_position;
@@ -16,7 +16,6 @@ varying vec2 v_texCoords;
 
 uniform sampler2D u_texture;
 uniform vec2 u_viewport_size;
-uniform vec2 u_camera_offset;
 
 // Vectors with x, y, radius for all the entities
 uniform int u_light_count;
@@ -33,7 +32,7 @@ void main() {
         float radius = light.z;
 
         // Determine camera position offset vector. Starts at (0,0)
-        vec2 lpos = light.xy - u_camera_offset;
+        vec2 lpos = light.xy;
         float dist = distance(gl_FragCoord.xy, lpos);
 
         if (dist <= radius * SMOOTH_DOWN){

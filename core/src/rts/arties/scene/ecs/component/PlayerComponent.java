@@ -9,6 +9,6 @@ public class PlayerComponent implements Component {
     // Radius of the selection circle
     public float selectionRadius;
 
-    public int healthBarStartX, healthBarStartY;
+    public float healthBarStartX, healthBarStartY;
     public float healthBarLength;
 }

@@ -1,4 +1,5 @@
-package arties;
+package arties        orthoCamera.zoom += zoomAddition;
+;
 
 import android.os.Bundle;
 

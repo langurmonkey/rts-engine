@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Rectangle;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.scene.ecs.Mapper;
+import rts.arties.scene.ecs.component.HealthComponent;
 import rts.arties.scene.ecs.component.PlayerComponent;
 import rts.arties.scene.map.IRTSMap;
 import rts.arties.scene.unit.group.UnitGroup;
@@ -52,6 +53,12 @@ public class DefaultEntity implements IEntity {
     @Override
     public float weight() {
         return Mapper.body.get(entity).weight;
+    }
+
+    @Override
+    public boolean isDead() {
+        HealthComponent hc = Mapper.health.get(entity);
+        return hc != null && hc.hp <= 0;
     }
 
     @Override

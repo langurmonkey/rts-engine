@@ -41,14 +41,14 @@ public class UnitGroup implements IGroup, List<IEntity> {
 
     public void render(ShapeRenderer renderer) {
         if (!pos.isZero() && group.size() > 1) {
-            // Render center
-            renderer.setColor(0f, .3f, 1f, 1f);
-            renderer.circle(pos.x, pos.y, 3);
             // Render lines to all units
-            renderer.setColor(0f, 1f, .3f, 1f);
+            renderer.setColor(0f, 1f, .3f, .4f);
             for (IEntity unit : group) {
                 renderer.line(pos.x, pos.y, unit.pos().x, unit.pos().y);
             }
+            // Render center
+            renderer.setColor(0f, .3f, 1f, .8f);
+            renderer.circle(pos.x, pos.y, 3);
         }
     }
 

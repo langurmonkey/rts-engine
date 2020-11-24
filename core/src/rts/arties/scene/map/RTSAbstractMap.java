@@ -66,7 +66,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
     protected int renderTileWidth, renderTileHeight;
 
     public RTSAbstractMap(RTSGame game, String tiledMapPath) {
-        this(game, tiledMapPath, true);
+        this(game, tiledMapPath, false);
     }
 
     public RTSAbstractMap(RTSGame game, String tiledMapPath, boolean useFogOfWar) {
@@ -98,7 +98,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
         // Initialize map renderer
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, mapBatch);
 
-        initializeMapGenAndRenderer();
+        initializeMapGenAndRenderer(game.camera(), game.cameraShapeRenderer, game.spriteBatch);
 
         // And now let's initialize the quadtree
         map = mapGen.generateMap(tiledMap);
@@ -146,7 +146,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
         return res;
     }
 
-    protected abstract void initializeMapGenAndRenderer();
+    protected abstract void initializeMapGenAndRenderer(Camera camera, ShapeRenderer sr, SpriteBatch sb);
 
     public int getWidth() {
         return firstLayer.getWidth() * firstLayer.getTileWidth();
@@ -183,14 +183,14 @@ public abstract class RTSAbstractMap implements IRTSMap {
     @Override
     public void renderBase(Camera camera) {
         // Check camera and canvas
-        mapRenderer.setView((OrthographicCamera) camera.getLibgdxCamera());
+        mapRenderer.setView((OrthographicCamera) camera.getOrthoCamera());
         mapRenderer.render(baseIndices);
     }
 
     @Override
     public void renderOverlays(Camera camera) {
         // Check camera and canvas
-        mapRenderer.setView((OrthographicCamera) camera.getLibgdxCamera());
+        mapRenderer.setView((OrthographicCamera) camera.getOrthoCamera());
         mapRenderer.render(overlayIndices);
     }
 

@@ -3,6 +3,8 @@ package rts.arties.scene.ecs.system;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import rts.arties.RTSGame;
@@ -29,6 +31,7 @@ public class MapOverlaysRenderSystem extends IteratingSystem {
         mc.map.renderOverlays(camera);
         mc.map.renderFogOfWar(camera, sr, sb);
 
+        Gdx.gl.glEnable(GL20.GL_BLEND);
         UnitGroupManager.getInstance().render();
     }
 }

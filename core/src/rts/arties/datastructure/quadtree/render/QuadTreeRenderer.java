@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import rts.arties.scene.cam.Camera;
 
 /**
  * A renderer for a {@link QuadTree}. It renders the cell borders, the position of each node and the number of objects.
@@ -22,11 +23,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
  */
 public class QuadTreeRenderer implements IMapRenderer {
 
-    BitmapFont font9;
-    ShapeRenderer shapeRenderer;
-    SpriteBatch fontBatch;
+    private BitmapFont font9;
+    private Camera camera;
+    private ShapeRenderer shapeRenderer;
+    private SpriteBatch spriteBatch;
 
-    public QuadTreeRenderer() {
+    public QuadTreeRenderer(Camera camera, ShapeRenderer sr, SpriteBatch sb) {
 
         // load font from a .ttf file
         try {
@@ -36,8 +38,9 @@ public class QuadTreeRenderer implements IMapRenderer {
             font9 = generator.generateFont(fp);
             generator.dispose();
 
-            shapeRenderer = RTSGame.game.cameraShapeRenderer;
-            fontBatch = new SpriteBatch();
+            this.camera = camera;
+            this.shapeRenderer = sr;
+            this.spriteBatch = sb;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,7 +49,6 @@ public class QuadTreeRenderer implements IMapRenderer {
 
     public void drawMap(IMap t) {
         QuadTree tree = (QuadTree) t;
-        fontBatch.setProjectionMatrix(RTSGame.game.orthoCamera.combined);
         drawNode(tree.root);
     }
 
@@ -92,21 +94,20 @@ public class QuadTreeRenderer implements IMapRenderer {
     public void drawNodeText(QuadNode node) {
         if (node.isLeaf()) {
             // Render coordinates and adjacent nodes
-            fontBatch.begin();
+            spriteBatch.begin();
             font9.setColor(1f, 1f, 1f, 1f);
-            font9.draw(fontBatch, "(" + node.x + "," + node.y + ")", node.x - 30f, node.y - 10);
+            font9.draw(spriteBatch, "(" + node.x + "," + node.y + ")", node.x - 30f, node.y - 10);
 
             font9.setColor(0f, .5f, .8f, 1f);
-            font9.draw(fontBatch, node.adjacentNodes.size() + "", node.x - 5f, node.y);
+            font9.draw(spriteBatch, node.adjacentNodes.size() + "", node.x - 5f, node.y);
 
             if (node.hasObjects()) {
                 // Render number of objects
                 font9.setColor(.3f, .3f, .3f, 1f);
-                font9.draw(fontBatch, node.objects.size() + "", node.bounds.getX() + 2f, node.bounds.getY() + 10f);
+                font9.draw(spriteBatch, node.objects.size() + "", node.bounds.getX() + 2f, node.bounds.getY() + 10f);
 
             }
-            fontBatch.flush();
-            fontBatch.end();
+            spriteBatch.end();
         }
     }
 

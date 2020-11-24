@@ -1,6 +1,5 @@
 package rts.arties.scene.unit.state;
 
-import rts.arties.scene.unit.PositionPhysicalEntity;
 import rts.arties.scene.unit.steeringbehaviour.IEntity;
 
 /**
@@ -10,9 +9,9 @@ import rts.arties.scene.unit.steeringbehaviour.IEntity;
  */
 public class StateAttack extends AbstractState {
 
-    private final PositionPhysicalEntity target;
+    private final IEntity target;
 
-    public StateAttack(IEntity unit, PositionPhysicalEntity target) {
+    public StateAttack(IEntity unit, IEntity target) {
         super(unit);
         this.target = target;
     }

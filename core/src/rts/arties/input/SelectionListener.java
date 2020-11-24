@@ -1,10 +1,11 @@
 package rts.arties.input;
 
-import rts.arties.RTSGame;
-import rts.arties.scene.selection.Selection;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputAdapter;
+import rts.arties.datastructure.geom.Vector2;
+import rts.arties.scene.cam.Camera;
+import rts.arties.scene.selection.Selection;
 
 /**
  * Manages the selection events of the mouse.
@@ -14,18 +15,22 @@ import com.badlogic.gdx.InputAdapter;
 public class SelectionListener extends InputAdapter {
 
     private final Selection selection;
+    private final Camera camera;
+    private Vector2 aux;
     boolean leftDown;
 
-    public SelectionListener(Selection selection) {
+    public SelectionListener(Camera camera,Selection selection) {
         super();
         this.selection = selection;
+        this.camera = camera;
+        this.aux = new Vector2();
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == Buttons.LEFT) {
             leftDown = true;
-            screenY = Gdx.graphics.getHeight() - screenY;
+            screenY = (int) (camera.canvasHeight - screenY);
             selection.start.set(screenX, screenY);
             selection.end.set(screenX, screenY);
         }
@@ -36,14 +41,14 @@ public class SelectionListener extends InputAdapter {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (button == Buttons.LEFT) {
             leftDown = false;
-            screenY = Gdx.graphics.getHeight() - screenY;
-            int mapX = (int) (screenX + RTSGame.getCamera().pos.x - RTSGame.getCamera().canvasWidth / 2);
-            int mapY = (int) (screenY + RTSGame.getCamera().pos.y - RTSGame.getCamera().canvasHeight / 2);
+            screenY = (int) (camera.canvasHeight - screenY);
+            camera.screenToWorld(screenX, screenY, aux);
+
             if (selection.active && selection.start.x != screenX && selection.start.y != screenY) {
                 selection.select();
                 selection.active = false;
             } else {
-                selection.selectOrMove(mapX, mapY);
+                selection.selectOrMove(aux.x, aux.y);
                 selection.active = false;
             }
             return true;

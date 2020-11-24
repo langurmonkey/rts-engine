@@ -1,8 +1,11 @@
 package rts.arties.scene.map;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import rts.arties.RTSGame;
 import rts.arties.datastructure.mapgen.quadmap.QuadMapGen;
 import rts.arties.datastructure.quadtree.render.QuadTreeRenderer;
+import rts.arties.scene.cam.Camera;
 
 /**
  * Materialization of an {@link IRTSMap} as a grid map.
@@ -16,10 +19,10 @@ public class RTSQuadTreeTiledMap extends RTSAbstractMap {
     }
 
     @Override
-    protected void initializeMapGenAndRenderer() {
+    protected void initializeMapGenAndRenderer(Camera camera, ShapeRenderer sr, SpriteBatch sb) {
         mapGen = new QuadMapGen<>();
         // Initialize map renderer for debug
-        rtsMapRenderer = new QuadTreeRenderer();
+        rtsMapRenderer = new QuadTreeRenderer(camera, sr, sb);
     }
 
 }

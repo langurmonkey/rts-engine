@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.scene.map.IRTSMap;
-import rts.arties.scene.unit.Unit;
 import rts.arties.scene.unit.group.UnitGroup;
 import rts.arties.util.Vector3Pool;
 
@@ -110,7 +109,7 @@ public class SteeringBehaviours {
         sbMap.put(BehaviourClass.M_SEPARATION, new BehaviourSeparation(unit));
     }
 
-    public void addPursuit(Unit evader) {
+    public void addPursuit(IEntity evader) {
         sbMap.remove(BehaviourClass.M_PURSUIT);
         sbMap.put(BehaviourClass.M_PURSUIT, new BehaviourPursuit(unit, evader));
     }

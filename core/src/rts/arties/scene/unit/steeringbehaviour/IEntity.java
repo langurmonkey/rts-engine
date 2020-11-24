@@ -31,4 +31,5 @@ public interface IEntity {
     void unselect();
     SteeringBehaviours steeringBehaviours();
     float weight();
+    boolean isDead();
 }

@@ -7,13 +7,13 @@ import rts.arties.datastructure.grid.GridCell;
 import rts.arties.datastructure.grid.GridMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import rts.arties.scene.cam.Camera;
 
 /**
  * Renderer for grid maps.
@@ -22,12 +22,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
  */
 public class GridMapRenderer implements IMapRenderer {
 
-    BitmapFont font9;
-    ShapeRenderer shapeRenderer;
-    SpriteBatch fontBatch;
+    private BitmapFont font9;
+    private Camera camera;
+    private ShapeRenderer shapeRenderer;
+    private SpriteBatch spriteBatch;
     private Color colBlocked, colHasobjs, colLine;
 
-    public GridMapRenderer() {
+    public GridMapRenderer(Camera camera, ShapeRenderer sr, SpriteBatch sb) {
 
         colBlocked = new Color(0f, 0f, 1f, .4f);
         colHasobjs = new Color(1f, 1f, 0f, .2f);
@@ -41,8 +42,9 @@ public class GridMapRenderer implements IMapRenderer {
             font9 = generator.generateFont(fp);
             generator.dispose();
 
-            shapeRenderer = RTSGame.game.cameraShapeRenderer;
-            fontBatch = new SpriteBatch();
+            this.camera = camera;
+            this.shapeRenderer = sr;
+            this.spriteBatch = sb;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,8 +100,7 @@ public class GridMapRenderer implements IMapRenderer {
     }
 
     public void drawCellsText(GridMap map) {
-        fontBatch.setProjectionMatrix(RTSGame.game.orthoCamera.combined);
-        fontBatch.begin();
+        spriteBatch.begin();
         font9.setColor(1f, .3f, .3f, 1f);
         for (int i = 0; i < map.columns; i++) {
             for (int j = 0; j < map.rows; j++) {
@@ -107,15 +108,15 @@ public class GridMapRenderer implements IMapRenderer {
                 if (cell.hasObjects()) {
                     // Render number of objects
                     font9.setColor(.3f, .3f, .3f, 1f);
-                    font9.draw(fontBatch, Integer.toString(cell.objects.size()), cell.bounds.getX() + 2f, cell.bounds.getY() + 10f);
+                    font9.draw(spriteBatch, Integer.toString(cell.objects.size()), cell.bounds.getX() + 2f, cell.bounds.getY() + 10f);
                     font9.setColor(1f, .3f, .3f, 1f);
                 }
                 if (cell.z > 0)
-                    font9.draw(fontBatch, Integer.toString((int) cell.z), cell.bounds.getX() + 2f, cell.bounds.getY() + 20f);
+                    font9.draw(spriteBatch, Integer.toString((int) cell.z), cell.bounds.getX() + 2f, cell.bounds.getY() + 20f);
             }
         }
-        fontBatch.flush();
-        fontBatch.end();
+        spriteBatch.flush();
+        spriteBatch.end();
     }
 
 }

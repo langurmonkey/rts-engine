@@ -1,9 +1,9 @@
 package rts.arties.scene.cam;
 
-import rts.arties.datastructure.geom.Vector2;
-import rts.arties.scene.unit.PositionPhysicalEntity;
-import rts.arties.util.Vector2Pool;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Matrix4;
+import rts.arties.datastructure.geom.Vector2;
 
 /**
  * Handles the camera of the scene.
@@ -38,7 +38,7 @@ public class Camera {
     public float canvasHeight;
 
     /**
-     * The position of the camera, from the bottom-left corner of the canvas square. It points to the middle of the viewport
+     * The position of the middle of the viewport  of the camera, from the bottom-left corner of the canvas square
      */
     public Vector2 pos;
 
@@ -52,37 +52,40 @@ public class Camera {
      */
     public Vector2 accel;
 
-    private final com.badlogic.gdx.graphics.Camera libgdxCamera;
+    /**
+     * The zoom level
+     */
+    public float zoom = 1;
 
+    private final OrthographicCamera orthoCamera;
     public static Camera camera;
+
+    private Vector2 aux;
 
     public static Camera getInstance() {
         assert camera != null : "Camera not initialized";
         return camera;
     }
 
-    public static Camera initialize(OrthographicCamera ortocamera, float camX, float camY, float mapWidth,
-        float mapHeight, float canvasWidth, float canvasHeight) {
-        camera = new Camera(ortocamera, camX, camY, mapWidth, mapHeight, canvasWidth, canvasHeight);
+    public static Camera initialize(float camX, float camY, float mapWidth, float mapHeight, float canvasWidth, float canvasHeight) {
+        OrthographicCamera orthoCamera = new OrthographicCamera(canvasWidth, canvasHeight);
+        camera = new Camera(orthoCamera, camX, camY, mapWidth, mapHeight, canvasWidth, canvasHeight);
         return camera;
     }
 
-    public Camera(OrthographicCamera camera, float camX, float camY, float mapWidth, float mapHeight,
-        float canvasWidth, float canvasHeight) {
+    public Camera(OrthographicCamera camera, float camX, float camY, float mapWidth, float mapHeight, float canvasWidth, float canvasHeight) {
         super();
-        this.libgdxCamera = camera;
-        pos = Vector2Pool.getObject(camX, camY);
-
-        vel = Vector2Pool.getObject();
-
-        accel = Vector2Pool.getObject();
+        this.orthoCamera = camera;
+        pos = new Vector2(camX, camY);
+        vel = new Vector2();
+        accel = new Vector2();
+        aux = new Vector2();
 
         this.mapHeight = mapHeight;
         this.mapWidth = mapWidth;
 
         this.canvasHeight = canvasHeight;
         this.canvasWidth = canvasWidth;
-
     }
 
     public void lookAt(Vector2 pos) {
@@ -99,7 +102,7 @@ public class Camera {
         vel.add(accel.clone().multiply(secs));
 
         // dx = dv*dt
-        pos.add(vel.clone().multiply(secs).truncate(MAX_CAM_VEL));
+        pos.add(vel.clone().multiply(secs).truncate(MAX_CAM_VEL * zoom));
 
         /**
          * canvasWidth/2 <= x <= mapWidth - canvasWidth/2
@@ -107,27 +110,68 @@ public class Camera {
          */
 
         // Boundary check, do not allow canvas to go outside map
-        if (pos.x > mapWidth - canvasWidth / 2) {
-            pos.x = mapWidth - canvasWidth / 2;
+        if (pos.x > mapWidth - canvasWidth * zoom / 2f) {
+            pos.x = mapWidth - canvasWidth * zoom / 2f;
             stopHorizontal();
         }
-        if (pos.x < canvasWidth / 2) {
-            pos.x = canvasWidth / 2;
+        if (pos.x < canvasWidth * zoom / 2f) {
+            pos.x = canvasWidth * zoom / 2f;
             stopHorizontal();
         }
-        if (pos.y > mapHeight - canvasHeight / 2) {
-            pos.y = mapHeight - canvasHeight / 2;
+        if (pos.y > mapHeight - canvasHeight * zoom / 2f) {
+            pos.y = mapHeight - canvasHeight * zoom / 2f;
             stopVertical();
         }
-        if (pos.y < canvasHeight / 2) {
-            pos.y = canvasHeight / 2;
+        if (pos.y < canvasHeight * zoom / 2f) {
+            pos.y = canvasHeight * zoom / 2f;
             stopVertical();
         }
 
         // Update libgdx camera
-        libgdxCamera.position.set(pos.x, pos.y, 0);
+        orthoCamera.position.set(pos.x, pos.y, 0);
+        orthoCamera.zoom = zoom;
         // Tell the camera to update its matrices
-        libgdxCamera.update();
+        orthoCamera.update();
+    }
+
+    public void zoom(float zoomAddition, float x, float y) {
+        float newZoom = MathUtils.clamp(zoom + zoomAddition, 0.5f, 2.5f);
+        if (newZoom != zoom) {
+            zoom = newZoom;
+            pos.set(x, y);
+        }
+    }
+
+    /**
+     * Convert from screen coordinates (pixels from canvas bottom-left) to world coordinates (pixels from map bottom-left)
+     *
+     * @param screenX x screen coordinate
+     * @param screenY y screen coordinate
+     * @param out     Vector for the result
+     * @return The resulting world coordinates
+     */
+    public Vector2 screenToWorld(float screenX, float screenY, Vector2 out) {
+        // Coordinates accounting for zoom
+        float zX = screenX * zoom;
+        float zY = screenY * zoom;
+
+        // Position of bottom-left corner of canvas (our view)
+        float canvasX = pos.x - canvasWidth * zoom / 2f;
+        float canvasY = pos.y - canvasHeight * zoom / 2f;
+
+        return out.set(canvasX + zX, canvasY + zY);
+    }
+
+    /**
+     * Convert from world coordinates (pixels from map bottom-left) to screen coordinates (pixels from canvas bottom-left)
+     *
+     * @param worldX x world coordinate
+     * @param worldY y world coordinate
+     * @param out    Vector for the result
+     * @return The resulting screen coordinates
+     */
+    public Vector2 worldToScreen(float worldX, float worldY, Vector2 out) {
+        return out.set((2f * worldX - 2f * pos.x + canvasWidth * zoom) / (2f * zoom), (2f * worldY - 2f * pos.y + canvasHeight * zoom) / (2f * zoom));
     }
 
     public void setAccel(Vector2 accel) {
@@ -188,32 +232,33 @@ public class Camera {
         accel.y = 0;
     }
 
-    public com.badlogic.gdx.graphics.Camera getLibgdxCamera() {
-        return libgdxCamera;
+    public OrthographicCamera getOrthoCamera() {
+        return orthoCamera;
     }
 
     /**
-     * Checks if the current camera position contains the given entity
+     * Check if the current viewport contains this point in world space
      *
-     * @param e
-     * @return
+     * @param worldX X in world space
+     * @param worldY Y in world space
+     * @return Whether the camera contains the point
      */
-    public boolean contains(PositionPhysicalEntity e) {
-        float w2 = canvasWidth / 2f + 60;
-        float h2 = canvasHeight / 2f + 60;
-        return e.pos.x >= pos.x - w2 && e.pos.x <= pos.x + w2 && e.pos.y >= pos.y - h2 && e.pos.y <= pos.y + h2;
+    public boolean containsPoint(float worldX, float worldY) {
+        worldToScreen(worldX, worldY, aux);
+        return aux.x >= 0 && aux.y >= 0 && aux.x <= canvasWidth && aux.y <= canvasHeight;
     }
 
     /**
-     * Check if the current viewport contains this point
-     * @param x
-     * @param y
-     * @return
+     * Check if the current viewport contains this point in world space
+     *
+     * @param worldX X in world space
+     * @param worldY Y in world space
+     * @param size   The size of the point
+     * @return Whether the camera contains the point
      */
-    public boolean containsPoint(float x, float y, float size){
-        float w2 = canvasWidth / 2f + size;
-        float h2 = canvasHeight / 2f + size;
-        return x >= pos.x - w2 && x <= pos.x + w2 && y >= pos.y - h2 && y <= pos.y + h2;
+    public boolean containsPoint(float worldX, float worldY, float size) {
+        worldToScreen(worldX, worldY, aux);
+        return aux.x + size >= 0 && aux.y + size >= 0 && aux.x - size <= canvasWidth && aux.y - size <= canvasHeight;
     }
 
     @Override
@@ -232,5 +277,10 @@ public class Camera {
     public void resize(int width, int height) {
         this.canvasWidth = width;
         this.canvasHeight = height;
+        this.orthoCamera.setToOrtho(false, width, height);
+    }
+
+    public Matrix4 combined() {
+        return orthoCamera.combined;
     }
 }

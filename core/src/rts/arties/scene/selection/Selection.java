@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import rts.arties.RTSGame;
 import rts.arties.datastructure.geom.Vector2;
+import rts.arties.scene.cam.Camera;
 import rts.arties.scene.unit.group.UnitGroup;
 import rts.arties.scene.unit.group.UnitGroupManager;
 import rts.arties.scene.unit.steeringbehaviour.IEntity;
@@ -24,6 +25,11 @@ public class Selection {
      * The game
      */
     private final RTSGame game;
+
+    /**
+     * The camera
+     */
+    private final Camera camera;
 
     /**
      * Is there an active selection in process?
@@ -51,6 +57,7 @@ public class Selection {
 
     public Selection(RTSGame game) {
         this.game = game;
+        this.camera = game.camera();
         start = Vector2Pool.getObject();
         end = Vector2Pool.getObject();
         // The selection is in screen coordinates
@@ -74,10 +81,8 @@ public class Selection {
      */
     public void select() {
         if (active) {
-            start.x += RTSGame.getCamera().pos.x - RTSGame.getCamera().canvasWidth / 2f;
-            start.y += RTSGame.getCamera().pos.y - RTSGame.getCamera().canvasHeight / 2f;
-            end.x += RTSGame.getCamera().pos.x - RTSGame.getCamera().canvasWidth / 2f;
-            end.y += RTSGame.getCamera().pos.y - RTSGame.getCamera().canvasHeight / 2f;
+            camera.screenToWorld(start.x, start.y, start);
+            camera.screenToWorld(end.x, end.y, end);
 
             selectUnitsIn(getRectangle());
         }

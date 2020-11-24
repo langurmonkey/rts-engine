@@ -1,18 +1,14 @@
 package rts.arties.scene.map;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import rts.arties.RTSGame;
-import rts.arties.datastructure.geom.Vector2;
-import rts.arties.scene.cam.Camera;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector3;
+import rts.arties.datastructure.geom.Vector2;
+import rts.arties.scene.cam.Camera;
 
 /**
  * Fog of war implementation as a matrix of boolean values [visible|hidden].
@@ -79,24 +75,21 @@ public class FogOfWar {
      * Renders the fog of war
      */
     public void render(Camera camera, ShapeRenderer sr, SpriteBatch sb) {
-        renderWithShapeRenderer(camera, sr);
-        //renderWithSprites(camera, sb);
+        //renderWithShapeRenderer(camera, sr);
+        renderWithSprites(camera, sb);
     }
 
     /**
      * Renders the fog of war with sprites
-     *
-     * @param camera
      */
     public void renderWithSprites(Camera camera, SpriteBatch sb) {
-        float ts2 = tileSize / 2f;
         sb.begin();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                float x = i * tileSize;
-                float y = j * tileSize;
-                if (camera.containsPoint(x + ts2, y + ts2, tileSize)) {
-                    if (fog[i][j] == F_HIDDEN) {
+                if (fog[i][j] == F_HIDDEN) {
+                    float x = i * tileSize;
+                    float y = j * tileSize;
+                    if (camera.containsPoint(x, y, tileSize)) {
                         sb.draw(black, x, y);
                     }
                 }
@@ -109,16 +102,15 @@ public class FogOfWar {
      * Renders the fog of war with the shape renderer
      */
     public void renderWithShapeRenderer(Camera camera, ShapeRenderer sb) {
-        float ts2 = tileSize / 2f;
         sb.begin(ShapeType.Filled);
         sb.setColor(0f, 0f, 0f, 1f);
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                float x = i * tileSize;
-                float y = j * tileSize;
-                if (camera.containsPoint(x + ts2, y + ts2, tileSize)) {
-                    if (fog[i][j] == F_HIDDEN) {
+                if (fog[i][j] == F_HIDDEN) {
+                    float x = i * tileSize;
+                    float y = j * tileSize;
+                    if (camera.containsPoint(x, y)) {
                         sb.rect(i * tileSize, j * tileSize, tileSize, tileSize);
                     }
                 }

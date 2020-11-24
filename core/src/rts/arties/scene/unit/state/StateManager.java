@@ -1,7 +1,6 @@
 package rts.arties.scene.unit.state;
 
 import rts.arties.datastructure.geom.Vector2;
-import rts.arties.scene.unit.PositionPhysicalEntity;
 import rts.arties.scene.unit.steeringbehaviour.IEntity;
 
 import java.util.Deque;
@@ -44,7 +43,7 @@ public class StateManager {
         addStateFirst(new StateGoTo(unit, target));
     }
 
-    public void attack(PositionPhysicalEntity target) {
+    public void attack(IEntity target) {
         addStateFirst(new StateAttack(unit, target));
     }
 
