@@ -17,6 +17,9 @@ public class Camera {
     private static final int MAX_CAM_VEL = 1900;
     private static final int MAX_CAM_ACCEL = 5300;
 
+    private static final float MIN_ZOOM = 0.3f;
+    private static final float MAX_ZOOM = 2.0f;
+
     /**
      * The current map width
      */
@@ -38,7 +41,7 @@ public class Camera {
     public float canvasHeight;
 
     /**
-     * The position of the middle of the viewport  of the camera, from the bottom-left corner of the canvas square
+     * The position of the middle of the viewport of the camera in world coordinates
      */
     public Vector2 pos;
 
@@ -134,11 +137,11 @@ public class Camera {
         orthoCamera.update();
     }
 
-    public void zoom(float zoomAddition, float x, float y) {
-        float newZoom = MathUtils.clamp(zoom + zoomAddition, 0.5f, 2.5f);
+    public void zoom(float zoomAddition, float dx, float dy) {
+        float newZoom = MathUtils.clamp(zoom + zoomAddition, MIN_ZOOM, MAX_ZOOM);
         if (newZoom != zoom) {
             zoom = newZoom;
-            pos.set(x, y);
+            pos.add(dx, dy);
         }
     }
 
@@ -151,6 +154,18 @@ public class Camera {
      * @return The resulting world coordinates
      */
     public Vector2 screenToWorld(float screenX, float screenY, Vector2 out) {
+        // Coordinates accounting for zoom
+        float zX = screenX * zoom;
+        float zY = screenY * zoom;
+
+        // Position of bottom-left corner of canvas (our view)
+        float canvasX = pos.x - canvasWidth * zoom / 2f;
+        float canvasY = pos.y - canvasHeight * zoom / 2f;
+
+        return out.set(canvasX + zX, canvasY + zY);
+    }
+
+    public Vector2 screenToWorld(float zoom, float screenX, float screenY, Vector2 out) {
         // Coordinates accounting for zoom
         float zX = screenX * zoom;
         float zY = screenY * zoom;

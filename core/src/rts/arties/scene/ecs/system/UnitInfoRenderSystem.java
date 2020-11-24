@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import rts.arties.RTSGame;
 import rts.arties.scene.ecs.Mapper;
 import rts.arties.scene.ecs.component.HealthComponent;
 import rts.arties.scene.ecs.component.PlayerComponent;
@@ -46,7 +47,7 @@ public class UnitInfoRenderSystem extends EntitySystem {
         color3 = ColorUtils.gRed;
 
         // Additional colors
-        sbColor0 = new Color(0f, 1f, 0f, 1f);
+        sbColor0 = new Color(0f, .7f, .2f, 1f);
         sbColor1 = new Color(1f, 1f, 1f, .6f);
         sbColor2 = new Color(1f, 1f, 1f, .3f);
     }
@@ -120,6 +121,9 @@ public class UnitInfoRenderSystem extends EntitySystem {
     }
 
     private void renderShapeLineLayer1(Entity e) {
+        // Lines to scale with zoom
+        Gdx.gl.glLineWidth(1.5f / RTSGame.getCamera().zoom);
+
         PlayerComponent plc = Mapper.player.get(e);
         PositionComponent pc = Mapper.position.get(e);
         RenderableBaseComponent rbs = Mapper.rbase.get(e);

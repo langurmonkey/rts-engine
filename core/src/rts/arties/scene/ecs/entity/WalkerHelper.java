@@ -9,7 +9,7 @@ import rts.arties.scene.unit.DefaultEntity;
 import rts.arties.scene.unit.state.StateManager;
 import rts.arties.scene.unit.steeringbehaviour.SteeringBehaviours;
 
-public class GunnerHelper {
+public class WalkerHelper {
 
     public static Entity create(Engine engine, IRTSMap map, float x, float y, float hp) {
 
@@ -36,7 +36,7 @@ public class GunnerHelper {
         mc.slowingDistance = 10;
         mc.maxSpeed = 40f; // m/s
         mc.maxForce = 40f; // Kg*m/s^2
-        mc.maxTurnRate = (float) (5f * Math.PI); // rad/s
+        mc.maxTurnRate = (float) (10 * Math.PI); // rad/s
         mc.updateMaxSpeed(hc);
         // Steering
         SteeringComponent sc = engine.createComponent(SteeringComponent.class);
@@ -50,12 +50,19 @@ public class GunnerHelper {
         UnitGroupComponent ugc = engine.createComponent(UnitGroupComponent.class);
         // Renderable
         RenderableBaseComponent rbc = engine.createComponent(RenderableBaseComponent.class);
-        rbc.textureName = "gunner-top";
-        rbc.rotateImage = true;
+        rbc.textureName = "goon-blue-stand-left";
+        rbc.spriteOffsetY = 11f;
+        rbc.rotateImage = false;
+        // Walker
+        RenderableWalkerComponent rwc = engine.createComponent(RenderableWalkerComponent.class);
+        rwc.walkLeftTextures = new String[4];
+        rwc.walkLeftTextures[0] = "goon-blue-walk1-left";
+        rwc.walkLeftTextures[1] = "goon-blue-walk2-left";
+        rwc.walkLeftTextures[2] = "goon-blue-walk1-left";
+        rwc.walkLeftTextures[3] = "goon-blue-walk3-left";
         // Shadow
         RenderableShadowComponent rsc = engine.createComponent(RenderableShadowComponent.class);
-        rsc.shadowOffsetY = 15f;
-        rsc.shadowFlipY = false;
+        rsc.shadowOffsetY = 0f;
         // Map
         MapComponent mpc = engine.createComponent(MapComponent.class);
         mpc.map = map;
@@ -75,6 +82,7 @@ public class GunnerHelper {
         e.add(mpc);
         e.add(ugc);
         e.add(hc);
+        e.add(rwc);
 
         return e;
     }

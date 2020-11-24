@@ -6,7 +6,7 @@ filter: Nearest,Nearest
 repeat: none
 bush-green1
   rotate: false
-  xy: 584, 32
+  xy: 618, 32
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
@@ -53,6 +53,13 @@ goon-blue-walk3-left
   orig: 32, 36
   offset: 0, 0
   index: -1
+gunner-top
+  rotate: false
+  xy: 346, 4
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
 rock
   rotate: false
   xy: 64, 2
@@ -76,9 +83,9 @@ tank-32
   index: -1
 tile-black
   rotate: false
-  xy: 616, 32
-  size: 30, 30
-  orig: 30, 30
+  xy: 584, 30
+  size: 32, 32
+  orig: 32, 32
   offset: 0, 0
   index: -1
 tree-fir-leafless

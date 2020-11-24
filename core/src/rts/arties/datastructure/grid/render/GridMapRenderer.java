@@ -1,5 +1,6 @@
 package rts.arties.datastructure.grid.render;
 
+import com.badlogic.gdx.graphics.GL20;
 import rts.arties.RTSGame;
 import rts.arties.datastructure.IMap;
 import rts.arties.datastructure.IMapRenderer;
@@ -87,6 +88,9 @@ public class GridMapRenderer implements IMapRenderer {
     }
 
     public void drawCellsOutline(GridMap map) {
+        // Lines to scale with zoom
+        Gdx.gl.glLineWidth(1f);
+
         shapeRenderer.begin(ShapeType.Line);
         shapeRenderer.setColor(colLine);
         for (int i = 0; i < map.columns; i++) {

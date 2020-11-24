@@ -8,7 +8,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -35,6 +34,7 @@ import rts.arties.scene.ecs.component.*;
 import rts.arties.scene.ecs.entity.GunnerHelper;
 import rts.arties.scene.ecs.entity.MapObjectHelper;
 import rts.arties.scene.ecs.entity.TankHelper;
+import rts.arties.scene.ecs.entity.WalkerHelper;
 import rts.arties.scene.ecs.system.*;
 import rts.arties.scene.map.IRTSMap;
 import rts.arties.scene.map.RTSGridMapTiledMap;
@@ -47,7 +47,9 @@ import rts.arties.ui.OwnLabel;
 import rts.arties.util.Vector2Pool;
 import rts.arties.util.Vector3Pool;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Rough implementation of the main engine handler. Obviously this is VERY provisional. A lot of utilities contained in
@@ -80,7 +82,7 @@ public class RTSGame implements ApplicationListener {
             if (debug) {
                 game.engine.addSystem(game.ders);
                 game.engine.addSystem(game.dmrs);
-            }else {
+            } else {
                 game.engine.removeSystem(game.ders);
                 game.engine.removeSystem(game.dmrs);
             }
@@ -125,21 +127,15 @@ public class RTSGame implements ApplicationListener {
     private PanListener panListener;
     private ZoomListener zoomListener;
 
-    /**
-     * Families
-     */
-    private Family renderableFamily, renderableWalkerFamily, positionFamily, movementFamily,
-            playerFamily, debugFamily, objectFamily, mapFamily;
-
-
-    /**
-     * Systems
-     */
+    // Families
+    private Family renderableFamily, renderableWalkerFamily, positionFamily, movementFamily, playerFamily, debugFamily, objectFamily, mapFamily;
+    // Systems
     private EntitySystem ibrs, iwrs, imos, ders, dmrs, uus, ous, brs, uirs, mbrs, mors;
-    /**
-     * Is the game paused?
-     **/
+
+    // Is the game paused?
     private boolean paused = false;
+    // Is the window focused
+    private boolean focused = true;
 
     public static RTSGame game;
     public ShaderProgram objectsShader, mapShader;
@@ -241,60 +237,63 @@ public class RTSGame implements ApplicationListener {
         engine.addEntity(TankHelper.create(engine, map, 150f, 220f, 100f));
         engine.addEntity(TankHelper.create(engine, map, 100f, 220f, 100f));
         engine.addEntity(TankHelper.create(engine, map, 50f, 220f, 20f));
-        engine.addEntity(GunnerHelper.create(engine, map, 280f, 120f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 250f, 120f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 220f, 120f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 190f, 120f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 160f, 120f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 130f, 120f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 100f, 120f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 70f, 120f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 40f, 120f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 280f, 100f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 250f, 100f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 220f, 100f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 190f, 100f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 160f, 100f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 130f, 100f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 100f, 100f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 70f, 100f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 40f, 100f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 280f, 400f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 250f, 400f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 220f, 400f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 190f, 400f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 160f, 400f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 130f, 400f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 100f, 400f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 70f, 400f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 40f, 400f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 280f, 450f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 250f, 450f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 220f, 450f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 190f, 450f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 160f, 450f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 130f, 450f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 100f, 450f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 70f, 450f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 40f, 450f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 280f, 500f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 250f, 500f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 220f, 500f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 190f, 500f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 160f, 500f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 130f, 500f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 100f, 500f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 70f, 500f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 40f, 500f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 280f, 550f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 250f, 550f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 220f, 550f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 190f, 550f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 160f, 550f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 130f, 550f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 100f, 550f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 70f, 550f, 30f));
-        engine.addEntity(GunnerHelper.create(engine, map, 40f, 550f, 30f));
+
+        engine.addEntity(GunnerHelper.create(engine, map, 280f, 320f, 30f));
+
+        engine.addEntity(WalkerHelper.create(engine, map, 280f, 120f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 250f, 120f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 220f, 120f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 190f, 120f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 160f, 120f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 130f, 120f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 100f, 120f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 70f, 120f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 40f, 120f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 280f, 90f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 250f, 90f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 220f, 90f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 190f, 90f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 160f, 90f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 130f, 90f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 100f, 90f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 70f, 90f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 40f, 90f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 280f, 400f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 250f, 400f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 220f, 400f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 190f, 400f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 160f, 400f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 130f, 400f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 100f, 400f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 70f, 400f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 40f, 400f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 280f, 450f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 250f, 450f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 220f, 450f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 190f, 450f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 160f, 450f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 130f, 450f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 100f, 450f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 70f, 450f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 40f, 450f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 280f, 500f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 250f, 500f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 220f, 500f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 190f, 500f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 160f, 500f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 130f, 500f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 100f, 500f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 70f, 500f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 40f, 500f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 280f, 550f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 250f, 550f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 220f, 550f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 190f, 550f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 160f, 550f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 130f, 550f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 100f, 550f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 70f, 550f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 40f, 550f, 30f));
 
         // Map objects
         MapObjects mos = map.getMapObjects();
@@ -353,7 +352,6 @@ public class RTSGame implements ApplicationListener {
         engine.removeSystem(iwrs);
         engine.removeSystem(imos);
 
-
         // Add update systems
         engine.addSystem(uus);
         engine.addSystem(ous);
@@ -373,7 +371,7 @@ public class RTSGame implements ApplicationListener {
     public boolean isVisible(Vector3 point) {
         boolean vis = false;
         ImmutableArray<Entity> player = engine.getEntitiesFor(playerFamily);
-        for(Entity u : player) {
+        for (Entity u : player) {
             PositionComponent pc = Mapper.position.get(u);
             vis = vis || pc.pos.dst(point) < pc.viewingDistance * 1.1f;
         }
@@ -438,8 +436,6 @@ public class RTSGame implements ApplicationListener {
                 // Enable blending
                 Gdx.gl.glEnable(GL20.GL_BLEND);
                 Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-                // Lines to scale with zoom
-                Gdx.gl.glLineWidth(1f / camera.zoom);
 
                 // Update engine to update and render scene
                 engine.update(deltaSecs);
@@ -480,7 +476,6 @@ public class RTSGame implements ApplicationListener {
     @Override
     public void resume() {
         logger.info("Resume called");
-
         paused = false;
     }
 
@@ -605,6 +600,21 @@ public class RTSGame implements ApplicationListener {
 
     public static Camera getCamera() {
         return game.camera;
+    }
+
+    public void focusLost() {
+        this.focused = false;
+        if(camera != null){
+            camera.stop();
+        }
+    }
+
+    public void focusGained() {
+        this.focused = true;
+    }
+
+    public boolean focused() {
+        return focused;
     }
 
 }

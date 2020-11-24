@@ -32,6 +32,8 @@ public class MapOverlaysRenderSystem extends IteratingSystem {
         mc.map.renderFogOfWar(camera, sr, sb);
 
         Gdx.gl.glEnable(GL20.GL_BLEND);
+        // Lines to scale with zoom
+        Gdx.gl.glLineWidth(1f * RTSGame.getCamera().zoom);
         UnitGroupManager.getInstance().render();
     }
 }

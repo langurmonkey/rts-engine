@@ -112,7 +112,7 @@ public class UnitUpdateSystem extends IteratingSystem {
     private void updateHeading(float deltaTime, MovementComponent mc, SteeringComponent sc) {
         // We're turning, update heading
 
-        if (mc.maxTurnRate >= Math.PI * 2) {
+        if (false && mc.maxTurnRate >= Math.PI * 10) {
             // Optimisation, instant rotation
             Vector3Pool.returnObject(mc.heading);
             mc.heading = sc.targetHeading;

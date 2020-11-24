@@ -2,6 +2,7 @@ package rts.arties.scene.ecs.entity;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.math.MathUtils;
 import rts.arties.scene.ecs.component.*;
 import rts.arties.scene.map.IRTSMap;
 import rts.arties.scene.unit.DefaultEntity;
@@ -24,7 +25,7 @@ public class TankHelper {
         // Health
         HealthComponent hc = engine.createComponent(HealthComponent.class);
         hc.maxHp = 100;
-        hc.setHp(hp);
+        hc.setHp(MathUtils.clamp(hp, 0, hc.maxHp));
         // Position
         PositionComponent pc = engine.createComponent(PositionComponent.class);
         pc.pos.set(x, y);
@@ -35,7 +36,7 @@ public class TankHelper {
         mc.slowingDistance = 70;
         mc.maxSpeed = 90f; // m/s
         mc.maxForce = 130f; // Kg*m/s^2
-        mc.maxTurnRate = (float) (Math.PI / 2.0); // rad/s
+        mc.maxTurnRate = (float) (Math.PI); // rad/s
         mc.updateMaxSpeed(hc);
         // Steering
         SteeringComponent sc = engine.createComponent(SteeringComponent.class);

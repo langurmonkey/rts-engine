@@ -5,10 +5,13 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import rts.arties.RTSGame;
 import rts.arties.scene.ecs.Mapper;
 import rts.arties.scene.ecs.component.*;
 import rts.arties.util.color.ColorUtils;
@@ -53,6 +56,7 @@ public class DebugEntityRenderSystem extends EntitySystem {
 
     @Override
     public void update(float deltaTime) {
+        Gdx.gl.glEnable(GL20.GL_BLEND);
         // filled
         sr.begin(ShapeType.Filled);
         entities.forEach(e -> renderDebugFilled(e));
@@ -92,7 +96,7 @@ public class DebugEntityRenderSystem extends EntitySystem {
 
         // Position
         sr.setColor(posColor);
-        sr.circle(pc.pos.x, pc.pos.y, 1);
+        sr.circle(pc.pos.x, pc.pos.y, 1f);
 
         // Behaviours
         if(sc != null){
@@ -101,6 +105,9 @@ public class DebugEntityRenderSystem extends EntitySystem {
     }
 
     private void renderDebugLine(Entity e) {
+        // Lines to scale with zoom
+        Gdx.gl.glLineWidth(1f);
+
         PositionComponent pc = Mapper.position.get(e);
         MovementComponent mc = Mapper.movement.get(e);
         RenderableBaseComponent rbs = Mapper.rbase.get(e);
