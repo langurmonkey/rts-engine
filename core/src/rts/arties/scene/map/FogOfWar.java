@@ -12,7 +12,7 @@ import rts.arties.scene.cam.Camera;
 import rts.arties.util.MathUtilsd;
 
 /**
- * Fog of war implementation as a matrix of boolean values [visible|hidden].
+ * Tile-based fog of war implementation
  *
  * @author Toni Sagrista
  */
