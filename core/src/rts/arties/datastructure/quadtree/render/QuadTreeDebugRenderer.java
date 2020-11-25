@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import rts.arties.datastructure.IMap;
-import rts.arties.datastructure.IMapRenderer;
+import rts.arties.datastructure.IMapDebugRenderer;
 import rts.arties.datastructure.quadtree.QuadNode;
 import rts.arties.datastructure.quadtree.QuadTree;
 import rts.arties.scene.cam.Camera;
@@ -20,14 +20,14 @@ import rts.arties.scene.cam.Camera;
  *
  * @author Toni Sagrista
  */
-public class QuadTreeRenderer implements IMapRenderer {
+public class QuadTreeDebugRenderer implements IMapDebugRenderer {
 
     private BitmapFont font9;
     private Camera camera;
     private ShapeRenderer shapeRenderer;
     private SpriteBatch spriteBatch;
 
-    public QuadTreeRenderer(Camera camera, ShapeRenderer sr, SpriteBatch sb) {
+    public QuadTreeDebugRenderer(Camera camera, ShapeRenderer sr, SpriteBatch sb) {
 
         // load font from a .ttf file
         try {

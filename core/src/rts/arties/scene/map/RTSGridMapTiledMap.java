@@ -3,7 +3,7 @@ package rts.arties.scene.map;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import rts.arties.RTSGame;
-import rts.arties.datastructure.grid.render.GridMapRenderer;
+import rts.arties.datastructure.grid.render.GridDebugRenderer;
 import rts.arties.datastructure.mapgen.gridmap.GridMapGen;
 import rts.arties.scene.cam.Camera;
 
@@ -22,7 +22,7 @@ public class RTSGridMapTiledMap extends RTSAbstractMap {
     protected void initializeMapGenAndRenderer(Camera camera, ShapeRenderer sr, SpriteBatch sb) {
         mapGen = new GridMapGen<>();
         // Initialize map renderer for debug
-        rtsMapRenderer = new GridMapRenderer(camera, sr, sb);
+        mapDebugRenderer = new GridDebugRenderer(camera, sr, sb);
 
     }
 

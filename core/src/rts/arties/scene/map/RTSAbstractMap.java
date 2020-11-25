@@ -3,7 +3,6 @@ package rts.arties.scene.map;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
@@ -20,7 +19,7 @@ import com.badlogic.gdx.utils.Logger;
 import rts.arties.RTSGame;
 import rts.arties.datastructure.IMap;
 import rts.arties.datastructure.IMapCell;
-import rts.arties.datastructure.IMapRenderer;
+import rts.arties.datastructure.IMapDebugRenderer;
 import rts.arties.datastructure.astar.AStar;
 import rts.arties.datastructure.astar.IAStar;
 import rts.arties.datastructure.geom.Vector2;
@@ -57,7 +56,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
     protected MapObjects mapObjects = null;
     protected List<IMapCell<IEntity>> path = null;
     protected MapRenderer mapRenderer;
-    protected IMapRenderer rtsMapRenderer;
+    protected IMapDebugRenderer mapDebugRenderer;
     protected FogOfWar fogOfWar;
     public boolean useFogOfWar;
 
@@ -204,7 +203,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
     public void renderDebug() {
         // Enable transparencies
         Gdx.gl.glEnable(GL20.GL_BLEND);
-        rtsMapRenderer.drawMap(map);
+        mapDebugRenderer.drawMap(map);
     }
 
     @Override

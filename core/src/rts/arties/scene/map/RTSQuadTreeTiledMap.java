@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import rts.arties.RTSGame;
 import rts.arties.datastructure.mapgen.quadmap.QuadMapGen;
-import rts.arties.datastructure.quadtree.render.QuadTreeRenderer;
+import rts.arties.datastructure.quadtree.render.QuadTreeDebugRenderer;
 import rts.arties.scene.cam.Camera;
 
 /**
@@ -22,7 +22,7 @@ public class RTSQuadTreeTiledMap extends RTSAbstractMap {
     protected void initializeMapGenAndRenderer(Camera camera, ShapeRenderer sr, SpriteBatch sb) {
         mapGen = new QuadMapGen<>();
         // Initialize map renderer for debug
-        rtsMapRenderer = new QuadTreeRenderer(camera, sr, sb);
+        mapDebugRenderer = new QuadTreeDebugRenderer(camera, sr, sb);
     }
 
 }

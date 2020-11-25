@@ -10,17 +10,17 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import rts.arties.RTSGame;
 import rts.arties.datastructure.IMap;
-import rts.arties.datastructure.IMapRenderer;
+import rts.arties.datastructure.IMapDebugRenderer;
 import rts.arties.datastructure.grid.GridCell;
 import rts.arties.datastructure.grid.GridMap;
 import rts.arties.scene.cam.Camera;
 
 /**
- * Renderer for grid maps.
+ * Renders debug information for grid maps.
  *
  * @author Toni Sagrista
  */
-public class GridMapRenderer implements IMapRenderer {
+public class GridDebugRenderer implements IMapDebugRenderer {
 
     private BitmapFont font9;
     private Camera camera;
@@ -30,7 +30,7 @@ public class GridMapRenderer implements IMapRenderer {
     private final Color colHasobjs;
     private final Color colLine;
 
-    public GridMapRenderer(Camera camera, ShapeRenderer sr, SpriteBatch sb) {
+    public GridDebugRenderer(Camera camera, ShapeRenderer sr, SpriteBatch sb) {
 
         colBlocked = new Color(0f, 0f, 1f, .4f);
         colHasobjs = new Color(1f, 1f, 0f, .2f);

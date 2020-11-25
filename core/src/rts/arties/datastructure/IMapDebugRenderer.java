@@ -1,11 +1,11 @@
 package rts.arties.datastructure;
 
 /**
- * A renderer for {@link IMap} objects.
+ * A debug renderer for {@link IMap} objects.
  *
  * @author Toni Sagrista
  */
-public interface IMapRenderer {
+public interface IMapDebugRenderer {
 
     void drawMap(IMap t);
 
