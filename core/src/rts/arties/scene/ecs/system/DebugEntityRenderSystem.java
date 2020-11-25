@@ -11,18 +11,22 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import rts.arties.RTSGame;
 import rts.arties.scene.ecs.Mapper;
 import rts.arties.scene.ecs.component.*;
 import rts.arties.util.color.ColorUtils;
 
 public class DebugEntityRenderSystem extends EntitySystem {
-    private Family family;
+    private final Family family;
     private ImmutableArray<Entity> entities;
-    private ShapeRenderer sr;
-    private SpriteBatch sb;
+    private final ShapeRenderer sr;
+    private final SpriteBatch sb;
 
-    private Color hardRadiusColor, softRadiusColor, posColor, imageBoundsColor, viewDistColor, headingColor;
+    private final Color hardRadiusColor;
+    private final Color softRadiusColor;
+    private final Color posColor;
+    private final Color imageBoundsColor;
+    private final Color viewDistColor;
+    private final Color headingColor;
 
     public DebugEntityRenderSystem(Family family, ShapeRenderer sr, SpriteBatch sb) {
         this(family, 0, sr, sb);

@@ -1,8 +1,8 @@
 package rts.arties.datastructure.mapgen;
 
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import rts.arties.datastructure.IMap;
 import rts.arties.scene.unit.steeringbehaviour.IEntity;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 
 /**
  * A map generator interface which is intended to generate a new {@link IMap} from a given {@link TiledMap}.

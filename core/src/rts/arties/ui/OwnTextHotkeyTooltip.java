@@ -31,8 +31,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip.TextTooltipStyle;
  * @author Nathan Sweet
  */
 public class OwnTextHotkeyTooltip extends Tooltip<Table> {
-    private Table table;
-    private Label label;
+    private final Table table;
+    private final Label label;
     private Label labelHotkey;
 
     public OwnTextHotkeyTooltip(String text, String hotkey, Skin skin, int breakSpaces) {

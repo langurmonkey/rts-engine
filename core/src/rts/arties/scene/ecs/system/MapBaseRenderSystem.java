@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import rts.arties.RTSGame;
 import rts.arties.datastructure.geom.Vector2;
@@ -14,10 +13,10 @@ import rts.arties.scene.ecs.component.MapComponent;
 import rts.arties.scene.ecs.component.PositionComponent;
 
 public class MapBaseRenderSystem extends IteratingSystem {
-    private Family playerFamily;
-    private ShaderProgram shader;
-    private Camera camera;
-    private Vector2 aux;
+    private final Family playerFamily;
+    private final ShaderProgram shader;
+    private final Camera camera;
+    private final Vector2 aux;
 
     public MapBaseRenderSystem(Family family, int priority, Camera camera, ShaderProgram shader, Family playerFamily) {
         super(family, priority);
@@ -27,6 +26,8 @@ public class MapBaseRenderSystem extends IteratingSystem {
         this.aux = new Vector2();
     }
 
+    private final boolean useShaderFog = false;
+    private final float[] lights = new float[0];
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         MapComponent mc = Mapper.map.get(entity);
@@ -34,16 +35,17 @@ public class MapBaseRenderSystem extends IteratingSystem {
 
         // Contains circular light positions and radius
         ImmutableArray<Entity> playerEntities = getEngine().getEntitiesFor(playerFamily);
-        float[] lights = new float[playerEntities.size() * 3];
         // Contains shadow positions and width and height
         int i = 0;
-        for(Entity e : playerEntities){
-            PositionComponent pc = Mapper.position.get(e);
-            if(pc.viewingDistance > 0){
-                camera.worldToScreen(pc.pos.x, pc.pos.y, aux);
-                lights[i++] = aux.x;
-                lights[i++] = aux.y;
-                lights[i++] = pc.viewingDistance / camera.zoom;
+        if(useShaderFog) {
+            for (Entity e : playerEntities) {
+                PositionComponent pc = Mapper.position.get(e);
+                if (pc.viewingDistance > 0) {
+                    camera.worldToScreen(pc.pos.x, pc.pos.y, aux);
+                    lights[i++] = aux.x;
+                    lights[i++] = aux.y;
+                    lights[i++] = pc.viewingDistance / camera.zoom;
+                }
             }
         }
 

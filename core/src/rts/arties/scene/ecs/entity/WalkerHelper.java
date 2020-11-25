@@ -34,8 +34,8 @@ public class WalkerHelper {
         MovementComponent mc = engine.createComponent(MovementComponent.class);
         mc.heading.set(1, 0, 0);
         mc.slowingDistance = 10;
-        mc.maxSpeed = 40f; // m/s
-        mc.maxForce = 40f; // Kg*m/s^2
+        mc.maxSpeed = 80f; // m/s
+        mc.maxForce = 80f; // Kg*m/s^2
         mc.maxTurnRate = (float) (10 * Math.PI); // rad/s
         mc.updateMaxSpeed(hc);
         // Steering

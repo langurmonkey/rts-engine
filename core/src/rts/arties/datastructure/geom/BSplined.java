@@ -22,6 +22,7 @@ package rts.arties.datastructure.geom;
  ******************************************************************************/
 
 import com.badlogic.gdx.utils.Array;
+import rts.arties.util.MathUtilsd;
 
 /** @author Xoppa */
 public class BSplined<T extends Vectord<T>> implements Pathd<T> {

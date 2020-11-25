@@ -14,8 +14,8 @@ import rts.arties.scene.ecs.component.MapComponent;
 import rts.arties.scene.unit.group.UnitGroupManager;
 
 public class MapOverlaysRenderSystem extends IteratingSystem {
-    private ShapeRenderer sr;
-    private SpriteBatch sb;
+    private final ShapeRenderer sr;
+    private final SpriteBatch sb;
 
     public MapOverlaysRenderSystem(Family family, int priority, ShapeRenderer sr, SpriteBatch sb) {
         super(family, priority);

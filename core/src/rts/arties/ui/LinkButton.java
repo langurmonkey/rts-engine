@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class LinkButton  extends OwnImageButton {
 
-    private String linkURL;
+    private final String linkURL;
 
     public LinkButton(String linkURL, Skin skin){
         super(skin, "link");

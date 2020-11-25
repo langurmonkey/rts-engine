@@ -305,7 +305,7 @@
  </tile>
  <tile id="673">
   <properties>
-   <property name="slopev" value="1"/>
+   <property name="slopev" value="30"/>
    <property name="slowdown" value="0.3"/>
    <property name="type" value="slope_top"/>
   </properties>
@@ -331,7 +331,7 @@
  <tile id="688" terrain=",0,,"/>
  <tile id="704">
   <properties>
-   <property name="slopeh" value="1"/>
+   <property name="slopeh" value="30"/>
    <property name="slowdown" value="0.3"/>
    <property name="type" value="slope_left"/>
   </properties>
@@ -344,23 +344,23 @@
  <tile id="706">
   <properties>
    <property name="shadow" value="true"/>
-   <property name="slopeh" value="-1"/>
+   <property name="slopeh" value="-30"/>
    <property name="slowdown" value="0.3"/>
    <property name="type" value="slope_right"/>
   </properties>
  </tile>
  <tile id="707">
   <properties>
-   <property name="slopeh" value="1"/>
-   <property name="slopev" value="1"/>
+   <property name="slopeh" value="30"/>
+   <property name="slopev" value="30"/>
    <property name="slowdown" value="0.3"/>
    <property name="type" value="slope_top"/>
   </properties>
  </tile>
  <tile id="708">
   <properties>
-   <property name="slopeh" value="-1"/>
-   <property name="slopev" value="1"/>
+   <property name="slopeh" value="-30"/>
+   <property name="slopev" value="30"/>
    <property name="slowdown" value="0.3"/>
    <property name="type" value="slope_top"/>
   </properties>
@@ -384,7 +384,7 @@
  <tile id="737">
   <properties>
    <property name="shadow" value="true"/>
-   <property name="slopev" value="-1"/>
+   <property name="slopev" value="-30"/>
    <property name="slowdown" value="0.3"/>
    <property name="type" value="slope_bottom"/>
   </properties>
@@ -399,8 +399,8 @@
  <tile id="739">
   <properties>
    <property name="shadow" value="yes"/>
-   <property name="slopeh" value="1"/>
-   <property name="slopev" value="-1"/>
+   <property name="slopeh" value="30"/>
+   <property name="slopev" value="-30"/>
    <property name="slowdown" value="0.3"/>
    <property name="type" value="slope_bottom"/>
   </properties>
@@ -408,8 +408,8 @@
  <tile id="740">
   <properties>
    <property name="shadow" value="true"/>
-   <property name="slopeh" value="-1"/>
-   <property name="slopev" value="-1"/>
+   <property name="slopeh" value="-30"/>
+   <property name="slopev" value="-30"/>
    <property name="slowdown" value="0.3"/>
    <property name="type" value="slope_bottom"/>
   </properties>

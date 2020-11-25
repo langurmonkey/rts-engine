@@ -42,14 +42,14 @@ public class BehaviourWanderPath extends AbstractSteeringBehaviour {
         // Update path every 12 seconds
         if (offset > timeToNextPath) {
             // Update path
-            float[] xy;
-            xy = newXY();
+            float[] xyz;
+            xyz = newXYZ();
             List<IMapCell<IEntity>> nodeList;
-            while ((nodeList = map.findPath(unit.pos().x, unit.pos().y, xy[0], xy[1])) == null) {
-                xy = newXY();
+            while ((nodeList = map.findPath(unit.pos().x, unit.pos().y, xyz[0], xyz[1])) == null) {
+                xyz = newXYZ();
             }
 
-            Path path = new Path(nodeList, unit.pos(), xy[0], xy[1]);
+            Path path = new Path(nodeList, unit.pos(), xyz[0], xyz[1], xyz[2]);
             path.smooth(unit);
             // We have a path here!
             pathFollowing = new BehaviourFollowPath(unit, path, null);
@@ -58,7 +58,7 @@ public class BehaviourWanderPath extends AbstractSteeringBehaviour {
             timer = System.currentTimeMillis();
 
             // Time to next path is the time the unit would take to get there in a straight line at max speed
-            float dist = unit.pos().dst(xy[0], xy[1], 0);
+            float dist = unit.pos().dst(xyz[0], xyz[1], 0);
             timeToNextPath = (dist / unit.maxSpeed()) * 1000;
         }
 
@@ -94,6 +94,32 @@ public class BehaviourWanderPath extends AbstractSteeringBehaviour {
             y = map.getHeight() - 5;
 
         return new float[] { x, y };
+    }
+
+    private float[] newXYZ() {
+        float x = nextCoord();
+        float y = nextCoord();
+
+        while (Math.sqrt(x * x + y * y) > wanderRadius) {
+            x = nextCoord();
+            y = nextCoord();
+        }
+
+        x += referencePosition.x;
+        y += referencePosition.y;
+
+        // Boundaries
+        if (x <= 0)
+            x = 5;
+        if (y <= 0)
+            y = 5;
+
+        if (x >= map.getWidth())
+            x = map.getWidth() - 5;
+        if (y >= map.getHeight())
+            y = map.getHeight() - 5;
+
+        return new float[] { x, y, map.getCell(x, y).z() };
     }
 
     private float nextCoord() {

@@ -40,7 +40,7 @@ public class BehaviourAvoidWalls extends AbstractSteeringBehaviour {
         return force;
     }
 
-    private Color col = new Color(1f, .5f, 0f, 1f);
+    private final Color col = new Color(1f, .5f, 0f, 1f);
     @Override
     public void renderLine(ShapeRenderer sr) {
         if (force != null) {

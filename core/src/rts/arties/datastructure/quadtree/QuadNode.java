@@ -1,13 +1,13 @@
 package rts.arties.datastructure.quadtree;
 
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import rts.arties.datastructure.IMapCell;
 import rts.arties.datastructure.Pair;
 import rts.arties.datastructure.astar.AStar;
 import rts.arties.datastructure.astar.AStarNode;
 import rts.arties.scene.map.MapProperties.TerrainType;
 import rts.arties.scene.unit.steeringbehaviour.IEntity;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -443,6 +443,11 @@ public class QuadNode<T extends IEntity> extends AStarNode<T> implements IMapCel
     @Override
     public float y() {
         return y;
+    }
+
+    @Override
+    public float z() {
+        return z;
     }
 
     @Override

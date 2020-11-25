@@ -28,7 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip.TextTooltipStyle;
 /** A tooltip that shows a label.
  * @author Nathan Sweet */
 public class OwnTextTooltip extends Tooltip<Label> {
-    private Label label;
+    private final Label label;
 
     public OwnTextTooltip(String text, Skin skin, int breakSpaces) {
         this(text, TooltipManager.getInstance(), skin.get(TextTooltipStyle.class), breakSpaces);

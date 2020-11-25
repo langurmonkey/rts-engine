@@ -23,6 +23,7 @@ package rts.arties.datastructure.geom;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix3;
+import rts.arties.util.MathUtilsd;
 
 import java.io.Serializable;
 

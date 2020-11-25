@@ -21,10 +21,10 @@
 
 package rts.arties.datastructure.geom;
 
-import rts.arties.datastructure.geom.Planed.PlaneSide;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
+import rts.arties.datastructure.geom.Planed.PlaneSide;
 
 /** A truncated rectangular pyramid. Used to define the viewable region and its projection onto the screen.
  * @see Camera#frustum */

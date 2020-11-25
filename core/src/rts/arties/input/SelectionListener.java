@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputAdapter;
 import rts.arties.datastructure.geom.Vector2;
 import rts.arties.scene.cam.Camera;
+import rts.arties.scene.map.IRTSMap;
 import rts.arties.scene.selection.Selection;
 
 /**
@@ -16,13 +17,15 @@ public class SelectionListener extends InputAdapter {
 
     private final Selection selection;
     private final Camera camera;
-    private Vector2 aux;
+    private final IRTSMap map;
+    private final Vector2 aux;
     boolean leftDown;
 
-    public SelectionListener(Camera camera,Selection selection) {
+    public SelectionListener(Camera camera, IRTSMap map, Selection selection) {
         super();
         this.selection = selection;
         this.camera = camera;
+        this.map = map;
         this.aux = new Vector2();
     }
 
@@ -48,7 +51,8 @@ public class SelectionListener extends InputAdapter {
                 selection.select();
                 selection.active = false;
             } else {
-                selection.selectOrMove(aux.x, aux.y);
+                float z = map.getCell(aux.x, aux.y).z();
+                selection.selectOrMove(aux.x, aux.y, z);
                 selection.active = false;
             }
             return true;

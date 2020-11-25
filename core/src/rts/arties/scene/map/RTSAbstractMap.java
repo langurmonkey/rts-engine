@@ -66,7 +66,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
     protected int renderTileWidth, renderTileHeight;
 
     public RTSAbstractMap(RTSGame game, String tiledMapPath) {
-        this(game, tiledMapPath, false);
+        this(game, tiledMapPath, true);
     }
 
     public RTSAbstractMap(RTSGame game, String tiledMapPath, boolean useFogOfWar) {
@@ -112,7 +112,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
         // Fog of war
         this.useFogOfWar = useFogOfWar;
         if (useFogOfWar) {
-            fogOfWar = new FogOfWar(firstLayer.getWidth(), firstLayer.getHeight(), firstLayer.getTileWidth());
+            fogOfWar = new FogOfWar(this, firstLayer.getWidth(), firstLayer.getHeight(), firstLayer.getTileWidth());
         }
     }
 
@@ -183,14 +183,14 @@ public abstract class RTSAbstractMap implements IRTSMap {
     @Override
     public void renderBase(Camera camera) {
         // Check camera and canvas
-        mapRenderer.setView((OrthographicCamera) camera.getOrthoCamera());
+        mapRenderer.setView(camera.getOrthoCamera());
         mapRenderer.render(baseIndices);
     }
 
     @Override
     public void renderOverlays(Camera camera) {
         // Check camera and canvas
-        mapRenderer.setView((OrthographicCamera) camera.getOrthoCamera());
+        mapRenderer.setView(camera.getOrthoCamera());
         mapRenderer.render(overlayIndices);
     }
 
@@ -251,6 +251,25 @@ public abstract class RTSAbstractMap implements IRTSMap {
     @Override
     public Set<IMapCell<IEntity>> getNearbyBlockedNodes(Vector3 pos) {
         return map.findNearbyBlockedNodes(pos);
+    }
+
+    @Override
+    public boolean isHidden(Vector3 worldPos) {
+        return useFogOfWar && fogOfWar.isHidden(worldPos);
+    }
+
+    @Override
+    public boolean isFoggy(Vector3 worldPos) {
+        return useFogOfWar && fogOfWar.isFoggy(worldPos);
+    }
+
+    @Override
+    public boolean isHiddenOrFoggy(Vector3 worldPos) {
+        return useFogOfWar && fogOfWar.isHiddenOrFoggy(worldPos);
+    }
+
+    public boolean isVisible(Vector3 worldPos){
+       return !useFogOfWar || fogOfWar.isVisible(worldPos);
     }
 
     /**

@@ -5,13 +5,13 @@
 
 package rts.arties.ui;
 
-import rts.arties.util.parse.Parser;
-import rts.arties.util.validator.IValidator;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener.FocusEvent;
+import rts.arties.util.parse.Parser;
+import rts.arties.util.validator.IValidator;
 
 /**
  * TextButton in which the cursor changes when the mouse rolls over.

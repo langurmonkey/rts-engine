@@ -127,9 +127,10 @@ public class Selection {
      *
      * @param x The x in canvas coordinates
      * @param y The y in canvas coordinates
+     * @param z The z
      */
-    public void selectOrMove(float x, float y) {
-        IEntity entity = game.getCollidingUnitImage((int) x, (int) y);
+    public void selectOrMove(float x, float y, float z) {
+        IEntity entity = game.getCollidingUnitImage((int) x, (int) y, (int) z);
         if (entity != null) {
             // Remove current selection
             clearSelection();
@@ -142,7 +143,7 @@ public class Selection {
             selected.sortByPosition();
         } else {
             if (selected != null && !selected.isEmpty()) {
-                game.moveUnits(selected, (int) x, (int) y);
+                game.moveUnits(selected, (int) x, (int) y, (int) z);
             }
         }
     }

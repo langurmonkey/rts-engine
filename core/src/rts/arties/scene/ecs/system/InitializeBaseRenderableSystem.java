@@ -1,24 +1,23 @@
 package rts.arties.scene.ecs.system;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.assets.AssetManager;
-import rts.arties.RTSGame;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Rectangle;
 import rts.arties.scene.ecs.Mapper;
 import rts.arties.scene.ecs.component.BodyComponent;
 import rts.arties.scene.ecs.component.PositionComponent;
 import rts.arties.scene.ecs.component.RenderableBaseComponent;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Rectangle;
 
 /**
  * Initializes renderable entities
  */
 public class InitializeBaseRenderableSystem extends IteratingSystem {
 
-    private AssetManager assets;
+    private final AssetManager assets;
     public InitializeBaseRenderableSystem(Family family, int priority, AssetManager assets) {
         super(family, priority);
         this.assets = assets;

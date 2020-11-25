@@ -15,7 +15,7 @@ import java.util.LinkedList;
 public class StateManager {
 
     private final Deque<IState> states;
-    private IEntity unit;
+    private final IEntity unit;
 
     public StateManager(IEntity unit) {
         this.states = new LinkedList<>();

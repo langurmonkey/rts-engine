@@ -1,8 +1,8 @@
 package rts.arties.scene.unit.group;
 
-import rts.arties.RTSGame;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import rts.arties.RTSGame;
 
 import java.util.HashMap;
 import java.util.Map;

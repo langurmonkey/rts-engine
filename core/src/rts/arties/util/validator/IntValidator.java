@@ -7,8 +7,8 @@ package rts.arties.util.validator;
 
 public class IntValidator extends CallbackValidator {
 
-    private int min;
-    private int max;
+    private final int min;
+    private final int max;
 
     public IntValidator() {
         this(null);

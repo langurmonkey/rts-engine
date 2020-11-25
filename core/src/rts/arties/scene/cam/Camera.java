@@ -63,7 +63,7 @@ public class Camera {
     private final OrthographicCamera orthoCamera;
     public static Camera camera;
 
-    private Vector2 aux;
+    private final Vector2 aux;
 
     public static Camera getInstance() {
         assert camera != null : "Camera not initialized";
@@ -106,6 +106,8 @@ public class Camera {
 
         // dx = dv*dt
         pos.add(vel.clone().multiply(secs).truncate(MAX_CAM_VEL * zoom));
+        pos.x = (int) pos.x;
+        pos.y = (int) pos.y;
 
         /**
          * canvasWidth/2 <= x <= mapWidth - canvasWidth/2

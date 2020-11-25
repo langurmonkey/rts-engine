@@ -1,7 +1,7 @@
 package rts.arties.scene.ecs.component;
 
-import rts.arties.datastructure.geom.Vector3;
 import com.badlogic.ashley.core.Component;
+import rts.arties.datastructure.geom.Vector3;
 
 /**
  * Contains the position in pixel coordinates and some other stuff

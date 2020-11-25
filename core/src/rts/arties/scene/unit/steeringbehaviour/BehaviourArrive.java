@@ -49,7 +49,7 @@ public class BehaviourArrive extends AbstractSteeringBehaviour {
         return pos.dst2(targetPosition) < doneDistanceSq;
     }
 
-    private Color slowDistCol =new Color(.3f, .3f, 1f, .7f);
+    private final Color slowDistCol =new Color(.3f, .3f, 1f, .7f);
     @Override
     public void renderLine(ShapeRenderer sr) {
         if (desiredVelocity != null) {

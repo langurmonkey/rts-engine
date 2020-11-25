@@ -1,8 +1,8 @@
 package rts.arties.datastructure;
 
+import com.badlogic.gdx.math.Rectangle;
 import rts.arties.scene.map.MapProperties.TerrainType;
 import rts.arties.scene.unit.steeringbehaviour.IEntity;
-import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Set;
 
@@ -72,6 +72,12 @@ public interface IMapCell<T extends IEntity> {
      * @return
      */
     float y();
+
+    /**
+     * Returns the z coordinate of the center of this cell
+     * @return
+     */
+    float z();
 
     /**
      * Returns the z coordinate at the given position in this cell

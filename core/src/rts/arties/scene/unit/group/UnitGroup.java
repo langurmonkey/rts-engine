@@ -18,7 +18,7 @@ public class UnitGroup implements IGroup, List<IEntity> {
     private final List<IEntity> group;
     private static final UnitComparatorByPosition comp = new UnitComparatorByPosition();
 
-    private Vector3 pos;
+    private final Vector3 pos;
 
     public UnitGroup() {
         super();

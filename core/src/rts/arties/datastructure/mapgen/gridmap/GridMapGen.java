@@ -1,5 +1,9 @@
 package rts.arties.datastructure.mapgen.gridmap;
 
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import rts.arties.datastructure.IMap;
 import rts.arties.datastructure.grid.GridCell;
 import rts.arties.datastructure.grid.GridMap;
@@ -7,10 +11,6 @@ import rts.arties.datastructure.mapgen.IMapGen;
 import rts.arties.scene.map.MapProperties;
 import rts.arties.scene.map.RTSAbstractMap;
 import rts.arties.scene.unit.steeringbehaviour.IEntity;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import java.util.List;
 
@@ -122,7 +122,7 @@ public class GridMapGen<T extends IEntity> implements IMapGen<T> {
             if (gcell.slopev < 0) {
                 prevHeight += gcell.slopev;
             }
-            gridMap.getCell(col, row).z = prevHeight;
+            gridMap.getCell(col, row).z = gcell.slopev != 0 ? prevHeight + gcell.slopev / 2f :  prevHeight;
             if (gcell.slopev > 0) {
                 prevHeight += gcell.slopev;
             }

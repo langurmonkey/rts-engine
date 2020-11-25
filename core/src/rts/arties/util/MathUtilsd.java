@@ -5,9 +5,9 @@
 
 package rts.arties.util;
 
-import rts.arties.datastructure.geom.Vector3d;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.RandomXS128;
+import rts.arties.datastructure.geom.Vector3d;
 
 import java.util.Random;
 

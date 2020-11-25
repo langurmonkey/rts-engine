@@ -1,8 +1,8 @@
 package rts.arties.util;
 
-import rts.arties.datastructure.geom.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Pool;
+import rts.arties.datastructure.geom.Vector2;
 
 import java.util.Collection;
 

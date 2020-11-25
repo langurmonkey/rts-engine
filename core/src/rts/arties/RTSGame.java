@@ -21,7 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.TimeUtils;
-import rts.arties.datastructure.geom.Vector2;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.input.KeyboardListener;
 import rts.arties.input.PanListener;
@@ -31,9 +30,7 @@ import rts.arties.scene.cam.Camera;
 import rts.arties.scene.ecs.EntityPositionComparator;
 import rts.arties.scene.ecs.Mapper;
 import rts.arties.scene.ecs.component.*;
-import rts.arties.scene.ecs.entity.GunnerHelper;
 import rts.arties.scene.ecs.entity.MapObjectHelper;
-import rts.arties.scene.ecs.entity.TankHelper;
 import rts.arties.scene.ecs.entity.WalkerHelper;
 import rts.arties.scene.ecs.system.*;
 import rts.arties.scene.map.IRTSMap;
@@ -70,7 +67,7 @@ public class RTSGame implements ApplicationListener {
     // Debug mode
     private static boolean debugInfo = false;
     // System information like FPS, etc.
-    private static boolean systemInfo = true;
+    private static final boolean systemInfo = true;
 
     public static void toggleDebug() {
         setDebug(!debugInfo);
@@ -101,7 +98,7 @@ public class RTSGame implements ApplicationListener {
     private IRTSMap map;
     private Engine engine;
     public Selection selection;
-    private float zoom = 1;
+    private final float zoom = 1;
 
     private long startTime;
 
@@ -190,11 +187,11 @@ public class RTSGame implements ApplicationListener {
 
         // Manage selection
         selection = new Selection(this);
-        SelectionListener selectionListener = new SelectionListener(camera, selection);
+        SelectionListener selectionListener = new SelectionListener(camera, map, selection);
         multiplexer.addProcessor(selectionListener);
 
         // Manage camera pan/zoom
-        panListener = new PanListener(camera, selection);
+        panListener = new PanListener(camera, map, selection);
         zoomListener = new ZoomListener(camera);
         multiplexer.addProcessor(panListener);
         multiplexer.addProcessor(zoomListener);
@@ -231,69 +228,69 @@ public class RTSGame implements ApplicationListener {
 
         // Add entities to engine
         engine.addEntity(mapEntity);
-        engine.addEntity(TankHelper.create(engine, map, 300f, 220f, 100f));
-        engine.addEntity(TankHelper.create(engine, map, 250f, 220f, 100f));
-        engine.addEntity(TankHelper.create(engine, map, 200f, 220f, 100f));
-        engine.addEntity(TankHelper.create(engine, map, 150f, 220f, 100f));
-        engine.addEntity(TankHelper.create(engine, map, 100f, 220f, 100f));
-        engine.addEntity(TankHelper.create(engine, map, 50f, 220f, 20f));
+        //engine.addEntity(TankHelper.create(engine, map, 300f, 220f, 100f));
+        //engine.addEntity(TankHelper.create(engine, map, 250f, 220f, 100f));
+        //engine.addEntity(TankHelper.create(engine, map, 200f, 220f, 100f));
+        //engine.addEntity(TankHelper.create(engine, map, 150f, 220f, 100f));
+        //engine.addEntity(TankHelper.create(engine, map, 100f, 220f, 100f));
+        //engine.addEntity(TankHelper.create(engine, map, 50f, 220f, 20f));
 
-        engine.addEntity(GunnerHelper.create(engine, map, 280f, 320f, 30f));
+        //engine.addEntity(GunnerHelper.create(engine, map, 280f, 320f, 30f));
 
-        engine.addEntity(WalkerHelper.create(engine, map, 280f, 120f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 250f, 120f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 220f, 120f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 190f, 120f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 160f, 120f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 130f, 120f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 100f, 120f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 70f, 120f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 40f, 120f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 280f, 90f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 250f, 90f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 220f, 90f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 190f, 90f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 160f, 90f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 130f, 90f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 100f, 90f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 70f, 90f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 40f, 90f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 280f, 400f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 250f, 400f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 220f, 400f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 190f, 400f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 160f, 400f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 130f, 400f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 100f, 400f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 70f, 400f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 40f, 400f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 280f, 450f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 250f, 450f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 220f, 450f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 190f, 450f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 160f, 450f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 130f, 450f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 100f, 450f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 70f, 450f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 40f, 450f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 280f, 500f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 250f, 500f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 220f, 500f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 190f, 500f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 160f, 500f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 130f, 500f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 100f, 500f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 70f, 500f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 40f, 500f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 280f, 550f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 250f, 550f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 220f, 550f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 190f, 550f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 160f, 550f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 130f, 550f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 100f, 550f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 70f, 550f, 30f));
-        engine.addEntity(WalkerHelper.create(engine, map, 40f, 550f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 280f, 120f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 250f, 120f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 220f, 120f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 190f, 120f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 160f, 120f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 130f, 120f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 100f, 120f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 70f, 120f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 40f, 120f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 280f, 90f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 250f, 90f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 220f, 90f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 190f, 90f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 160f, 90f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 130f, 90f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 100f, 90f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 70f, 90f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 40f, 90f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 280f, 400f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 250f, 400f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 220f, 400f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 190f, 400f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 160f, 400f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 130f, 400f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 100f, 400f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 70f, 400f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 40f, 400f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 280f, 450f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 250f, 450f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 220f, 450f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 190f, 450f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 160f, 450f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 130f, 450f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 100f, 450f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 70f, 450f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 40f, 450f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 280f, 500f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 250f, 500f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 220f, 500f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 190f, 500f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 160f, 500f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 130f, 500f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 100f, 500f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 70f, 500f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 40f, 500f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 280f, 550f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 250f, 550f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 220f, 550f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 190f, 550f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 160f, 550f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 130f, 550f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 100f, 550f, 30f));
+        //engine.addEntity(WalkerHelper.create(engine, map, 70f, 550f, 30f));
+        engine.addEntity(WalkerHelper.create(engine, map, 90f, 550f, 30f));
 
         // Map objects
         MapObjects mos = map.getMapObjects();
@@ -366,16 +363,6 @@ public class RTSGame implements ApplicationListener {
             engine.addSystem(dmrs);
             engine.addSystem(ders);
         }
-    }
-
-    public boolean isVisible(Vector3 point) {
-        boolean vis = false;
-        ImmutableArray<Entity> player = engine.getEntitiesFor(playerFamily);
-        for (Entity u : player) {
-            PositionComponent pc = Mapper.position.get(u);
-            vis = vis || pc.pos.dst(point) < pc.viewingDistance * 1.1f;
-        }
-        return vis;
     }
 
     @Override
@@ -502,17 +489,17 @@ public class RTSGame implements ApplicationListener {
      * @param x
      * @param y
      */
-    public void moveUnits(UnitGroup group, int x, int y) {
+    public void moveUnits(UnitGroup group, int x, int y, int z) {
         if (!group.isEmpty()) {
             if (group.size() == 1) {
-                moveUnit(group.iterator().next(), x, y);
+                moveUnit(group.iterator().next(), x, y, z);
             } else {
-                moveUnitGroup(group, x, y);
+                moveUnitGroup(group, x, y, z);
             }
         }
     }
 
-    public void moveUnitGroup(UnitGroup group, int x, int y) {
+    public void moveUnitGroup(UnitGroup group, int x, int y, int z) {
         // calculate width and height of target square
         int side = 1;
         for (; group.size() > side * side; side++) {
@@ -528,15 +515,15 @@ public class RTSGame implements ApplicationListener {
 
         group.sortByPosition();
         for (IEntity u : group) {
-            Vector2 targetPos = Vector2Pool.getObject(x - side2 + longestSide * col + longestSide / 2, y - side2 + longestSide * row + longestSide / 2);
+            Vector3 targetPos = Vector3Pool.getObject(x - side2 + longestSide * col + longestSide / 2, y - side2 + longestSide * row + longestSide / 2, z);
             if (!map.overlapsWithBlocked(new Rectangle(x - u.hardRadius().width / 2, y - u.hardRadius().height / 2, u.hardRadius().width, u.hardRadius().height))) {
                 // Calculate path
-                Path path = new Path(map.findPath(u.pos().x, u.pos().y, targetPos.x, targetPos.y), u.pos().x, u.pos().y, targetPos.x, targetPos.y);
+                Path path = new Path(map.findPath(u.pos().x, u.pos().y, targetPos.x, targetPos.y), u.pos().x, u.pos().y, u.pos().z, targetPos.x, targetPos.y, targetPos.z);
                 path.smooth(u);
                 if (path.size() > 0)
                     u.steeringBehaviours().addFollowPath(path);
             }
-            Vector2Pool.returnObject(targetPos);
+            Vector3Pool.returnObject(targetPos);
 
             // Advance position in grid
             col++;
@@ -555,8 +542,8 @@ public class RTSGame implements ApplicationListener {
      * @param x
      * @param y
      */
-    public void moveUnit(IEntity unit, int x, int y) {
-        Path path = new Path(map.findPath(unit.pos().x, unit.pos().y, (float) x, (float) y), unit.pos().x, unit.pos().y, (float) x, (float) y);
+    public void moveUnit(IEntity unit, int x, int y, int z) {
+        Path path = new Path(map.findPath(unit.pos().x, unit.pos().y, (float) x, (float) y), unit.pos().x, unit.pos().y, unit.pos().z, (float) x, (float) y, (float) z);
         path.smooth(unit);
         unit.steeringBehaviours().addFollowPath(path);
     }
@@ -568,7 +555,7 @@ public class RTSGame implements ApplicationListener {
      * @param y The y in map coordinates
      * @return
      */
-    public IEntity getCollidingUnitImage(int x, int y) {
+    public IEntity getCollidingUnitImage(int x, int y, int z) {
         // New units - ECS
         ImmutableArray<Entity> player = engine.getEntitiesFor(playerFamily);
         for (Entity e : player) {
@@ -604,7 +591,7 @@ public class RTSGame implements ApplicationListener {
 
     public void focusLost() {
         this.focused = false;
-        if(camera != null){
+        if (camera != null) {
             camera.stop();
         }
     }

@@ -1,12 +1,12 @@
 package rts.arties.datastructure.grid;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 import rts.arties.datastructure.IMapCell;
 import rts.arties.datastructure.astar.AStarNode;
 import rts.arties.scene.map.MapProperties;
 import rts.arties.scene.map.MapProperties.TerrainType;
 import rts.arties.scene.unit.steeringbehaviour.IEntity;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Rectangle;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -86,6 +86,11 @@ public class GridCell<T extends IEntity> extends AStarNode<T> implements IMapCel
     }
 
     @Override
+    public float z() {
+        return z;
+    }
+
+    @Override
     public float z(float x, float y) {
         if (slopeh != 0) {
             // We have a height gradient in the horizontal direction
@@ -100,7 +105,7 @@ public class GridCell<T extends IEntity> extends AStarNode<T> implements IMapCel
             }
 
             float zint = lint(bounds.x, zleft, bounds.x + bounds.width, zright, x);
-            Gdx.app.debug("GridCell", "Horizontal z gradient: " + zint);
+            //Gdx.app.debug("GridCell", "Horizontal z gradient: " + zint);
             return zint;
         } else if (slopev != 0) {
             // We have a height gradient in the vertical direction
@@ -115,7 +120,7 @@ public class GridCell<T extends IEntity> extends AStarNode<T> implements IMapCel
             }
 
             float zint = lint(bounds.y + bounds.height, ztop, bounds.y, zbottom, y);
-            Gdx.app.debug("GridCell", "Vertical z gradient: " + zint);
+            //Gdx.app.debug("GridCell", "Vertical z gradient: " + zint);
             return zint;
         } else {
             return z;

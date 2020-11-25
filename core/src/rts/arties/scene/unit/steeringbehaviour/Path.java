@@ -21,8 +21,8 @@ public class Path {
     private Iterator<Vector3> it;
     private Vector3 current;
 
-    public Path(List<IMapCell<IEntity>> nodes, float x, float y, float finalX, float finalY) {
-        this(nodes, Vector3Pool.getObject(x, y), finalX, finalY);
+    public Path(List<IMapCell<IEntity>> nodes, float x, float y, float z, float finalX, float finalY, float finalZ) {
+        this(nodes, Vector3Pool.getObject(x, y, z), finalX, finalY, finalZ);
     }
 
     /**
@@ -30,7 +30,7 @@ public class Path {
      *
      * @param nodes
      */
-    public Path(List<IMapCell<IEntity>> nodes, Vector3 pos, float finalX, float finalY) {
+    public Path(List<IMapCell<IEntity>> nodes, Vector3 pos, float finalX, float finalY, float finalZ) {
         waypoints = new LinkedList<>();
 
         if (nodes != null) {
@@ -43,9 +43,9 @@ public class Path {
                     if (i == nodes.size() - 1) {
                         point = pos;
                     } else if (i == 0) {
-                        point = Vector3Pool.getObject(finalX, finalY);
+                        point = Vector3Pool.getObject(finalX, finalY, finalZ);
                     } else {
-                        point = Vector3Pool.getObject(node.x(), node.y());
+                        point = Vector3Pool.getObject(node.x(), node.y(), node.z());
                     }
 
                     waypoints.add(point);

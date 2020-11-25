@@ -1,8 +1,8 @@
 package rts.arties.scene.ecs.component;
 
-import rts.arties.scene.unit.steeringbehaviour.IEntity;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Rectangle;
+import rts.arties.scene.unit.steeringbehaviour.IEntity;
 
 /**
  * Contains some physical properties of the entity such as the mass or the size

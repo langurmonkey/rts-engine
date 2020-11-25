@@ -57,7 +57,7 @@ public class BehaviourFlockingPath extends AbstractSteeringBehaviour {
         return arrive != null && arrive.isDone();
     }
 
-    private Color col = new Color(0f, .6f, 0f, .7f);
+    private final Color col = new Color(0f, .6f, 0f, .7f);
 
     @Override
     public void renderFilled(ShapeRenderer sr) {

@@ -2,7 +2,6 @@ package rts.arties.scene.ecs.system;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -13,8 +12,8 @@ import rts.arties.scene.ecs.component.*;
 import java.util.Comparator;
 
 public class BaseRenderSystem extends SortedIteratingSystem {
-    private SpriteBatch batch;
-    private ShaderProgram program;
+    private final SpriteBatch batch;
+    private final ShaderProgram program;
 
     public BaseRenderSystem(Family family, Comparator<Entity> comparator, int priority, SpriteBatch batch, ShaderProgram program) {
         super(family, comparator, priority);
@@ -37,7 +36,7 @@ public class BaseRenderSystem extends SortedIteratingSystem {
         RenderableShadowComponent rsc = Mapper.rshadow.get(entity);
         VisibilityComponent vc = Mapper.visibility.get(entity);
 
-        if (vc != null && vc.visible || vc == null) {
+        if (vc == null || vc.visible) {
             TextureRegion spriteToDraw = rbc.sprite;
 
             if (rwc != null) {

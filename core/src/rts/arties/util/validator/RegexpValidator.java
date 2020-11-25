@@ -6,7 +6,7 @@
 package rts.arties.util.validator;
 
 public class RegexpValidator extends CallbackValidator {
-    private String expr;
+    private final String expr;
 
     public RegexpValidator(String expression) {
         this(null, expression);

@@ -1,15 +1,15 @@
 package rts.arties.scene.map;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import rts.arties.datastructure.IMapCell;
 import rts.arties.datastructure.geom.Vector2;
 import rts.arties.scene.cam.Camera;
 import rts.arties.scene.unit.steeringbehaviour.IEntity;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 
 import java.util.List;
 import java.util.Set;
@@ -61,9 +61,6 @@ public interface IRTSMap {
 
     /**
      * Checks if the given rectangle overlaps with a blocked node
-     *
-     * @param r
-     * @return
      */
     boolean overlapsWithBlocked(Rectangle r);
 
@@ -78,4 +75,9 @@ public interface IRTSMap {
     void dispose();
 
     MapObjects getMapObjects();
+
+    boolean isVisible(Vector3 worldPos);
+    boolean isHidden(Vector3 worldPos);
+    boolean isFoggy(Vector3 worldPos);
+    boolean isHiddenOrFoggy(Vector3 worldPos);
 }

@@ -13,7 +13,8 @@ import rts.arties.ui.OwnTextField;
  */
 public class TextFieldComparatorValidator extends CallbackValidator {
 
-    private OwnTextField[] lessThan, greaterThan;
+    private final OwnTextField[] lessThan;
+    private final OwnTextField[] greaterThan;
 
     public TextFieldComparatorValidator(IValidator parent, OwnTextField[] lessThan, OwnTextField[] greaterThan) {
         super(parent);

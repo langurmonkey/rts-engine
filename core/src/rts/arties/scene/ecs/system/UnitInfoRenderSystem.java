@@ -20,14 +20,19 @@ import rts.arties.scene.ecs.component.RenderableBaseComponent;
 import rts.arties.util.color.ColorUtils;
 
 public class UnitInfoRenderSystem extends EntitySystem {
-    private Family family;
+    private final Family family;
     private ImmutableArray<Entity> entities;
-    private ShapeRenderer sr;
-    private SpriteBatch sb;
+    private final ShapeRenderer sr;
+    private final SpriteBatch sb;
 
-    private float[] color0, color1, color2, color3;
+    private final float[] color0;
+    private final float[] color1;
+    private final float[] color2;
+    private final float[] color3;
     // Selection box colors
-    private Color sbColor0, sbColor1, sbColor2;
+    private final Color sbColor0;
+    private final Color sbColor1;
+    private final Color sbColor2;
 
     public UnitInfoRenderSystem(Family family, ShapeRenderer sr, SpriteBatch sb) {
         this(family, 0, sr, sb);

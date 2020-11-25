@@ -5,13 +5,13 @@
 
 package rts.arties.datastructure.quadtree;
 
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import rts.arties.datastructure.IMap;
 import rts.arties.datastructure.IMapCell;
 import rts.arties.datastructure.Pair;
 import rts.arties.scene.unit.steeringbehaviour.IEntity;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 import java.util.HashSet;
 import java.util.Set;

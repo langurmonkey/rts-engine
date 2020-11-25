@@ -1,8 +1,8 @@
 package rts.arties.scene.ecs.component;
 
+import com.badlogic.ashley.core.Component;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.util.Vector3Pool;
-import com.badlogic.ashley.core.Component;
 
 /**
  * Contains attributes pertaining to entity movement

@@ -1,7 +1,7 @@
 package rts.arties.scene.ecs.component;
 
-import rts.arties.scene.map.IRTSMap;
 import com.badlogic.ashley.core.Component;
+import rts.arties.scene.map.IRTSMap;
 
 /**
  * Contains a reference to the current map

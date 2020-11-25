@@ -5,7 +5,6 @@
 
 package rts.arties.ui;
 
-import rts.arties.util.MathUtilsd;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -13,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
+import rts.arties.util.MathUtilsd;
 
 import java.text.DecimalFormat;
 
@@ -25,12 +25,12 @@ public class OwnSliderPlus extends Slider {
     private float ownwidth = 0f, ownheight = 0f;
     private float mapMin, mapMax;
     private boolean map = false;
-    private Skin skin;
+    private final Skin skin;
     private OwnLabel titleLabel, valueLabel;
     private boolean displayValueMapped = false;
     private String valuePrefix, valueSuffix;
-    private float padX = 3f;
-    private float padY = 2f;
+    private final float padX = 3f;
+    private final float padY = 2f;
     private DecimalFormat nf;
 
     public OwnSliderPlus(String title, float min, float max, float stepSize, float mapMin, float mapMax, Skin skin) {

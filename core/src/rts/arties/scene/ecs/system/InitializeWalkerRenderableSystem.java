@@ -14,7 +14,7 @@ import rts.arties.scene.ecs.component.RenderableWalkerComponent;
 
 public class InitializeWalkerRenderableSystem extends IteratingSystem {
 
-    private AssetManager assets;
+    private final AssetManager assets;
     public InitializeWalkerRenderableSystem(Family family, int priority, AssetManager assets) {
         super(family, priority);
         this.assets = assets;

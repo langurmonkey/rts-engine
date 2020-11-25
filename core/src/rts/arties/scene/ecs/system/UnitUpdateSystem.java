@@ -1,5 +1,8 @@
 package rts.arties.scene.ecs.system;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.systems.IteratingSystem;
 import rts.arties.datastructure.IMapCell;
 import rts.arties.datastructure.geom.Vector3;
 import rts.arties.scene.ecs.Mapper;
@@ -7,9 +10,6 @@ import rts.arties.scene.ecs.component.*;
 import rts.arties.scene.unit.state.IState;
 import rts.arties.scene.unit.steeringbehaviour.IEntity;
 import rts.arties.util.Vector3Pool;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 
 public class UnitUpdateSystem extends IteratingSystem {
     public UnitUpdateSystem(Family family, int priority) {
@@ -100,8 +100,9 @@ public class UnitUpdateSystem extends IteratingSystem {
             mpc.map.updateEntity(bc.me);
             // Update last pos
             pc.lastPos.set(pc.pos);
-            mpc.map.updateFogOfWar(pc.pos, (int) (pc.viewingDistance));
         }
+        // Fog of war needs to be updated every frame
+        mpc.map.updateFogOfWar(pc.pos, (int) (pc.viewingDistance));
 
         // Update behaviour list
         sc.steeringBehaviours.removeDoneBehaviours();

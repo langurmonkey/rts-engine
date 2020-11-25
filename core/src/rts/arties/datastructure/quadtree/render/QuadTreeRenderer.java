@@ -1,10 +1,5 @@
 package rts.arties.datastructure.quadtree.render;
 
-import rts.arties.RTSGame;
-import rts.arties.datastructure.IMap;
-import rts.arties.datastructure.IMapRenderer;
-import rts.arties.datastructure.quadtree.QuadNode;
-import rts.arties.datastructure.quadtree.QuadTree;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -14,6 +9,10 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import rts.arties.datastructure.IMap;
+import rts.arties.datastructure.IMapRenderer;
+import rts.arties.datastructure.quadtree.QuadNode;
+import rts.arties.datastructure.quadtree.QuadTree;
 import rts.arties.scene.cam.Camera;
 
 /**

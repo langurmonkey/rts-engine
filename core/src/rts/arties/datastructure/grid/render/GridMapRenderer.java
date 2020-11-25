@@ -1,11 +1,5 @@
 package rts.arties.datastructure.grid.render;
 
-import com.badlogic.gdx.graphics.GL20;
-import rts.arties.RTSGame;
-import rts.arties.datastructure.IMap;
-import rts.arties.datastructure.IMapRenderer;
-import rts.arties.datastructure.grid.GridCell;
-import rts.arties.datastructure.grid.GridMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,6 +8,11 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import rts.arties.RTSGame;
+import rts.arties.datastructure.IMap;
+import rts.arties.datastructure.IMapRenderer;
+import rts.arties.datastructure.grid.GridCell;
+import rts.arties.datastructure.grid.GridMap;
 import rts.arties.scene.cam.Camera;
 
 /**
@@ -27,7 +26,9 @@ public class GridMapRenderer implements IMapRenderer {
     private Camera camera;
     private ShapeRenderer shapeRenderer;
     private SpriteBatch spriteBatch;
-    private Color colBlocked, colHasobjs, colLine;
+    private final Color colBlocked;
+    private final Color colHasobjs;
+    private final Color colLine;
 
     public GridMapRenderer(Camera camera, ShapeRenderer sr, SpriteBatch sb) {
 
