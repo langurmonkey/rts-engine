@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.TimeUtils;
 import rts.arties.datastructure.IMapCell;
 import rts.arties.datastructure.geom.Vector2;
 import rts.arties.scene.cam.Camera;
@@ -21,9 +22,13 @@ public class FogOfWar {
     private static final byte F_VISIBLE = 1;
     private static final byte F_FOGGY = 2;
 
+    // Last visited lower bound [ms]
     private static final long LAST_VISITED_0 = 3000;
+    // Last visited upper bound [ms]
     private static final long LAST_VISITED_1 = 6000;
-    private static final float FOGGY_ALPHA = 0.5f;
+
+    // Alpha value for foggy tiles
+    private static final float FOGGY_ALPHA = 0.75f;
 
     private final IRTSMap map;
     private final byte[][] fog;
@@ -75,10 +80,11 @@ public class FogOfWar {
      * @param radius
      */
     public void update(Vector3 position, int radius) {
-        long now = System.currentTimeMillis();
+        long now = TimeUtils.millis();
         int x = (int) (position.x / tileSize);
         int y = (int) (position.y / tileSize);
         int blocks = Math.round(radius * 3.9f / tileSize);
+        float rad2 = radius * radius;
 
         for (int i = x - blocks; i <= x + blocks; i++) {
             for (int j = y - blocks; j <= y + blocks; j++) {
@@ -90,8 +96,9 @@ public class FogOfWar {
                     if (cell != null) {
                         fac = -(cell.z() - position.z) / 30;
                         fac = fac == 0 ? 1 : (fac > 0 ? fac * 1.3f : -fac * 0.76f);
+                        fac = Math.signum(fac) * (fac * fac);
                     }
-                    if (i >= 0 && i < width && j >= 0 && j < height && aux.set(tx, ty).dst(position.x, position.y) <= radius * fac) {
+                    if (i >= 0 && i < width && j >= 0 && j < height && aux.set(tx, ty).dst2(position.x, position.y) <= rad2 * fac) {
                         fog[i][j] = F_VISIBLE;
                         lastVisited[i][j] = now;
                     }
@@ -112,7 +119,7 @@ public class FogOfWar {
      * Renders the fog of war with sprites
      */
     public void renderWithSprites(Camera camera, SpriteBatch sb) {
-        long now = System.currentTimeMillis();
+        long now = TimeUtils.millis();
         float ts = tileSize * 2f / camera.zoom;
         sb.begin();
         for (int i = 0; i < width; i++) {

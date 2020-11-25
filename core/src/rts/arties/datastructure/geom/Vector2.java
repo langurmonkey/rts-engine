@@ -1,6 +1,7 @@
 package rts.arties.datastructure.geom;
 
 import com.badlogic.gdx.utils.Pool.Poolable;
+import net.jafama.FastMath;
 import rts.arties.util.Vector2Pool;
 
 /**
@@ -171,24 +172,33 @@ public class Vector2 extends com.badlogic.gdx.math.Vector2 implements Poolable {
         return product;
     }
 
-    public float distanceSq(Vector2 v) {
+    public float dst2(Vector2 v) {
         float dx = x - v.x, dy = y - v.y;
         return dx * dx + dy * dy;
     }
 
-    public float distanceSq(float xo, float yo) {
+    public float dst2(float xo, float yo) {
         float dx = x - xo, dy = y - yo;
         return dx * dx + dy * dy;
     }
 
-    public float distance(Vector2 v) {
+    public float dst(Vector2 v) {
         float dx = x - v.x, dy = y - v.y;
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
 
-    public float distance(float xo, float yo) {
+    public float dst(float xo, float yo) {
         float dx = x - xo, dy = y - yo;
         return (float) Math.sqrt(dx * dx + dy * dy);
+    }
+    public float dstFast(Vector2 v) {
+        float dx = x - v.x, dy = y - v.y;
+        return (float) FastMath.sqrt(dx * dx + dy * dy);
+    }
+
+    public float dstFast(float xo, float yo) {
+        float dx = x - xo, dy = y - yo;
+        return (float) FastMath.sqrt(dx * dx + dy * dy);
     }
 
     /**
