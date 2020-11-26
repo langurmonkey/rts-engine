@@ -30,7 +30,7 @@ public interface IRTSMap {
 
     void renderDebug();
 
-    void renderFogOfWar(Camera camera, ShapeRenderer sr, SpriteBatch sb);
+    void renderFogOfWar(Camera camera);
 
     int getWidth();
 

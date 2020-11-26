@@ -326,7 +326,7 @@ public class RTSGame implements ApplicationListener {
         mbrs = new MapBaseRenderSystem(mapFamily, 100, camera, mapShader, playerFamily);
         brs = new BaseRenderSystem(renderableFamily, new EntityPositionComparator(), 110, spriteBatch, objectsShader);
         uirs = new UnitInfoRenderSystem(playerFamily, 120, cameraShapeRenderer, spriteBatch);
-        mors = new MapOverlaysRenderSystem(mapFamily, 130, cameraShapeRenderer, spriteBatch);
+        mors = new MapOverlaysRenderSystem(mapFamily, 130);
         dmrs = new DebugMapRenderSystem(mapFamily, 140);
         ders = new DebugEntityRenderSystem(debugFamily, 150, cameraShapeRenderer, spriteBatch);
 
@@ -439,13 +439,6 @@ public class RTSGame implements ApplicationListener {
     @Override
     public void resize(int width, int height) {
         logger.debug("Resize called: [" + width + ", " + height + "]");
-
-        // whenever our screen resizes, we need to update our uniform
-        objectsShader.bind();
-        objectsShader.setUniformf("u_viewport_size", width, height);
-
-        mapShader.bind();
-        mapShader.setUniformf("u_viewport_size", width, height);
 
         camera.resize(width, height);
 

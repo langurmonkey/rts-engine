@@ -14,13 +14,9 @@ import rts.arties.scene.ecs.component.MapComponent;
 import rts.arties.scene.unit.group.UnitGroupManager;
 
 public class MapOverlaysRenderSystem extends IteratingSystem {
-    private final ShapeRenderer sr;
-    private final SpriteBatch sb;
 
-    public MapOverlaysRenderSystem(Family family, int priority, ShapeRenderer sr, SpriteBatch sb) {
+    public MapOverlaysRenderSystem(Family family, int priority) {
         super(family, priority);
-        this.sr = sr;
-        this.sb = sb;
     }
 
     @Override
@@ -29,7 +25,7 @@ public class MapOverlaysRenderSystem extends IteratingSystem {
         Camera camera = RTSGame.getCamera();
 
         mc.map.renderOverlays(camera);
-        mc.map.renderFogOfWar(camera, sr, sb);
+        mc.map.renderFogOfWar(camera);
 
         Gdx.gl.glEnable(GL20.GL_BLEND);
         // Lines to scale with zoom

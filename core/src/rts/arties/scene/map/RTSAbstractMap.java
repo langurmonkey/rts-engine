@@ -111,7 +111,9 @@ public abstract class RTSAbstractMap implements IRTSMap {
         // Fog of war
         this.useFogOfWar = useFogOfWar;
         if (useFogOfWar) {
-            fogOfWar = new FogOfWarTiles(this, firstLayer.getWidth(), firstLayer.getHeight(), firstLayer.getTileWidth());
+            //fogOfWar = new FogOfWarTiles(this, firstLayer.getWidth(), firstLayer.getHeight(), firstLayer.getTileWidth(), firstLayer.getTileHeight(), game.spriteBatch);
+            fogOfWar = new FogOfWarMesh(this, firstLayer.getWidth(), firstLayer.getHeight(), firstLayer.getTileWidth(), firstLayer.getTileHeight());
+            fogOfWar.initialize();
         }
     }
 
@@ -194,9 +196,9 @@ public abstract class RTSAbstractMap implements IRTSMap {
     }
 
     @Override
-    public void renderFogOfWar(Camera camera, ShapeRenderer sr, SpriteBatch sb) {
+    public void renderFogOfWar(Camera camera) {
         if (fogOfWar != null) {
-            fogOfWar.render(camera, sr, sb);
+            fogOfWar.render(camera);
         }
     }
 
