@@ -47,4 +47,4 @@ Here a video demonstrating a few of the features available as of now.
 
 ## Licensing
 
-This software is distributed under the [GPLv3](https://www.gnu.org/licenses/quick-guide-gplv3.html) license.
+This software is distributed under the [MIT](https://choosealicense.com/licenses/mit/) license.
