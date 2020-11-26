@@ -13,15 +13,15 @@ It looks like Libgdx itself provides nowadays an alternative implementation of s
 - The model is fully 3D, though.
 - Real time selection and movement of units and groups.
 - Unit life bars.
-- Fog of war comes in two flavours: tile-based (bad) and mesh-based (awesome).
+- Fog of war comes in two flavors: tile-based (bad) and mesh-based (awesome).
 - Own implementation of steering behaviours that work (with a lot of tweaking).
+- Zoom and pan freely.
 - [Tiled](https://www.mapeditor.org) tile map integration.
 - Quad-tree and regular grid implementations for spatial awareness.
 - Some basic graphical and lighting effects.
 - [Ashley ECS](https://github.com/libgdx/ashley) as entity component system.
 - Pretty fast, above 500 FPS on decent hardware. Around 130 FPS on 7th gen Intel laptop graphics.
 - Theoretically, Android support.
-
 
 ## Running
 
