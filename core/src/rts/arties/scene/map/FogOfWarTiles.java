@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import rts.arties.datastructure.IMapCell;
-import rts.arties.datastructure.geom.Vector2;
 import rts.arties.scene.cam.Camera;
 import rts.arties.util.MathUtilsd;
 
@@ -17,7 +17,7 @@ import rts.arties.util.MathUtilsd;
  *
  * @author Toni Sagrista
  */
-public class FogOfWar {
+public class FogOfWarTiles implements IFogOfWar {
     private static final byte F_HIDDEN = 0;
     private static final byte F_VISIBLE = 1;
     private static final byte F_FOGGY = 2;
@@ -50,7 +50,7 @@ public class FogOfWar {
      * @param height
      * @param tileSize
      */
-    public FogOfWar(IRTSMap map, int width, int height, int tileSize) {
+    public FogOfWarTiles(IRTSMap map, int width, int height, int tileSize) {
         super();
         this.map = map;
         this.width = width;

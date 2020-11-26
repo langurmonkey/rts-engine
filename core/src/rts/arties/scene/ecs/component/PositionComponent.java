@@ -10,5 +10,6 @@ public class PositionComponent implements Component {
 
     public Vector3 pos = new Vector3();
     public Vector3 lastPos = new Vector3(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
+    // Viewing distance to tiles at the same height in pixels
     public float viewingDistance = 0;
 }

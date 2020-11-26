@@ -57,7 +57,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
     protected List<IMapCell<IEntity>> path = null;
     protected MapRenderer mapRenderer;
     protected IMapDebugRenderer mapDebugRenderer;
-    protected FogOfWar fogOfWar;
+    protected IFogOfWar fogOfWar;
     public boolean useFogOfWar;
 
     protected SpriteBatch mapBatch;
@@ -111,7 +111,7 @@ public abstract class RTSAbstractMap implements IRTSMap {
         // Fog of war
         this.useFogOfWar = useFogOfWar;
         if (useFogOfWar) {
-            fogOfWar = new FogOfWar(this, firstLayer.getWidth(), firstLayer.getHeight(), firstLayer.getTileWidth());
+            fogOfWar = new FogOfWarTiles(this, firstLayer.getWidth(), firstLayer.getHeight(), firstLayer.getTileWidth());
         }
     }
 
