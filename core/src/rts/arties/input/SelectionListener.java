@@ -3,6 +3,7 @@ package rts.arties.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputAdapter;
+import rts.arties.datastructure.IMapCell;
 import rts.arties.datastructure.geom.Vector2;
 import rts.arties.scene.cam.Camera;
 import rts.arties.scene.map.IRTSMap;
@@ -51,9 +52,12 @@ public class SelectionListener extends InputAdapter {
                 selection.select();
                 selection.active = false;
             } else {
-                float z = map.getCell(aux.x, aux.y).z();
-                selection.selectOrMove(aux.x, aux.y, z);
-                selection.active = false;
+                IMapCell c = map.getCell(aux.x, aux.y);
+                if(c != null) {
+                    float z = c.z();
+                    selection.selectOrMove(aux.x, aux.y, z);
+                    selection.active = false;
+                }
             }
             return true;
         } else if (button == Buttons.RIGHT) {

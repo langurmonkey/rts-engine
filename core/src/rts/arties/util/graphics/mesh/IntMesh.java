@@ -39,6 +39,7 @@ import rts.arties.util.graphics.shader.ExtShaderProgram;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -506,15 +507,16 @@ public class IntMesh implements Disposable {
 				Gdx.gl20.glDrawArrays(primitiveType, offset, count);
 			}
 		} else {
+
 			if (indices.getNumIndices() > 0) {
 				if (count + offset > indices.getNumMaxIndices()) {
 					throw new GdxRuntimeException("Mesh attempting to access memory outside of the index buffer (count: "
-						+ count + ", offset: " + offset + ", max: " + indices.getNumMaxIndices() + ")");
+							+ count + ", offset: " + offset + ", max: " + indices.getNumMaxIndices() + ")");
 				}
-				
-				Gdx.gl20.glDrawElements(primitiveType, count, GL20.GL_UNSIGNED_INT, offset * 4);
+
+					Gdx.gl20.glDrawElements(primitiveType, count, GL20.GL_UNSIGNED_INT, offset * 4);
 			} else {
-				Gdx.gl20.glDrawArrays(primitiveType, offset, count);
+					Gdx.gl20.glDrawArrays(primitiveType, offset, count);
 			}
 		}
 

@@ -11,14 +11,13 @@ import rts.arties.datastructure.geom.Vector2;
  * @author Toni Sagrista
  */
 public class Camera {
-    /**
-     * Camera velocity in pixels/second
-     */
-    private static final int MAX_CAM_VEL = 1900;
-    private static final int MAX_CAM_ACCEL = 5300;
+    // Max camera velocity in px/s
+    private static final int MAX_CAM_VEL = 1200;
+    // Max camera acceleration in px/s^2
+    private static final int MAX_CAM_ACCEL = 1000;
 
-    private static final float MIN_ZOOM = 0.3f;
-    private static final float MAX_ZOOM = 2.0f;
+    private static final float MIN_ZOOM = 0.2f;
+    private static final float MAX_ZOOM = 1.5f;
 
     /**
      * The current map width
@@ -102,12 +101,10 @@ public class Camera {
     public void update(float secs) {
 
         // dv = da*dt
-        vel.add(accel.clone().multiply(secs));
+        vel.add(accel.clone().multiply(secs)).truncate(MAX_CAM_VEL * zoom);
 
         // dx = dv*dt
-        pos.add(vel.clone().multiply(secs).truncate(MAX_CAM_VEL * zoom));
-        pos.x = (int) pos.x;
-        pos.y = (int) pos.y;
+        pos.add(vel.clone().multiply(secs));
 
         /**
          * canvasWidth/2 <= x <= mapWidth - canvasWidth/2

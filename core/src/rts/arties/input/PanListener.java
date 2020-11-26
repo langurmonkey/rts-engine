@@ -113,6 +113,8 @@ public class PanListener extends InputAdapter {
         float sX = (float) screenX;
         float sY = Gdx.graphics.getHeight() - screenY;
 
+        camera.screenToWorld(sX, sY, aux);
+        IMapCell<IEntity> cell = map.getCell(aux);
         if (!selection.active && !activeZone.contains(sX, sY)) {
             Vector2 movement = Vector2Pool.getObject(sX, sY);
             movement.subtract(canvasCenter);
@@ -120,12 +122,13 @@ public class PanListener extends InputAdapter {
             float angle = movement.angle();
             Vector2Pool.returnObject(movement);
 
-            Gdx.graphics.setCursor(c_arrow[(int) angle]);
+            if (cell != null)
+                Gdx.graphics.setCursor(c_arrow[(int) angle]);
+            else
+                Gdx.graphics.setCursor(c_forbidden);
         } else {
             camera.stop();
-            camera.screenToWorld(sX, sY, aux);
-            IMapCell<IEntity> cell = map.getCell(aux);
-            if (cell != null && cell.isBlocked()) {
+            if (cell == null || cell != null && cell.isBlocked()) {
                 Gdx.graphics.setCursor(c_forbidden);
             } else {
                 Gdx.graphics.setCursor(c_normal);

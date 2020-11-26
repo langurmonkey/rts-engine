@@ -17,17 +17,7 @@ import rts.arties.util.MathUtilsd;
  * @author Toni Sagrista
  */
 public class FogOfWarTiles implements IFogOfWar {
-    private static final byte F_HIDDEN = 0;
-    private static final byte F_VISIBLE = 1;
-    private static final byte F_FOGGY = 2;
 
-    // Last visited lower bound [ms]
-    private static final long LAST_VISITED_0 = 3000;
-    // Last visited upper bound [ms]
-    private static final long LAST_VISITED_1 = 6000;
-
-    // Alpha value for foggy tiles
-    private static final float FOGGY_ALPHA = 0.75f;
 
     private final IRTSMap map;
     private final byte[][] fog;

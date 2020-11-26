@@ -3,24 +3,10 @@
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="16">
   <properties>
-   <property name="shadowOffsetY" value="-22"/>
+   <property name="shadowOffsetY" value="-20"/>
    <property name="weight" value="0.8"/>
   </properties>
   <image width="30" height="30" source="../img/objects/bush-green1.png"/>
- </tile>
- <tile id="17">
-  <properties>
-   <property name="shadowOffsetY" value="20"/>
-   <property name="weight" value="2"/>
-  </properties>
-  <image width="60" height="60" source="../img/objects/rock-snow.png"/>
- </tile>
- <tile id="18">
-  <properties>
-   <property name="shadowOffsetY" value="20"/>
-   <property name="weight" value="2"/>
-  </properties>
-  <image width="60" height="60" source="../img/objects/rock.png"/>
  </tile>
  <tile id="19">
   <properties>
@@ -52,9 +38,23 @@
  </tile>
  <tile id="23">
   <properties>
-   <property name="shadowOffsetY" value="-20"/>
+   <property name="shadowOffsetY" value="-10"/>
    <property name="weight" value="2"/>
   </properties>
   <image width="60" height="60" source="../img/objects/tree-green1.png"/>
+ </tile>
+ <tile id="24">
+  <properties>
+   <property name="shadowOffsetY" value="0"/>
+   <property name="weight" value="3"/>
+  </properties>
+  <image width="54" height="44" source="../img/objects/rock-snow.png"/>
+ </tile>
+ <tile id="25">
+  <properties>
+   <property name="shadowOffsetY" value="0"/>
+   <property name="weight" value="3"/>
+  </properties>
+  <image width="54" height="44" source="../img/objects/rock.png"/>
  </tile>
 </tileset>
